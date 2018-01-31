@@ -18,9 +18,27 @@
     <ClInclude Include="Configure.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ILog.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ILogStream.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Log.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Time.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configure.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Log.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Time.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

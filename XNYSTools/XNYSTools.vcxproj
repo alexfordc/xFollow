@@ -80,9 +80,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Configure.h" />
+    <ClInclude Include="ILog.h" />
+    <ClInclude Include="ILogStream.h" />
+    <ClInclude Include="Log.h" />
+    <ClInclude Include="Time.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configure.cpp" />
+    <ClCompile Include="Log.cpp" />
+    <ClCompile Include="Time.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

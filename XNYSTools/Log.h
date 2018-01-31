@@ -28,9 +28,12 @@ public:
 private:
 	void detailBuf(int colorType, std::string buf);
 	int  run();
+	WORD toConsoleColor(int colorType);
 
-	std::list<std::ios*>      m_streams;
+	std::ostream*             m_ostream;
+	std::fstream*             m_fstream;
 	ILogStream*               m_logStream;
+	HANDLE                    m_consoleHandle;
 	std::atomic<bool>         m_isStart;
 	std::thread*              m_thread;
 
