@@ -13,20 +13,23 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{cbf9d723-fcbb-4d2d-b53d-8ceb17a6c711}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ITraderManage.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Interface\ITraderManage.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="TraderManage.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Interface\ITraderSpi.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="ITraderSpi.h">
+    <ClInclude Include="Source\TraderManage.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TraderManage.cpp">
+    <ClCompile Include="Source\TraderManage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

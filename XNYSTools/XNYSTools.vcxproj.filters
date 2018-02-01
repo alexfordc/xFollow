@@ -13,32 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{b3115ddd-24b2-4201-8cb3-9994dac86194}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Configure.h">
+    <ClInclude Include="Interface\IConfigure.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ILog.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ILogStream.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\Time.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\Configure.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ILog.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="ILogStream.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Log.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Time.h">
+    <ClInclude Include="Source\Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Configure.cpp">
+    <ClCompile Include="Source\Configure.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Log.cpp">
+    <ClCompile Include="Source\Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Time.cpp">
+    <ClCompile Include="Source\Time.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

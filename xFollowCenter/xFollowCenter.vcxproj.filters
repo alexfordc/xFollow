@@ -13,39 +13,81 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{d9914351-355a-4fdf-b798-9bc8f8853bb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ICFollowCenter.cpp">
+    <ClInclude Include="Interface\ICFollowCenter.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\IFollowCenter.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DatabaseConnection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DatabaseDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventStruct.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowCenter.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowEvent.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowHandle.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowUser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IUser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\LoadDatabase.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TargetUser.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UserRepository.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DatabaseConnection.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="FollowCenter.cpp">
+    <ClCompile Include="Source\FollowCenter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LoadDatabase.cpp">
+    <ClCompile Include="Source\FollowHandle.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DatabaseConnection.cpp">
+    <ClCompile Include="Source\FollowUser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ICFollowCenter.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LoadDatabase.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TargetUser.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\UserRepository.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ICFollowCenter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="IFollowCenter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="FollowCenter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="LoadDatabase.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DatabaseConnection.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DatabaseDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
+    <None Include="Source\msado15.dll" />
   </ItemGroup>
 </Project>

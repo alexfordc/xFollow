@@ -10,6 +10,35 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interface\ICFollowCenter.h" />
+    <ClInclude Include="Interface\IFollowCenter.h" />
+    <ClInclude Include="Source\DatabaseConnection.h" />
+    <ClInclude Include="Source\DatabaseDefine.h" />
+    <ClInclude Include="Source\EventDefine.h" />
+    <ClInclude Include="Source\EventStruct.h" />
+    <ClInclude Include="Source\FollowCenter.h" />
+    <ClInclude Include="Source\FollowEvent.h" />
+    <ClInclude Include="Source\FollowHandle.h" />
+    <ClInclude Include="Source\FollowUser.h" />
+    <ClInclude Include="Source\IUser.h" />
+    <ClInclude Include="Source\LoadDatabase.h" />
+    <ClInclude Include="Source\TargetUser.h" />
+    <ClInclude Include="Source\UserRepository.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DatabaseConnection.cpp" />
+    <ClCompile Include="Source\FollowCenter.cpp" />
+    <ClCompile Include="Source\FollowHandle.cpp" />
+    <ClCompile Include="Source\FollowUser.cpp" />
+    <ClCompile Include="Source\ICFollowCenter.cpp" />
+    <ClCompile Include="Source\LoadDatabase.cpp" />
+    <ClCompile Include="Source\TargetUser.cpp" />
+    <ClCompile Include="Source\UserRepository.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Source\msado15.dll" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -42,6 +71,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
+    <LibraryPath>../Lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,12 +83,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>X_DLL_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,20 +111,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="DatabaseConnection.h" />
-    <ClInclude Include="DatabaseDefine.h" />
-    <ClInclude Include="FollowCenter.h" />
-    <ClInclude Include="ICFollowCenter.h" />
-    <ClInclude Include="IFollowCenter.h" />
-    <ClInclude Include="LoadDatabase.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DatabaseConnection.cpp" />
-    <ClCompile Include="FollowCenter.cpp" />
-    <ClCompile Include="ICFollowCenter.cpp" />
-    <ClCompile Include="LoadDatabase.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

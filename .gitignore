@@ -13,3 +13,6 @@
 *.sdf
 *.user
 *.aps
+/xFollowCenter/Debug
+/XNYSTools/Debug
+/xTraderManage/Debug

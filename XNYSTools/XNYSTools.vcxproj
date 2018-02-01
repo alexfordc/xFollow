@@ -10,6 +10,19 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interface\IConfigure.h" />
+    <ClInclude Include="Interface\ILog.h" />
+    <ClInclude Include="Interface\ILogStream.h" />
+    <ClInclude Include="Interface\Time.h" />
+    <ClInclude Include="Source\Configure.h" />
+    <ClInclude Include="Source\Log.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Configure.cpp" />
+    <ClCompile Include="Source\Log.cpp" />
+    <ClCompile Include="Source\Time.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -42,6 +55,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -52,12 +66,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>X_DLL_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;XNYSTOOLS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XNYSTOOLS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -78,18 +93,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Configure.h" />
-    <ClInclude Include="ILog.h" />
-    <ClInclude Include="ILogStream.h" />
-    <ClInclude Include="Log.h" />
-    <ClInclude Include="Time.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Configure.cpp" />
-    <ClCompile Include="Log.cpp" />
-    <ClCompile Include="Time.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
