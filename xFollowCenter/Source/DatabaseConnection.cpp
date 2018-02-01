@@ -2,9 +2,7 @@
 
 #include <string>
 
-#include "../include/KN_FinacialLog.h" 
-
-#include "../Utility/KN_UtilityTool.h"
+#include "X_MyLog.h" 
 
 
 CDatabaseConnection::CDatabaseConnection()
@@ -36,7 +34,7 @@ bool CDatabaseConnection::confirmConnect()
 		hr = m_connection.CreateInstance(__uuidof(Connection)); 
 		if (hr < 0)
 		{
-			KN_FINACIAL_LOG_ERROR("[数据库] 创建数据库实例失败 %d.", hr);
+			FOLLOW_LOG_ERROR("[数据库] 创建数据库实例失败 %d.", hr);
 			return false;
 		}
 
@@ -49,15 +47,15 @@ bool CDatabaseConnection::confirmConnect()
 	catch (_com_error &e) 
 	{
 		std::string msg = e.Description(); 
-		KN_FINACIAL_LOG_ERROR("[数据库] 创建数据库实例发生错误 %s.", msg.c_str());
+		FOLLOW_LOG_ERROR("[数据库] 创建数据库实例发生错误 %s.", msg.c_str());
 	}
 	catch (std::exception &k)
 	{
-		KN_FINACIAL_LOG_ERROR("[数据库] 创建数据库实例发生异常 %s.", k.what());
+		FOLLOW_LOG_ERROR("[数据库] 创建数据库实例发生异常 %s.", k.what());
 	}
 	catch (...)
 	{
-		KN_FINACIAL_LOG_ERROR("[数据库] 创建数据库实例发生未知异常.");
+		FOLLOW_LOG_ERROR("[数据库] 创建数据库实例发生未知异常.");
 	}		
 	return false;
 }
@@ -93,7 +91,7 @@ _RecordsetPtr CDatabaseConnection::querySql( const std::string& qrySql, _Records
 		HRESULT hr = recordset.CreateInstance(__uuidof(Recordset));
 		if (hr < 0)
 		{
-			KN_FINACIAL_LOG_ERROR("[加载配置表] 创建ADO对象失败");
+			FOLLOW_LOG_ERROR("[数据库] 创建ADO对象失败");
 		}
 		else
 		{

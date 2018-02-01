@@ -4,7 +4,10 @@
 
 #pragma once
 
-class CMainFrame : public CFrameWnd
+#include "../xFollowCenter/Interface/ICFollowCenter.h"
+#include "../xFollowCenter/Interface/IFollowCenter.h"
+
+class CMainFrame : public CFrameWnd, public IFollowCenterSpi
 {
 	
 protected: // 仅从序列化创建
@@ -14,12 +17,12 @@ protected: // 仅从序列化创建
 // 特性
 public:
 
-// 操作
-public:
+private:
+	virtual void initRsp(bool successed);
+	virtual void startRsp(bool successed);
+	virtual void stopRsp(bool successed);
 
-// 重写
-public:
-	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
+	IFollowCenter*        m_followCenter;
 
 // 实现
 public:
@@ -28,8 +31,9 @@ public:
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
+	virtual BOOL PreCreateWindow(CREATESTRUCT& cs);
 
-protected:  // 控件条嵌入成员
+private:  // 控件条嵌入成员
 	CToolBar          m_wndToolBar;
 	CStatusBar        m_wndStatusBar;
 
@@ -38,6 +42,8 @@ protected:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 
+public:
+	afx_msg void OnStart();
 };
 
 

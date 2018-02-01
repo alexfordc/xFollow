@@ -1,7 +1,7 @@
 #ifndef TraderManage_H
 #define TraderManage_H
 
-#include "ITraderManage.h"
+#include "../Interface/ITraderManage.h"
 
 #include <map>
 #include <string>

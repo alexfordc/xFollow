@@ -6,3 +6,10 @@
 /.vs
 /Debug
 /xFollow/Debug
+/vsVcxproj/vs2012/Bin
+/vsVcxproj/vs2012/Debug
+/vsVcxproj/vs2012/ipch/xfollow-6e920115
+/vsVcxproj/vs2012/Lib
+*.sdf
+*.user
+*.aps

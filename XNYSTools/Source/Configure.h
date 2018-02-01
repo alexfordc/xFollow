@@ -1,14 +1,15 @@
 #ifndef Configure_H
 #define Configure_H
 
-#include "../Include/X_DllExport.h"
 #include <map>
 #include <string>
 #include <stdio.h>
 
+#include "../Interface/IConfigure.h"
+
 namespace XNYSTools {
 
-class EXPORTS_CLASS CConfigure
+class CConfigure : public IConfigure
 {
 public:
 	CConfigure();

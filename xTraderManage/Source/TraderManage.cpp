@@ -5,6 +5,12 @@ ITraderManage* ITraderManage::createTraderManage()
 {
 	return new CTraderManage;
 }
+
+void ITraderManage::destroyTraderManage( ITraderManage* target )
+{
+	delete target;
+}
+
 //////////////////////////////////////////////////////////////////////////
 CTraderManage::CTraderManage()
 	: m_spi(nullptr)

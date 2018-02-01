@@ -13,32 +13,38 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{a299eb21-3fbe-44c0-bce0-589b583174dc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\XNYSTools\Configure.cpp">
+    <ClCompile Include="..\..\XNYSTools\Source\Configure.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XNYSTools\Log.cpp">
+    <ClCompile Include="..\..\XNYSTools\Source\Log.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\XNYSTools\Time.cpp">
+    <ClCompile Include="..\..\XNYSTools\Source\Time.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\XNYSTools\Configure.h">
+    <ClInclude Include="..\..\XNYSTools\Source\Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\XNYSTools\ILog.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\..\XNYSTools\Interface\ILog.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\XNYSTools\ILogStream.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\..\XNYSTools\Interface\ILogStream.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\XNYSTools\Log.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="..\..\XNYSTools\Interface\Time.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\XNYSTools\Time.h">
+    <ClInclude Include="..\..\XNYSTools\Interface\IConfigure.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\XNYSTools\Source\Configure.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

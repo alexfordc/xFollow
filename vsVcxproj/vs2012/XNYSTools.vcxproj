@@ -11,16 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\XNYSTools\Configure.cpp" />
-    <ClCompile Include="..\..\XNYSTools\Log.cpp" />
-    <ClCompile Include="..\..\XNYSTools\Time.cpp" />
+    <ClCompile Include="..\..\XNYSTools\Source\Configure.cpp" />
+    <ClCompile Include="..\..\XNYSTools\Source\Log.cpp" />
+    <ClCompile Include="..\..\XNYSTools\Source\Time.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\XNYSTools\Configure.h" />
-    <ClInclude Include="..\..\XNYSTools\ILog.h" />
-    <ClInclude Include="..\..\XNYSTools\ILogStream.h" />
-    <ClInclude Include="..\..\XNYSTools\Log.h" />
-    <ClInclude Include="..\..\XNYSTools\Time.h" />
+    <ClInclude Include="..\..\XNYSTools\Interface\IConfigure.h" />
+    <ClInclude Include="..\..\XNYSTools\Interface\ILog.h" />
+    <ClInclude Include="..\..\XNYSTools\Interface\ILogStream.h" />
+    <ClInclude Include="..\..\XNYSTools\Interface\Time.h" />
+    <ClInclude Include="..\..\XNYSTools\Source\Configure.h" />
+    <ClInclude Include="..\..\XNYSTools\Source\Log.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}</ProjectGuid>
@@ -53,6 +54,9 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <IncludePath>../../Include/;$(IncludePath)</IncludePath>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
+    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -63,12 +67,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>X_DLL_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;XNYSTOOLS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XNYSTOOLS_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionDir)\Lib\$(TargetName).lib</ImportLibrary>
+      <ProgramDatabaseFile>$(SolutionDir)\Bin\$(TargetName).pdb</ProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

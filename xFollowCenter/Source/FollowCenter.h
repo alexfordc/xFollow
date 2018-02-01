@@ -1,14 +1,13 @@
 #ifndef FollowCenter_H
 #define FollowCenter_H
 
-#include "../xTraderManage/ITraderSpi.h"
-#include "../xTraderManage/ITraderManage.h"
-#include "IFollowCenter.h"
-
 #include <map>
 #include <string>
 
-class CFollowCenter : public IFollowCenter, public ITraderSpi
+#include "FollowHandle.h"
+#include "UserRepository.h"
+
+class CFollowCenter
 {
 public:
 	CFollowCenter();
@@ -19,17 +18,18 @@ private:
 	bool checkEnvironment();
 	bool loadDatabase();
 
+	CFollowHandle&                                 m_followHandle;
 	std::map<std::string, std::string>             m_apiNames;             // key -- path
 	std::map<int, std::string>                     m_apiToNames;           // ID -- path
-	ITraderManage*                                 m_traderManage;
+	CUserRepository                                m_userRepository;
 
-private:
-	virtual bool init();
-	virtual bool start();
-	virtual bool stop();
-private:
-	virtual void rspUserLogin();
-	virtual void rspUserInitialized();
+public:
+	void init();
+	void start();
+	void stop();
+public:
+	void rspUserLogin();
+	void rspUserInitialized();
 };
 
 #endif // FollowCenter_H

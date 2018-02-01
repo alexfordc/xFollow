@@ -10,31 +10,31 @@
 #define ADO_CATCH(RET, sql) \
 	catch (_com_error &e) \
 	{\
-	std::string msg = e.Description(); \
-	KN_FINACIAL_LOG_ERROR("Access database raise a exception: %s", msg.c_str());\
-	KN_FINACIAL_LOG_ERROR(sql);\
-	m_database.disconnected();\
-	return RET;\
+		std::string msg = e.Description(); \
+		FOLLOW_LOG_ERROR("[数据库] 连接数据库异常: %s", msg.c_str());\
+		FOLLOW_LOG_ERROR(sql);\
+		m_database.disconnected();\
+		return RET;\
 	}\
 	catch (std::exception &k)\
 	{\
-	KN_FINACIAL_LOG_ERROR( "Access database raise a exception: %s",k.what());\
-	KN_FINACIAL_LOG_ERROR(sql);\
-	m_database.disconnected();\
-	return RET;\
+		FOLLOW_LOG_ERROR( "[数据库] 连接数据库异常: %s",k.what());\
+		FOLLOW_LOG_ERROR(sql);\
+		m_database.disconnected();\
+		return RET;\
 	}\
 	catch (...)\
 	{\
-	KN_FINACIAL_LOG_ERROR( "Access database raise a exception.");\
-	KN_FINACIAL_LOG_ERROR(sql);\
-	m_database.disconnected();\
-	return RET;\
+		FOLLOW_LOG_ERROR( "[数据库] 连接数据库异常.");\
+		FOLLOW_LOG_ERROR(sql);\
+		m_database.disconnected();\
+		return RET;\
 	}
 
 #define DB_CONFIRMCONNECT() \
 	if (!m_database.confirmConnect()) \
 	{\
-	return -1;\
+		return -1;\
 	}\
 
 #define DB_QUERYSQL_BEFORE() \
@@ -42,16 +42,16 @@
 	pRs = m_database.querySql(sqltxt);\
 	if (pRs == nullptr)\
 	{\
-	KN_FINACIAL_LOG_ERROR("[加载配置表] 执行SQL失败");\
-	return -1;\
+		FOLLOW_LOG_ERROR("[数据库] 执行SQL失败");\
+		return -1;\
 	}\
 
 #define DB_QUERYSQL_AFTER() \
 	pRs = m_database.querySql(sqltxt, pRs);\
 	if (pRs == nullptr)\
 	{\
-	KN_FINACIAL_LOG_ERROR("[加载配置表] 执行SQL失败");\
-	return -1;\
+		FOLLOW_LOG_ERROR("[数据库] 执行SQL失败");\
+		return -1;\
 	}\
 
 #define DB_QUERYSQL_END() \

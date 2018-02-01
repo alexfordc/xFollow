@@ -17,6 +17,7 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_COMMAND(ID_START, &CMainFrame::OnStart)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -30,9 +31,11 @@ static UINT indicators[] =
 // CMainFrame 构造/析构
 
 CMainFrame::CMainFrame()
+	: m_followCenter(nullptr)
 {
 	// TODO: 在此添加成员初始化代码
 }
+
 
 CMainFrame::~CMainFrame()
 {
@@ -62,6 +65,12 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
 
+	m_followCenter = (IFollowCenter*)CreateFollowCenter();
+	if (m_followCenter == nullptr)
+	{
+		return -1;
+	}
+	m_followCenter->registerSpi(this);
 
 	return 0;
 }
@@ -93,3 +102,25 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 // CMainFrame 消息处理程序
 
+
+
+void CMainFrame::OnStart()
+{
+	// TODO: 在此添加命令处理程序代码
+	m_followCenter->init();
+}
+
+void CMainFrame::initRsp( bool successed )
+{
+
+}
+
+void CMainFrame::startRsp( bool successed )
+{
+
+}
+
+void CMainFrame::stopRsp( bool successed )
+{
+
+}

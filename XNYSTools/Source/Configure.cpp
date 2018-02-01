@@ -4,6 +4,17 @@
 
 namespace XNYSTools {
 
+XNYSTools::IConfigure* IConfigure::createConfigure()
+{
+	return new CConfigure;
+}
+
+void IConfigure::destroyConfigure( IConfigure* target )
+{
+	delete target;
+}
+
+//////////////////////////////////////////////////////////////////////////
 CConfigure::CConfigure()
 	: m_file(nullptr)
 {

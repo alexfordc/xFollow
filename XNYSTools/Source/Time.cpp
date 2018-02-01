@@ -1,7 +1,13 @@
-#include "Time.h"
+#include "../Interface/Time.h"
 
 #include <chrono>
 #include <ctime>
+
+#ifdef _WIN32
+#include <windows.h>
+#else
+#include <time.h>
+#endif  // _WIND32
 
 namespace XNYSTools {
 
@@ -27,18 +33,24 @@ int64_t getSysTimeMicros()
 #endif // _WIN32
 }
 
-std::string getTimeString()
+void getTimeString(char* time, size_t len)
 {
+	if (len < 25) return;
+
 	int64_t us = getSysTimeMicros();
 	std::chrono::system_clock::duration dt(us * 10);
 	std::chrono::system_clock::time_point tp(dt);
 	std::time_t curTime = std::chrono::system_clock::to_time_t(tp);
 	struct tm timeTem = { 0 };
 	localtime_s(&timeTem, &curTime);
-	char buf[25] = { 0 };
-	strftime(buf, sizeof(buf), "%F %T", &timeTem);
-	sprintf_s(buf, "%s.%03d", buf, int(us / 1000 % 1000));
-	return buf;
+
+	char buf[20] = {0};
+#if _MSC_VER > 1700 // @note 老版本没有F、T的解析
+ 	strftime(buf, sizeof(buf), "%F %T", &timeTem);
+#else
+	strftime(buf, sizeof(buf), "%Y-%m-%d %H:%M:%S", &timeTem);
+#endif
+	sprintf_s(time, len, "%s.%03d", buf, int(us / 1000 % 1000));
 }
 
 };
