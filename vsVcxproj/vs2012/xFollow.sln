@@ -1,17 +1,17 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollow", "xFollow\xFollow.vcxproj", "{D3319AC1-0883-4613-AEAF-0AF11CB5B258}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollow", "xFollow.vcxproj", "{D3319AC1-0883-4613-AEAF-0AF11CB5B258}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xTraderManage", "xTraderManage\xTraderManage.vcxproj", "{B18CF606-20CB-441D-8F03-BD142CBE5527}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xTraderManage", "xTraderManage.vcxproj", "{B18CF606-20CB-441D-8F03-BD142CBE5527}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollowCenter", "xFollowCenter\xFollowCenter.vcxproj", "{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollowCenter", "xFollowCenter.vcxproj", "{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XNYSTools", "XNYSTools\XNYSTools.vcxproj", "{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "XNYSTools", "XNYSTools.vcxproj", "{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xCTPPlugin", "xCTPPlugin\xCTPPlugin.vcxproj", "{0EDC4321-D015-4BFE-A194-F84F46680C40}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xCTPPlugin", "xCTPPlugin.vcxproj", "{0EDC4321-D015-4BFE-A194-F84F46680C40}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollowStrategy", "xFollowStrategy\xFollowStrategy.vcxproj", "{C271A3B3-E413-4F09-9D67-D41528BC89D2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollowStrategy", "xFollowStrategy.vcxproj", "{C271A3B3-E413-4F09-9D67-D41528BC89D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

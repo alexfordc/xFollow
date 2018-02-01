@@ -10,6 +10,14 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\xTraderManage\ITraderManage.h" />
+    <ClInclude Include="..\..\xTraderManage\ITraderSpi.h" />
+    <ClInclude Include="..\..\xTraderManage\TraderManage.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\xTraderManage\TraderManage.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B18CF606-20CB-441D-8F03-BD142CBE5527}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,14 +85,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="ITraderManage.h" />
-    <ClInclude Include="ITraderSpi.h" />
-    <ClInclude Include="TraderManage.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="TraderManage.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

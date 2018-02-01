@@ -15,36 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ICFollowCenter.cpp">
+    <ClCompile Include="..\..\xFollowCenter\DatabaseConnection.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="FollowCenter.cpp">
+    <ClCompile Include="..\..\xFollowCenter\FollowCenter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="LoadDatabase.cpp">
+    <ClCompile Include="..\..\xFollowCenter\ICFollowCenter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="DatabaseConnection.cpp">
+    <ClCompile Include="..\..\xFollowCenter\LoadDatabase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ICFollowCenter.h">
+    <ClInclude Include="..\..\xFollowCenter\DatabaseConnection.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="IFollowCenter.h">
+    <ClInclude Include="..\..\xFollowCenter\DatabaseDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="FollowCenter.h">
+    <ClInclude Include="..\..\xFollowCenter\FollowCenter.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="LoadDatabase.h">
+    <ClInclude Include="..\..\xFollowCenter\ICFollowCenter.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DatabaseConnection.h">
+    <ClInclude Include="..\..\xFollowCenter\IFollowCenter.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="DatabaseDefine.h">
+    <ClInclude Include="..\..\xFollowCenter\LoadDatabase.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

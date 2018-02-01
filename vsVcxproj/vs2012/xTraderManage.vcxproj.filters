@@ -15,18 +15,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ITraderManage.h">
+    <ClInclude Include="..\..\xTraderManage\ITraderManage.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="TraderManage.h">
+    <ClInclude Include="..\..\xTraderManage\ITraderSpi.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="ITraderSpi.h">
+    <ClInclude Include="..\..\xTraderManage\TraderManage.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TraderManage.cpp">
+    <ClCompile Include="..\..\xTraderManage\TraderManage.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

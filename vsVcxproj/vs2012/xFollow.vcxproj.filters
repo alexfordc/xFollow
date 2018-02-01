@@ -15,67 +15,67 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="xFollow.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrm.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="xFollowDoc.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="xFollowView.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="xFollow.cpp">
+    <ClCompile Include="..\..\xFollow\MainFrm.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="stdafx.cpp">
+    <ClCompile Include="..\..\xFollow\stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
+    <ClCompile Include="..\..\xFollow\xFollow.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="xFollowDoc.cpp">
+    <ClCompile Include="..\..\xFollow\xFollowDoc.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="xFollowView.cpp">
+    <ClCompile Include="..\..\xFollow\xFollowView.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="xFollow.rc">
+    <ClInclude Include="..\..\xFollow\MainFrm.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\Resource.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\stdafx.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\targetver.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\xFollow.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\xFollowDoc.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\xFollow\xFollowView.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="..\..\xFollow\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\xFollow\xFollow.rc">
       <Filter>资源文件</Filter>
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\xFollow.rc2">
+    <Image Include="..\..\xFollow\res\Toolbar.bmp">
       <Filter>资源文件</Filter>
-    </None>
+    </Image>
+    <Image Include="..\..\xFollow\res\xFollow.ico">
+      <Filter>资源文件</Filter>
+    </Image>
+    <Image Include="..\..\xFollow\res\xFollowDoc.ico">
+      <Filter>资源文件</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\xFollowDoc.ico">
+    <None Include="..\..\xFollow\res\xFollow.rc2">
       <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\xFollow.ico">
-      <Filter>资源文件</Filter>
-    </Image>
-    <Image Include="res\Toolbar.bmp">
-      <Filter>资源文件</Filter>
-    </Image>
+    </None>
   </ItemGroup>
 </Project>

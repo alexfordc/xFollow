@@ -10,6 +10,20 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\xFollowCenter\DatabaseConnection.cpp" />
+    <ClCompile Include="..\..\xFollowCenter\FollowCenter.cpp" />
+    <ClCompile Include="..\..\xFollowCenter\ICFollowCenter.cpp" />
+    <ClCompile Include="..\..\xFollowCenter\LoadDatabase.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\xFollowCenter\DatabaseConnection.h" />
+    <ClInclude Include="..\..\xFollowCenter\DatabaseDefine.h" />
+    <ClInclude Include="..\..\xFollowCenter\FollowCenter.h" />
+    <ClInclude Include="..\..\xFollowCenter\ICFollowCenter.h" />
+    <ClInclude Include="..\..\xFollowCenter\IFollowCenter.h" />
+    <ClInclude Include="..\..\xFollowCenter\LoadDatabase.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,20 +91,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="DatabaseConnection.h" />
-    <ClInclude Include="DatabaseDefine.h" />
-    <ClInclude Include="FollowCenter.h" />
-    <ClInclude Include="ICFollowCenter.h" />
-    <ClInclude Include="IFollowCenter.h" />
-    <ClInclude Include="LoadDatabase.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="DatabaseConnection.cpp" />
-    <ClCompile Include="FollowCenter.cpp" />
-    <ClCompile Include="ICFollowCenter.cpp" />
-    <ClCompile Include="LoadDatabase.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

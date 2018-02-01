@@ -10,6 +10,18 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\XNYSTools\Configure.cpp" />
+    <ClCompile Include="..\..\XNYSTools\Log.cpp" />
+    <ClCompile Include="..\..\XNYSTools\Time.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\XNYSTools\Configure.h" />
+    <ClInclude Include="..\..\XNYSTools\ILog.h" />
+    <ClInclude Include="..\..\XNYSTools\ILogStream.h" />
+    <ClInclude Include="..\..\XNYSTools\Log.h" />
+    <ClInclude Include="..\..\XNYSTools\Time.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -77,16 +89,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClInclude Include="Configure.h" />
-    <ClInclude Include="ILog.h" />
-    <ClInclude Include="ILogStream.h" />
-    <ClInclude Include="Log.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Configure.cpp" />
-    <ClCompile Include="Log.cpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
