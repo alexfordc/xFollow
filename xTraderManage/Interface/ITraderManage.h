@@ -2,7 +2,7 @@
 #define ITraderManage_H
 
 #include "X_DllExport.h"
-#include "ITraderSpi.h"
+#include "ITraderManageSpi.h"
 
 #ifdef	XTRADERMANAGE_EXPORTS
 #define XTRADERMANAGE_EXPORTS_C  DLL_EXPORT_CLASS_DECL
@@ -19,9 +19,11 @@ public:
 	static void           destroyTraderManage(ITraderManage* target);
 
 	virtual void registerApi(const char* apiName, int apiID) = 0;
-	virtual void registerSpi(ITraderSpi* spi) = 0;
-	virtual void reqUserLogin(int apiID, const char* ip, int port, const char* accountID, const char* password) = 0;
+	virtual void registerSpi(ITraderManageSpi* spi) = 0;
+	virtual void reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password) = 0;
 
+	virtual void reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
+	virtual void reqCancelOrder(int id) = 0;
 };
 
 #endif // ITraderManage_H

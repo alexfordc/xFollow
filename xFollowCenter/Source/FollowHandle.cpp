@@ -65,15 +65,35 @@ int CFollowHandle::irun()
 		void* eventData = nullptr;
 		std::tie(eventID, eventData) = m_ievents.getEvent();
 
-		if (eventID != 0)
-		{
+		if (eventID != 0) {
 			switch (eventID)
 			{
-			case EVENTID_INIT:
+			case IEVENTID_INIT:
+			{
 				m_followCenter->init();
-				break;
+			}
+			break;
+			case IEVENTID_START:
+			{
+				m_followCenter->start();
+			}
+			break;
+
+			case IEVENTID_USERLOGIN_RSP:
+			{
+				stuUserNotifyEvent* ed = (stuUserNotifyEvent*)eventData;
+				m_followCenter->rspUserLogin(ed->id, ed->successed, ed->errorID);
+				delete ed;
+			}
+			break;
+			case IEVENTID_USERINITIALIZED_RSP:
+			{
+				stuUserNotifyEvent* ed = (stuUserNotifyEvent*)eventData;
+				m_followCenter->rspUserInitialized(ed->id, ed->successed, ed->errorID);
+				delete ed;
+			}
+			break;
 			default:
-//				delete (*)eventData;
 				break;
 			}
 		}
@@ -89,17 +109,43 @@ int CFollowHandle::orun()
 		void* eventData = nullptr;
 		std::tie(eventID, eventData) = m_oevents.getEvent();
 
-		if (eventID != 0)
-		{
+		if (eventID != 0) {
 			switch (eventID)
 			{
-			case EVENTID_INIT_RSP:
-				{
-					stuInitEvent* ed = (stuInitEvent*)eventData;
-					m_followCenterSpi->initRsp(ed->successed);
-					delete ed;
-				}
-				break;
+			case OEVENTID_INIT_RSP:
+			{
+				stuNotifyEvent* ed = (stuNotifyEvent*)eventData;
+				m_followCenterSpi->initRsp(ed->successed, ed->errorID);
+				delete ed;
+			}
+			break;
+			case OEVENTID_START_RSP:
+			{
+				stuNotifyEvent* ed = (stuNotifyEvent*)eventData;
+				m_followCenterSpi->startRsp(ed->successed, ed->errorID);
+				delete ed;
+			}
+			break;
+
+			case OEVENTID_REGISTERAPI_REQ:
+			{
+				stuRegisterApiEvent* ed = (stuRegisterApiEvent*)eventData;
+				m_traderManage->registerApi(ed->apiName, ed->apiID);
+				delete ed;
+			}
+			break;
+			case OEVENTID_REGISTERSPI_REQ:
+			{
+				m_traderManage->registerSpi((ITraderManageSpi*)eventData);
+			}
+			break;
+			case OEVENTID_USERLOGIN_REQ:
+			{
+				stuUserLoginEvent* ed = (stuUserLoginEvent*)eventData;
+				m_traderManage->reqUserLogin(ed->id, ed->apiID, ed->ip, ed->port, ed->accountID, ed->password);
+				delete ed;
+			}
+			break;
 			default:
 				break;
 			}
@@ -114,20 +160,29 @@ void CFollowHandle::registerSpi( IFollowCenterSpi* spi )
 	m_followCenterSpi = spi;
 }
 
+void CFollowHandle::registerLogStream(void* logStream)
+{
+
+}
+
 //////////////////////////////////////////////////////////////////////////
-void CFollowHandle::initRsp( bool successed )
+void CFollowHandle::initRsp(bool successed, int errorID)
 {
-	stuInitEvent* eventData = new stuInitEvent;
+	stuNotifyEvent* eventData = new stuNotifyEvent;
 	eventData->successed = successed;
-	m_oevents.pushEvent(EVENTID_INIT_RSP, (void*)eventData);
+	eventData->errorID = errorID;
+	m_oevents.pushEvent(OEVENTID_INIT_RSP, (void*)eventData);
 }
 
-void CFollowHandle::startRsp( bool successed )
+void CFollowHandle::startRsp(bool successed, int errorID)
 {
-
+	stuNotifyEvent* eventData = new stuNotifyEvent;
+	eventData->successed = successed;
+	eventData->errorID = errorID;
+	m_oevents.pushEvent(OEVENTID_START_RSP, (void*)eventData);
 }
 
-void CFollowHandle::stopRsp( bool successed )
+void CFollowHandle::stopRsp(bool successed, int errorID)
 {
 
 }
@@ -136,21 +191,22 @@ void CFollowHandle::stopRsp( bool successed )
 // 外部调用
 void CFollowHandle::init()
 {
-	if (!m_isInit)
-	{
+	if (!m_isInit) {
 		m_isInit = true;
 		startHandle();
 
 		// 发送初始化事件
-		m_ievents.pushEvent(EVENTID_INIT);
+		m_ievents.pushEvent(IEVENTID_INIT);
 	}
 }
 
 void CFollowHandle::start()
 {
-	if (m_isInit && !m_isStart)
-	{
+	if (m_isInit && !m_isStart) {
 		m_isStart = true;
+
+		// 发送启动事件
+		m_ievents.pushEvent(IEVENTID_START);
 	}
 }
 
@@ -161,13 +217,67 @@ void CFollowHandle::stop()
 }
 
 //////////////////////////////////////////////////////////////////////////
+// 报盘调用
+void CFollowHandle::registerApi(const char* apiName, int apiID)
+{
+	stuRegisterApiEvent* eventData = new stuRegisterApiEvent;
+	strncpy(eventData->apiName, apiName, sizeof(eventData->apiName));
+	eventData->apiID = apiID;
+	m_oevents.pushEvent(OEVENTID_REGISTERAPI_REQ, (void*)eventData);
+}
+
+void CFollowHandle::registerSpi(ITraderManageSpi* spi)
+{
+	m_oevents.pushEvent(OEVENTID_REGISTERSPI_REQ, (void*)spi);
+}
+
+void CFollowHandle::reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password)
+{
+	stuUserLoginEvent* eventData = new stuUserLoginEvent;
+	eventData->id = id;
+	eventData->apiID = apiID;
+	strncpy(eventData->ip, ip, sizeof(eventData->ip));
+	eventData->port = port;
+	strncpy(eventData->accountID, accountID, sizeof(eventData->accountID));
+	strncpy(eventData->password, password, sizeof(eventData->password));
+	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
+}
+//////
 // 报盘回调
-void CFollowHandle::rspUserLogin()
+void CFollowHandle::rspUserLogin(int id, bool successed, int errorID)
+{
+	stuUserNotifyEvent* eventData = new stuUserNotifyEvent;
+	eventData->id = id;
+	eventData->successed = successed;
+	eventData->errorID = errorID;
+	m_ievents.pushEvent(IEVENTID_USERLOGIN_RSP, (void*)eventData);
+}
+
+void CFollowHandle::rspUserInitialized(int id, bool successed, int errorID)
+{
+	stuUserNotifyEvent* eventData = new stuUserNotifyEvent;
+	eventData->id = id;
+	eventData->successed = successed;
+	eventData->errorID = errorID;
+	m_ievents.pushEvent(IEVENTID_USERINITIALIZED_RSP, (void*)eventData);
+}
+
+void CFollowHandle::rspPlaceOrder()
 {
 
 }
 
-void CFollowHandle::rspUserInitialized()
+void CFollowHandle::rspCancelOrder()
+{
+
+}
+
+void CFollowHandle::rtnPositionTotal()
+{
+
+}
+
+void CFollowHandle::rtnTrade()
 {
 
 }

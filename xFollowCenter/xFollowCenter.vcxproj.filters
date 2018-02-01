@@ -16,6 +16,12 @@
     <Filter Include="Interface">
       <UniqueIdentifier>{d9914351-355a-4fdf-b798-9bc8f8853bb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="User">
+      <UniqueIdentifier>{4fa2a0db-32a6-4615-bf53-1ff83e1f999c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Event">
+      <UniqueIdentifier>{fe366ca1-4211-428c-9832-87a897769410}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\ICFollowCenter.h">
@@ -30,35 +36,38 @@
     <ClInclude Include="Source\DatabaseDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Source\EventDefine.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\EventStruct.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="Source\FollowCenter.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FollowEvent.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FollowHandle.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\FollowUser.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Source\IUser.h">
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="Source\LoadDatabase.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Source\EventDefine.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\EventStruct.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowEvent.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowHandle.h">
+      <Filter>Event</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\FollowUser.h">
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\IUser.h">
+      <Filter>User</Filter>
+    </ClInclude>
     <ClInclude Include="Source\TargetUser.h">
-      <Filter>头文件</Filter>
+      <Filter>User</Filter>
     </ClInclude>
     <ClInclude Include="Source\UserRepository.h">
-      <Filter>头文件</Filter>
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\UserStatusControl.h">
+      <Filter>User</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -68,26 +77,26 @@
     <ClCompile Include="Source\FollowCenter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="Source\FollowHandle.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="Source\FollowUser.cpp">
-      <Filter>源文件</Filter>
-    </ClCompile>
     <ClCompile Include="Source\ICFollowCenter.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\LoadDatabase.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="Source\FollowHandle.cpp">
+      <Filter>Event</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FollowUser.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
     <ClCompile Include="Source\TargetUser.cpp">
-      <Filter>源文件</Filter>
+      <Filter>User</Filter>
     </ClCompile>
     <ClCompile Include="Source\UserRepository.cpp">
-      <Filter>源文件</Filter>
+      <Filter>User</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\msado15.dll" />
+    <ClCompile Include="Source\UserStatusControl.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

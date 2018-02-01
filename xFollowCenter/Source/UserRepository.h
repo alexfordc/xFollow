@@ -17,9 +17,12 @@ public:
 	void addTargetUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
 
 	std::map<std::string, IUser*> getAllUsers();
+	IUser* getUserByID(int id);
 
 private:
-	std::map<std::string, IUser*>           m_users;
+	int                               m_userid;
+	std::map<std::string, IUser*>     m_users;
+	std::map<int, IUser*>             m_id2users;
 };
 
 #endif // UserRepository_H

@@ -6,6 +6,9 @@
 class CFollowUser : public IUser
 {
 public:
+	virtual bool isFollow();
+	virtual bool isTarget();
+	virtual int id();
 	virtual int apiID();
 	virtual const char* ip();
 	virtual int port();

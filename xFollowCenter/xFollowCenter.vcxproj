@@ -25,6 +25,7 @@
     <ClInclude Include="Source\LoadDatabase.h" />
     <ClInclude Include="Source\TargetUser.h" />
     <ClInclude Include="Source\UserRepository.h" />
+    <ClInclude Include="Source\UserStatusControl.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DatabaseConnection.cpp" />
@@ -35,9 +36,7 @@
     <ClCompile Include="Source\LoadDatabase.cpp" />
     <ClCompile Include="Source\TargetUser.cpp" />
     <ClCompile Include="Source\UserRepository.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Source\msado15.dll" />
+    <ClCompile Include="Source\UserStatusControl.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>

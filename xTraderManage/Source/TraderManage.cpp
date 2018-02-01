@@ -1,5 +1,9 @@
 #include "TraderManage.h"
 
+#include <cassert>
+
+#include "../Interface/ITrade.h"
+#include "TradeSpi.h"
 
 ITraderManage* ITraderManage::createTraderManage()
 {
@@ -23,7 +27,7 @@ CTraderManage::~CTraderManage()
 
 }
 
-HANDLE CTraderManage::getApiModelByID( int apiID )
+HMODULE CTraderManage::getApiModelByID( int apiID )
 {
 	auto it = m_apiModel.find(apiID);
 	if (it == m_apiModel.end()) {
@@ -33,7 +37,7 @@ HANDLE CTraderManage::getApiModelByID( int apiID )
 		}
 		else {
 			std::string dllName = itName->second;
-			HANDLE module = LoadLibrary(dllName.c_str());
+			HMODULE module = LoadLibrary(dllName.c_str());
 			if (module == nullptr) {
 				return nullptr;
 			}
@@ -47,18 +51,54 @@ HANDLE CTraderManage::getApiModelByID( int apiID )
 	}
 }
 
+//////////////////////////////////////////////////////////////////////////
 void CTraderManage::registerApi( const char* apiName, int apiID )
 {
 	m_apiName[apiID] = apiName;
 }
 
-void CTraderManage::registerSpi( ITraderSpi* spi )
+void CTraderManage::registerSpi(ITraderManageSpi* spi )
 {
 	m_spi = spi;
 }
 
-void CTraderManage::reqUserLogin( int apiID, const char* ip, int port, const char* accountID, const char* password )
+void CTraderManage::reqUserLogin( int id, int apiID, const char* ip, int port, const char* accountID, const char* password )
 {
-	HANDLE module = getApiModelByID(apiID);
+	HMODULE module = getApiModelByID(apiID);
 	if (module == nullptr) return;
+
+	// 
+	typedef ITradeApi* (*CREATETRADEAPI)();
+	CREATETRADEAPI func = (CREATETRADEAPI)GetProcAddress(module, "createTradeApi");
+
+	ITradeApi* api = func();
+	assert(api);
+	m_apis[id] = api;
+	CTradeSpi* spi = new CTradeSpi;
+	spi->registerID(id);
+	spi->registerSpi(m_spi);
+	api->registerSpi(spi);
+	api->reqUserLogin(ip, port, accountID, password);
+}
+
+void CTraderManage::reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume)
+{
+	auto it = m_apis.find(id);
+	if (it != m_apis.end()) {
+		ITradeApi* api = (ITradeApi*)(it->second);
+		api->reqPlaceOrder(instrumentID, direction, offerset, hedgeFlag, volume);
+	} else {
+		m_spi->rspPlaceOrder();
+	}
+}
+
+void CTraderManage::reqCancelOrder(int id)
+{
+	auto it = m_apis.find(id);
+	if (it != m_apis.end()) {
+		ITradeApi* api = (ITradeApi*)(it->second);
+		api->reqCancelOrder();
+	} else {
+		m_spi->rspCancelOrder();
+	}
 }

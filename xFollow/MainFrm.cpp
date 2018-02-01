@@ -110,17 +110,17 @@ void CMainFrame::OnStart()
 	m_followCenter->init();
 }
 
-void CMainFrame::initRsp( bool successed )
+void CMainFrame::initRsp(bool successed, int errorID)
 {
-
+	m_followCenter->start();
 }
 
-void CMainFrame::startRsp( bool successed )
+void CMainFrame::startRsp(bool successed, int errorID)
 {
-
+	AfxMessageBox("系统启动完成!");
 }
 
-void CMainFrame::stopRsp( bool successed )
+void CMainFrame::stopRsp(bool successed, int errorID)
 {
 
 }

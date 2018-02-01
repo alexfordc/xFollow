@@ -3,6 +3,7 @@
 
 #include "../Interface/ITraderManage.h"
 
+#include <atomic>
 #include <map>
 #include <string>
 
@@ -14,15 +15,19 @@ public:
 public:
 
 private:
-	HANDLE getApiModelByID(int apiID);
+	HMODULE getApiModelByID(int apiID);
 	std::map<int, std::string>          m_apiName;
-	std::map<int, HANDLE>               m_apiModel;
-	ITraderSpi*                         m_spi;
+	std::map<int, HMODULE>              m_apiModel;
+	std::map<int, void*>                m_apis;
+	ITraderManageSpi*                   m_spi;
 
 private:
 	virtual void registerApi(const char* apiName, int apiID);
-	virtual void registerSpi(ITraderSpi* spi);
-	virtual void reqUserLogin(int apiID, const char* ip, int port, const char* accountID, const char* password);
+	virtual void registerSpi(ITraderManageSpi* spi);
+	virtual void reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
+
+	virtual void reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
+	virtual void reqCancelOrder(int id);
 };
 
 #endif // TraderManage_H

@@ -97,12 +97,14 @@ void CLog::start()
 
 void CLog::send( int colorType, const char* buf )
 {
-	if (colorType < EM_LOG_DEFAULT || colorType >= EM_LOG_OTHER)
-		colorType = EM_LOG_DEFAULT;
-	stuBuf* data = new stuBuf;
-	data->colorType = colorType;
-	data->buf = buf;
-	m_bufs.push_back(data);
+	if (m_isStart) {
+		if (colorType < EM_LOG_DEFAULT || colorType >= EM_LOG_OTHER)
+			colorType = EM_LOG_DEFAULT;
+		stuBuf* data = new stuBuf;
+		data->colorType = colorType;
+		data->buf = buf;
+		m_bufs.push_back(data);
+	}
 }
 
 void CLog::stop()

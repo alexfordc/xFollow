@@ -21,15 +21,24 @@
     <ClInclude Include="Interface\ITraderManage.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Interface\ITraderSpi.h">
+    <ClInclude Include="Source\TraderManage.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ITrade.h">
       <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TraderManage.h">
+    <ClInclude Include="Interface\ITraderManageSpi.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TradeSpi.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\TraderManage.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TradeSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

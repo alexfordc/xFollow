@@ -1,8 +1,10 @@
 #include "FollowCenter.h"
 
-#include "../../XNYSTools/Interface/IConfigure.h"
 #include <fstream>
 #include <cassert>
+
+#include "../../XNYSTools/Interface/IConfigure.h"
+#include "../../Include/X_MyLog.h"
 
 CFollowCenter::CFollowCenter()
 	: m_followHandle(*CFollowHandle::followHandle())
@@ -49,8 +51,7 @@ bool CFollowCenter::loadDatabase()
 void CFollowCenter::init()
 {
 	bool rtn = false;
-	do 
-	{
+	do {
 		rtn = checkEnvironment();
 		if (!rtn) break;
 
@@ -58,22 +59,28 @@ void CFollowCenter::init()
 		if (!rtn) break;
 	} while (0);
 
-	m_followHandle.initRsp(rtn);
+	m_followHandle.initRsp(rtn, 0);
 }
 
 void CFollowCenter::start()
 {
+	m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "y001", "8");
+
+	m_followHandle.registerApi("xCTPPlugin.dll", 1);
+	m_followHandle.registerSpi(&m_followHandle);
+	m_followHandle.reqUserLogin(1, 1, "127.0.0.1", 6666, "y001", "8");
+
 /*
 	for (auto& pp : m_apiToNames) {
-		m_traderManage->registerApi(pp.second.c_str(), pp.first);
+		m_followHandle.registerApi(pp.second.c_str(), pp.first);
 	}
-	m_traderManage->registerSpi(this);
+	m_followHandle.registerSpi(&m_followHandle);
 
 	auto users = m_userRepository.getAllUsers();
 	for (auto& pp : users) {
 		IUser* user = pp.second;
 		assert(user);
-		m_traderManage->reqUserLogin(user->apiID(), user->ip(), user->port(), user->accountID(), user->password());
+		m_followHandle.reqUserLogin(user->id(), user->apiID(), user->ip(), user->port(), user->accountID(), user->password());
 	}
 */
 }
@@ -82,12 +89,44 @@ void CFollowCenter::stop()
 {
 }
 
-void CFollowCenter::rspUserLogin()
+//////////////////////////////////////////////////////////////////////////
+void CFollowCenter::rspUserLogin(int id, bool successed, int errorID)
 {
+	if (!successed)
+	{
+		IUser* user = m_userRepository.getUserByID(id);
+		if (user == nullptr) {
+			return;
+		}
 
+		m_userStatusControl.addUserStatus(user->isFollow(), id, successed);
+		if (m_userStatusControl.hasAllUserStatus())
+		{
+			int fsCount = m_userStatusControl.getFollowSuccessed();
+			int tsCount = m_userStatusControl.getTargetSuccessed();
+			int ffCount = m_userStatusControl.getFollowFailed();
+			int tfCount = m_userStatusControl.getTargetFailed();
+			FOLLOW_LOG_DEBUG("[用户准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
+			m_followHandle.startRsp(fsCount * tsCount > 0, 0); // 应该是系统启动
+		}
+	}
 }
 
-void CFollowCenter::rspUserInitialized()
+void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 {
+	IUser* user = m_userRepository.getUserByID(id);
+	if (user == nullptr) {
+		return;
+	}
 
+	m_userStatusControl.addUserStatus(user->isFollow(), id, successed);
+	if (m_userStatusControl.hasAllUserStatus())
+	{
+		int fsCount = m_userStatusControl.getFollowSuccessed();
+		int tsCount = m_userStatusControl.getTargetSuccessed();
+		int ffCount = m_userStatusControl.getFollowFailed();
+		int tfCount = m_userStatusControl.getTargetFailed();
+		FOLLOW_LOG_DEBUG("[用户准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
+		m_followHandle.startRsp(fsCount * tsCount > 0, 0); // 应该是系统启动
+	}
 }

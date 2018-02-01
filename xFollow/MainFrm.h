@@ -18,9 +18,9 @@ protected: // 仅从序列化创建
 public:
 
 private:
-	virtual void initRsp(bool successed);
-	virtual void startRsp(bool successed);
-	virtual void stopRsp(bool successed);
+	virtual void initRsp(bool successed, int errorID);
+	virtual void startRsp(bool successed, int errorID);
+	virtual void stopRsp(bool successed, int errorID);
 
 	IFollowCenter*        m_followCenter;
 

@@ -1,6 +1,21 @@
 #include "FollowUser.h"
 
 
+bool CFollowUser::isFollow()
+{
+	return true;
+}
+
+bool CFollowUser::isTarget()
+{
+	return false;
+}
+
+int CFollowUser::id()
+{
+	return 0;
+}
+
 int CFollowUser::apiID()
 {
 	return 0;

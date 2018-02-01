@@ -6,6 +6,7 @@
 
 #include "FollowHandle.h"
 #include "UserRepository.h"
+#include "UserStatusControl.h"
 
 class CFollowCenter
 {
@@ -22,14 +23,15 @@ private:
 	std::map<std::string, std::string>             m_apiNames;             // key -- path
 	std::map<int, std::string>                     m_apiToNames;           // ID -- path
 	CUserRepository                                m_userRepository;
+	CUserStatusControl                             m_userStatusControl;
 
 public:
 	void init();
 	void start();
 	void stop();
 public:
-	void rspUserLogin();
-	void rspUserInitialized();
+	void rspUserLogin(int id, bool successed, int errorID);
+	void rspUserInitialized(int id, bool successed, int errorID);
 };
 
 #endif // FollowCenter_H
