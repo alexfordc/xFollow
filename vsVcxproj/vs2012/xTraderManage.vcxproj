@@ -11,12 +11,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\xTraderManage\Source\TraderManage.cpp" />
+    <ClInclude Include="Interface\ITrade.h" />
+    <ClInclude Include="Interface\ITraderManage.h" />
+    <ClInclude Include="Interface\ITraderManageSpi.h" />
+    <ClInclude Include="Source\TraderManage.h" />
+    <ClInclude Include="Source\TradeSpi.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\xTraderManage\Interface\ITraderManage.h" />
-    <ClInclude Include="..\..\xTraderManage\Interface\ITraderSpi.h" />
-    <ClInclude Include="..\..\xTraderManage\Source\TraderManage.h" />
+    <ClCompile Include="Source\TraderManage.cpp" />
+    <ClCompile Include="Source\TradeSpi.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B18CF606-20CB-441D-8F03-BD142CBE5527}</ProjectGuid>
@@ -49,9 +52,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../../Include/;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
+    <LibraryPath>../Lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -68,8 +70,8 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(SolutionDir)\Lib\$(TargetName).lib</ImportLibrary>
-      <ProgramDatabaseFile>$(SolutionDir)\Bin\$(TargetName).pdb</ProgramDatabaseFile>
+      <AdditionalDependencies>XNYSTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

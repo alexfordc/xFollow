@@ -1,6 +1,6 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+Microsoft Visual Studio Solution File, Format Version 17.00
+# Visual Studio 2017
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollow", "xFollow\xFollow.vcxproj", "{D3319AC1-0883-4613-AEAF-0AF11CB5B258}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xTraderManage", "xTraderManage\xTraderManage.vcxproj", "{B18CF606-20CB-441D-8F03-BD142CBE5527}"

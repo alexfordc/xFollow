@@ -11,17 +11,17 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\XNYSTools\Source\Configure.cpp" />
-    <ClCompile Include="..\..\XNYSTools\Source\Log.cpp" />
-    <ClCompile Include="..\..\XNYSTools\Source\Time.cpp" />
+    <ClInclude Include="Interface\IConfigure.h" />
+    <ClInclude Include="Interface\ILog.h" />
+    <ClInclude Include="Interface\ILogStream.h" />
+    <ClInclude Include="Interface\Time.h" />
+    <ClInclude Include="Source\Configure.h" />
+    <ClInclude Include="Source\Log.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\XNYSTools\Interface\IConfigure.h" />
-    <ClInclude Include="..\..\XNYSTools\Interface\ILog.h" />
-    <ClInclude Include="..\..\XNYSTools\Interface\ILogStream.h" />
-    <ClInclude Include="..\..\XNYSTools\Interface\Time.h" />
-    <ClInclude Include="..\..\XNYSTools\Source\Configure.h" />
-    <ClInclude Include="..\..\XNYSTools\Source\Log.h" />
+    <ClCompile Include="Source\Configure.cpp" />
+    <ClCompile Include="Source\Log.cpp" />
+    <ClCompile Include="Source\Time.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{E4EE9919-3C1A-408B-9CD9-80AFF4B62812}</ProjectGuid>
@@ -54,9 +54,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../../Include/;$(IncludePath)</IncludePath>
-    <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -73,8 +71,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>$(SolutionDir)\Lib\$(TargetName).lib</ImportLibrary>
-      <ProgramDatabaseFile>$(SolutionDir)\Bin\$(TargetName).pdb</ProgramDatabaseFile>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

@@ -11,30 +11,32 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\xFollowCenter\Source\DatabaseConnection.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\FollowCenter.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\FollowHandle.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\FollowUser.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\ICFollowCenter.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\LoadDatabase.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\TargetUser.cpp" />
-    <ClCompile Include="..\..\xFollowCenter\Source\UserRepository.cpp" />
+    <ClInclude Include="Interface\ICFollowCenter.h" />
+    <ClInclude Include="Interface\IFollowCenter.h" />
+    <ClInclude Include="Source\DatabaseConnection.h" />
+    <ClInclude Include="Source\DatabaseDefine.h" />
+    <ClInclude Include="Source\EventDefine.h" />
+    <ClInclude Include="Source\EventStruct.h" />
+    <ClInclude Include="Source\FollowCenter.h" />
+    <ClInclude Include="Source\FollowEvent.h" />
+    <ClInclude Include="Source\FollowHandle.h" />
+    <ClInclude Include="Source\FollowUser.h" />
+    <ClInclude Include="Source\IUser.h" />
+    <ClInclude Include="Source\LoadDatabase.h" />
+    <ClInclude Include="Source\TargetUser.h" />
+    <ClInclude Include="Source\UserRepository.h" />
+    <ClInclude Include="Source\UserStatusControl.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\xFollowCenter\Interface\ICFollowCenter.h" />
-    <ClInclude Include="..\..\xFollowCenter\Interface\IFollowCenter.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\DatabaseConnection.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\DatabaseDefine.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\EventDefine.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\EventStruct.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\FollowCenter.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\FollowEvent.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\FollowHandle.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\FollowUser.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\IUser.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\LoadDatabase.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\TargetUser.h" />
-    <ClInclude Include="..\..\xFollowCenter\Source\UserRepository.h" />
+    <ClCompile Include="Source\DatabaseConnection.cpp" />
+    <ClCompile Include="Source\FollowCenter.cpp" />
+    <ClCompile Include="Source\FollowHandle.cpp" />
+    <ClCompile Include="Source\FollowUser.cpp" />
+    <ClCompile Include="Source\ICFollowCenter.cpp" />
+    <ClCompile Include="Source\LoadDatabase.cpp" />
+    <ClCompile Include="Source\TargetUser.cpp" />
+    <ClCompile Include="Source\UserRepository.cpp" />
+    <ClCompile Include="Source\UserStatusControl.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>
@@ -46,7 +48,7 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
-    <CharacterSet>MultiByte</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
@@ -67,10 +69,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>../../Include/;$(IncludePath)</IncludePath>
-    <LibraryPath>./Lib/;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
+    <LibraryPath>../Lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -88,8 +88,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
-      <ImportLibrary>$(SolutionDir)\Lib\$(TargetName).lib</ImportLibrary>
-      <ProgramDatabaseFile>$(SolutionDir)\Bin\$(TargetName).pdb</ProgramDatabaseFile>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

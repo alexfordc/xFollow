@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -10,22 +10,51 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interface\ICFollowCenter.h" />
+    <ClInclude Include="Interface\IFollowCenter.h" />
+    <ClInclude Include="Source\DatabaseConnection.h" />
+    <ClInclude Include="Source\DatabaseDefine.h" />
+    <ClInclude Include="Source\EventDefine.h" />
+    <ClInclude Include="Source\EventStruct.h" />
+    <ClInclude Include="Source\FollowCenter.h" />
+    <ClInclude Include="Source\FollowEvent.h" />
+    <ClInclude Include="Source\FollowHandle.h" />
+    <ClInclude Include="Source\FollowUser.h" />
+    <ClInclude Include="Source\IUser.h" />
+    <ClInclude Include="Source\LoadDatabase.h" />
+    <ClInclude Include="Source\TargetUser.h" />
+    <ClInclude Include="Source\UserRepository.h" />
+    <ClInclude Include="Source\UserStatusControl.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\DatabaseConnection.cpp" />
+    <ClCompile Include="Source\FollowCenter.cpp" />
+    <ClCompile Include="Source\FollowHandle.cpp" />
+    <ClCompile Include="Source\FollowUser.cpp" />
+    <ClCompile Include="Source\ICFollowCenter.cpp" />
+    <ClCompile Include="Source\LoadDatabase.cpp" />
+    <ClCompile Include="Source\TargetUser.cpp" />
+    <ClCompile Include="Source\UserRepository.cpp" />
+    <ClCompile Include="Source\UserStatusControl.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{C271A3B3-E413-4F09-9D67-D41528BC89D2}</ProjectGuid>
+    <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>xFollowStrategy</RootNamespace>
+    <RootNamespace>xFollowCenter</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -53,12 +82,13 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XFOLLOWSTRATEGY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
@@ -70,7 +100,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XFOLLOWSTRATEGY_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -80,8 +110,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

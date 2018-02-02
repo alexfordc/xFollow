@@ -10,38 +10,6 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\xFollow\MainFrm.cpp" />
-    <ClCompile Include="..\..\xFollow\stdafx.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="..\..\xFollow\xFollow.cpp" />
-    <ClCompile Include="..\..\xFollow\xFollowDoc.cpp" />
-    <ClCompile Include="..\..\xFollow\xFollowView.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\xFollow\MainFrm.h" />
-    <ClInclude Include="..\..\xFollow\Resource.h" />
-    <ClInclude Include="..\..\xFollow\stdafx.h" />
-    <ClInclude Include="..\..\xFollow\targetver.h" />
-    <ClInclude Include="..\..\xFollow\xFollow.h" />
-    <ClInclude Include="..\..\xFollow\xFollowDoc.h" />
-    <ClInclude Include="..\..\xFollow\xFollowView.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="..\..\xFollow\ReadMe.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="..\..\xFollow\xFollow.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\xFollow\res\Toolbar.bmp" />
-    <Image Include="..\..\xFollow\res\xFollow.ico" />
-    <Image Include="..\..\xFollow\res\xFollowDoc.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="..\..\xFollow\res\xFollow.rc2" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D3319AC1-0883-4613-AEAF-0AF11CB5B258}</ProjectGuid>
     <RootNamespace>xFollow</RootNamespace>
@@ -75,10 +43,8 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(SolutionDir)Bin\</OutDir>
-    <IntDir>$(Configuration)\$(ProjectName)\</IntDir>
-    <IncludePath>../../Include/;$(SolutionDir)..\..\xFollow\;$(IncludePath)</IncludePath>
-    <LibraryPath>./Lib/;$(LibraryPath)</LibraryPath>
+    <IncludePath>../Include/;$(IncludePath)</IncludePath>
+    <LibraryPath>../Lib/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -90,8 +56,6 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_WINDOWS;_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderOutputFile>$(SolutionDir)$(Configuration)\$(SolutionName)\$(TargetName).pch</PrecompiledHeaderOutputFile>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -136,12 +100,40 @@
       <AdditionalIncludeDirectories>$(IntDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="Resource.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="xFollow.h" />
+    <ClInclude Include="xFollowDoc.h" />
+    <ClInclude Include="xFollowView.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="xFollow.cpp" />
+    <ClCompile Include="xFollowDoc.cpp" />
+    <ClCompile Include="xFollowView.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="xFollow.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="res\xFollow.rc2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Toolbar.bmp" />
+    <Image Include="res\xFollow.ico" />
+    <Image Include="res\xFollowDoc.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-  <ProjectExtensions>
-    <VisualStudio>
-      <UserProperties RESOURCE_FILE="\C_PLUS2\xFollow\xFollow\xFollow.rc" />
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>
