@@ -15,6 +15,8 @@ public:
 	virtual const char* accountID();
 	virtual const char* password();
 
+public:
+	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 };
 
 #endif // FollowUser_H

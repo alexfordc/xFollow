@@ -20,6 +20,8 @@ private:
 private:
 	virtual void rspUserLogin(bool successed, int errorID);
 	virtual void rspUserInitialized(bool successed, int errorID);
+
+	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 };
 
 #endif // TradeSpi_H

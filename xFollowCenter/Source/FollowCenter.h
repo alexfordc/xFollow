@@ -18,6 +18,15 @@ public:
 private:
 	bool checkEnvironment();
 	bool loadDatabase();
+	bool loadExchange();
+	bool loadProduct();
+	bool loadInstrument();
+	bool loadTargetGroup();
+	bool loadFollowGroup();
+	bool loadUser();
+	bool loadStrategy();
+
+	bool startSystem();
 
 	CFollowHandle&                                 m_followHandle;
 	std::map<std::string, std::string>             m_apiNames;             // key -- path
@@ -32,6 +41,8 @@ public:
 public:
 	void rspUserLogin(int id, bool successed, int errorID);
 	void rspUserInitialized(int id, bool successed, int errorID);
+
+	void rtnTrade(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 };
 
 #endif // FollowCenter_H

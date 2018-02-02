@@ -4,6 +4,9 @@
 
 #pragma once
 
+#include "MyListCtrl.h"
+
+class CxFollowDoc;
 
 class CxFollowView : public CView
 {
@@ -15,8 +18,11 @@ protected: // 仅从序列化创建
 public:
 	CxFollowDoc* GetDocument() const;
 
-// 操作
 public:
+	void init();
+
+private:
+	CMyListCtrl      m_logList;
 
 // 重写
 public:
@@ -37,6 +43,8 @@ protected:
 // 生成的消息映射函数
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual void OnInitialUpdate();
 };
 
 #ifndef _DEBUG  // xFollowView.cpp 中的调试版本

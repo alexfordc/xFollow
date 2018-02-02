@@ -17,6 +17,8 @@ class ITradeSpi
 public:
 	virtual void rspUserLogin(bool successed, int errorID) = 0;
 	virtual void rspUserInitialized(bool successed, int errorID) = 0;
+
+	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
 };
 
 class ITradeApi

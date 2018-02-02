@@ -75,7 +75,28 @@ CxFollowDoc* CxFollowView::GetDocument() const // 非调试版本是内联的
 	ASSERT(m_pDocument->IsKindOf(RUNTIME_CLASS(CxFollowDoc)));
 	return (CxFollowDoc*)m_pDocument;
 }
+
 #endif //_DEBUG
 
 
 // CxFollowView 消息处理程序
+
+
+void CxFollowView::OnInitialUpdate()
+{
+	CView::OnInitialUpdate();
+
+	// TODO: 在此添加专用代码和/或调用基类
+	CRect viewRect;
+	GetClientRect(&viewRect);
+	if (m_logList.Create(WS_CHILD | WS_VISIBLE | LVS_LIST | LVS_ALIGNLEFT | WS_BORDER | LVS_OWNERDRAWFIXED, viewRect, this, ID_LIST_LOG))
+	{
+		m_logList.SetBkColor(RGB(30, 30, 30));
+		m_logList.ShowWindow(SW_SHOW);
+	}
+}
+
+void CxFollowView::init()
+{
+	m_logList.init();
+}

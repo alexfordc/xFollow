@@ -1,5 +1,6 @@
 #include "FollowHandle.h"
 
+#include "../../Include/X_MyLog.h"
 #include "FollowCenter.h"
 #include "EventDefine.h"
 #include "EventStruct.h"
@@ -93,6 +94,15 @@ int CFollowHandle::irun()
 				delete ed;
 			}
 			break;
+
+			case IEVENTID_RTNTRADE:
+			{
+				stuRtnTradeEvent* ed = (stuRtnTradeEvent*)eventData;
+				m_followCenter->rtnTrade(ed->id, ed->instrumentID, ed->direction, ed->offerset, ed->hedgeFlag, ed->volume);
+				delete ed;
+			}
+			break;
+
 			default:
 				break;
 			}
@@ -160,9 +170,9 @@ void CFollowHandle::registerSpi( IFollowCenterSpi* spi )
 	m_followCenterSpi = spi;
 }
 
-void CFollowHandle::registerLogStream(void* logStream)
+void CFollowHandle::registerLogStream(uintptr_t logStream)
 {
-
+	XNYSTools::ILog::logStream(logStream);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -192,6 +202,10 @@ void CFollowHandle::stopRsp(bool successed, int errorID)
 void CFollowHandle::init()
 {
 	if (!m_isInit) {
+		// 初始化日志
+		LOG_START();
+		FOLLOW_LOG_DEBUG("系统启动中...");
+
 		m_isInit = true;
 		startHandle();
 
@@ -277,7 +291,14 @@ void CFollowHandle::rtnPositionTotal()
 
 }
 
-void CFollowHandle::rtnTrade()
+void CFollowHandle::rtnTrade( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
 {
-
+	stuRtnTradeEvent* eventData = new stuRtnTradeEvent;
+	eventData->id = id;
+	strncpy(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
+	eventData->direction = direction;
+	eventData->offerset = offerset;
+	eventData->hedgeFlag = hedgeFlag;
+	eventData->volume = volume;
+	m_ievents.pushEvent(IEVENTID_RTNTRADE, (void*)eventData);
 }

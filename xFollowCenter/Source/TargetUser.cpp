@@ -1,5 +1,16 @@
 #include "TargetUser.h"
 
+#include "TargetGroup.h"
+
+CTargetUser::CTargetUser()
+{
+
+}
+
+CTargetUser::~CTargetUser()
+{
+
+}
 
 bool CTargetUser::isFollow()
 {
@@ -39,4 +50,9 @@ const char* CTargetUser::accountID()
 const char* CTargetUser::password()
 {
 	return "";
+}
+
+void CTargetUser::rtnTrade( const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+{
+	m_group->calculate(this);
 }

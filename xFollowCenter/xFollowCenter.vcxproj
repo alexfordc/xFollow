@@ -15,14 +15,17 @@
     <ClInclude Include="Interface\IFollowCenter.h" />
     <ClInclude Include="Source\DatabaseConnection.h" />
     <ClInclude Include="Source\DatabaseDefine.h" />
+    <ClInclude Include="Source\DataDefine.h" />
     <ClInclude Include="Source\EventDefine.h" />
     <ClInclude Include="Source\EventStruct.h" />
     <ClInclude Include="Source\FollowCenter.h" />
     <ClInclude Include="Source\FollowEvent.h" />
+    <ClInclude Include="Source\FollowGroup.h" />
     <ClInclude Include="Source\FollowHandle.h" />
     <ClInclude Include="Source\FollowUser.h" />
     <ClInclude Include="Source\IUser.h" />
     <ClInclude Include="Source\LoadDatabase.h" />
+    <ClInclude Include="Source\TargetGroup.h" />
     <ClInclude Include="Source\TargetUser.h" />
     <ClInclude Include="Source\UserRepository.h" />
     <ClInclude Include="Source\UserStatusControl.h" />
@@ -30,10 +33,12 @@
   <ItemGroup>
     <ClCompile Include="Source\DatabaseConnection.cpp" />
     <ClCompile Include="Source\FollowCenter.cpp" />
+    <ClCompile Include="Source\FollowGroup.cpp" />
     <ClCompile Include="Source\FollowHandle.cpp" />
     <ClCompile Include="Source\FollowUser.cpp" />
     <ClCompile Include="Source\ICFollowCenter.cpp" />
     <ClCompile Include="Source\LoadDatabase.cpp" />
+    <ClCompile Include="Source\TargetGroup.cpp" />
     <ClCompile Include="Source\TargetUser.cpp" />
     <ClCompile Include="Source\UserRepository.cpp" />
     <ClCompile Include="Source\UserStatusControl.cpp" />

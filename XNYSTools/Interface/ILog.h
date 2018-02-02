@@ -37,7 +37,7 @@ public:
 	 * @return bool 
 	**/
 	static bool stream(const char* path);
-	static bool logStream(const void* stream);
+	static bool logStream(uintptr_t stream);
 	static void start();
 	static void send(int colorType, const char* buf, ...);
 	static void stop();

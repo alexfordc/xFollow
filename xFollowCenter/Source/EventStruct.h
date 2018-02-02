@@ -4,30 +4,40 @@
 struct stuNotifyEvent
 {
 	bool successed;
-	int errorID;
+	int  errorID;
 };
 
 struct stuRegisterApiEvent
 {
 	char apiName[256];
-	int apiID;
+	int  apiID;
 };
 
 struct stuUserLoginEvent
 {
-	int id;
-	int apiID;
+	int  id;
+	int  apiID;
 	char ip[32];
-	int port;
+	int  port;
 	char accountID[16];
 	char password[32];
 };
 
 struct stuUserNotifyEvent
 {
-	int id;
+	int  id;
 	bool successed;
-	int errorID;
+	int  errorID;
+};
+
+struct stuRtnTradeEvent
+{
+	int  id;
+	char instrumentID[32];
+	char direction;
+	char offerset;
+	char hedgeFlag;
+	int  volume;
 };
 
 

@@ -12,6 +12,9 @@ public:
 	virtual int port() = 0;
 	virtual const char* accountID() = 0;
 	virtual const char* password() = 0;
+
+public:
+	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
 };
 
 #endif // IUser_H

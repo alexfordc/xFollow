@@ -7,6 +7,8 @@
 
 #include "MainFrm.h"
 
+#include "xFollowView.h"
+
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -107,6 +109,9 @@ void CMainFrame::Dump(CDumpContext& dc) const
 void CMainFrame::OnStart()
 {
 	// TODO: 在此添加命令处理程序代码
+	CxFollowView *pView = (CxFollowView *)GetActiveView();
+	pView->init();
+
 	m_followCenter->init();
 }
 
@@ -117,7 +122,9 @@ void CMainFrame::initRsp(bool successed, int errorID)
 
 void CMainFrame::startRsp(bool successed, int errorID)
 {
-	AfxMessageBox("系统启动完成!");
+// 	char msg[512] = {0};
+// 	sprintf_s(msg, "系统启动%s!", successed ? "成功" : "失败");
+// 	AfxMessageBox(msg);
 }
 
 void CMainFrame::stopRsp(bool successed, int errorID)

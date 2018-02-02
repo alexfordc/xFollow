@@ -24,7 +24,7 @@ public:
 
 public:
 	bool stream(const char* path);
-	bool stream(const ILogStream* stream);
+	bool stream(ILogStream* stream);
 	void start();
 	void send(int colorType, const char* buf);
 	void stop();

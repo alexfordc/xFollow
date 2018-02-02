@@ -4,8 +4,6 @@
 
 #import "../msado15.dll" no_namespace rename("EOF","adoEOF")
 
-///定义系统来源
-#define SYSTEM_MONITOR				'1'
 
 #define ADO_CATCH(RET, sql) \
 	catch (_com_error &e) \

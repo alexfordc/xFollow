@@ -48,13 +48,26 @@ bool CFollowCenter::loadDatabase()
 	return true;
 }
 
+
+bool CFollowCenter::startSystem()
+{
+	int fsCount = m_userStatusControl.getFollowSuccessed();
+	int tsCount = m_userStatusControl.getTargetSuccessed();
+	int ffCount = m_userStatusControl.getFollowFailed();
+	int tfCount = m_userStatusControl.getTargetFailed();
+	FOLLOW_LOG_DEBUG("[用户准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
+	return fsCount * tsCount > 0;
+}
+
 void CFollowCenter::init()
 {
 	bool rtn = false;
 	do {
+		// 检查环境
 		rtn = checkEnvironment();
 		if (!rtn) break;
 
+		// 加载数据
 		rtn = loadDatabase();
 		if (!rtn) break;
 	} while (0);
@@ -64,7 +77,8 @@ void CFollowCenter::init()
 
 void CFollowCenter::start()
 {
-	m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "y001", "8");
+	int id = m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "y001", "8");
+	m_userStatusControl.addUserInfo(true, id);
 
 	m_followHandle.registerApi("xCTPPlugin.dll", 1);
 	m_followHandle.registerSpi(&m_followHandle);
@@ -99,15 +113,12 @@ void CFollowCenter::rspUserLogin(int id, bool successed, int errorID)
 			return;
 		}
 
+		m_userRepository.unRegisterUser(user);
+
 		m_userStatusControl.addUserStatus(user->isFollow(), id, successed);
 		if (m_userStatusControl.hasAllUserStatus())
 		{
-			int fsCount = m_userStatusControl.getFollowSuccessed();
-			int tsCount = m_userStatusControl.getTargetSuccessed();
-			int ffCount = m_userStatusControl.getFollowFailed();
-			int tfCount = m_userStatusControl.getTargetFailed();
-			FOLLOW_LOG_DEBUG("[用户准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
-			m_followHandle.startRsp(fsCount * tsCount > 0, 0); // 应该是系统启动
+			m_followHandle.startRsp(startSystem(), 0); // 应该是系统启动
 		}
 	}
 }
@@ -119,14 +130,21 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 		return;
 	}
 
+	m_userRepository.registerUser(successed, user);
+
 	m_userStatusControl.addUserStatus(user->isFollow(), id, successed);
 	if (m_userStatusControl.hasAllUserStatus())
 	{
-		int fsCount = m_userStatusControl.getFollowSuccessed();
-		int tsCount = m_userStatusControl.getTargetSuccessed();
-		int ffCount = m_userStatusControl.getFollowFailed();
-		int tfCount = m_userStatusControl.getTargetFailed();
-		FOLLOW_LOG_DEBUG("[用户准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
-		m_followHandle.startRsp(fsCount * tsCount > 0, 0); // 应该是系统启动
+		m_followHandle.startRsp(startSystem(), 0); // 应该是系统启动
 	}
+}
+
+void CFollowCenter::rtnTrade( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+{ // targetUser ==> targetGroup ==> cal ==> followGroup
+	IUser* user = m_userRepository.userByID(id);
+	if (user == nullptr) {
+		return;
+	}
+
+	user->rtnTrade(instrumentID, direction, offerset, hedgeFlag, volume);
 }

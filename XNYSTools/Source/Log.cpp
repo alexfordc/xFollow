@@ -12,9 +12,9 @@ bool ILog::stream( const char* path )
 	return s_log->stream(path);
 }
 
-bool ILog::logStream(const void* stream )
+bool ILog::logStream(uintptr_t stream )
 {
-	const ILogStream* log = (ILogStream*)const_cast<void*>(stream);
+	ILogStream* log = (ILogStream*)stream;
 	return s_log->stream(log);
 }
 
@@ -72,10 +72,10 @@ bool CLog::stream( const char* path )
 	return true;
 }
 
-bool CLog::stream( const ILogStream* stream )
+bool CLog::stream( ILogStream* stream )
 {
 	if (stream != nullptr) {
-		m_logStream = const_cast<ILogStream*>(stream);
+		m_logStream = stream;
 		return true;
 	} else {
 		return false;
@@ -140,9 +140,8 @@ void CLog::detailBuf( int colorType, std::string buf )
 		*m_fstream << strTimeLog << buf << std::endl;
 	}
 	if (m_logStream != nullptr) {
-		*m_fstream << strTimeLog << buf << std::endl;
 		std::string logBuf = strTimeLog + buf;
-		m_logStream->logBuffer(logBuf.c_str(), logBuf.length() + 1);
+		m_logStream->logBuffer(colorType, logBuf.c_str(), logBuf.length() + 1);
 	}
 }
 

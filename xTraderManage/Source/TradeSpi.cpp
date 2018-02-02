@@ -32,3 +32,8 @@ void CTradeSpi::rspUserInitialized(bool successed, int errorID)
 {
 	m_spi->rspUserInitialized(m_id, successed, errorID);
 }
+
+void CTradeSpi::rtnTrade( const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+{
+	m_spi->rtnTrade(m_id, instrumentID, direction, offerset, hedgeFlag, volume);
+}

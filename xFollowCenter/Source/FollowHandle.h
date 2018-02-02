@@ -49,7 +49,7 @@ private:
 	std::atomic<bool>       m_isStart;
 
 	virtual void registerSpi(IFollowCenterSpi* spi);
-	virtual void registerLogStream(void* logStream);
+	virtual void registerLogStream(uintptr_t logStream);
 	virtual void init();
 	virtual void start();
 	virtual void stop();
@@ -70,7 +70,7 @@ private:
 	virtual void rspPlaceOrder();
 	virtual void rspCancelOrder();
 	virtual void rtnPositionTotal();
-	virtual void rtnTrade();
+	virtual void rtnTrade(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 };
 
 #endif // FollowHandle_H

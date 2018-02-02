@@ -69,6 +69,15 @@
     <ClInclude Include="Source\UserStatusControl.h">
       <Filter>User</Filter>
     </ClInclude>
+    <ClInclude Include="Source\FollowGroup.h">
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TargetGroup.h">
+      <Filter>User</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\DataDefine.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DatabaseConnection.cpp">
@@ -96,6 +105,12 @@
       <Filter>User</Filter>
     </ClCompile>
     <ClCompile Include="Source\UserStatusControl.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\FollowGroup.cpp">
+      <Filter>User</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TargetGroup.cpp">
       <Filter>User</Filter>
     </ClCompile>
   </ItemGroup>

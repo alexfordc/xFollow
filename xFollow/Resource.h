@@ -6,7 +6,8 @@
 #define IDP_OLE_INIT_FAILED             100
 #define IDR_MAINFRAME                   128
 #define IDR_xFollowTYPE                 130
-#define ID_32771                        32771
+
+#define ID_LIST_LOG                     10000
 #define ID_START                        32772
 
 // Next default values for new objects
