@@ -1,6 +1,6 @@
 #include "TargetUser.h"
 
-#include "TargetGroup.h"
+#include "TargetStrategyGroup.h"
 
 CTargetUser::CTargetUser()
 {
@@ -52,7 +52,12 @@ const char* CTargetUser::password()
 	return "";
 }
 
-void CTargetUser::rtnTrade( const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+void CTargetUser::rtnTrade( const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
-	m_group->calculate(this);
+	m_group->rtnTrade(m_id, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+}
+
+void CTargetUser::rtnPositionTotal(const char* instrumentID, bool isBuy, char hedgeFlag, int volume)
+{
+	m_group->rtnPositionTotal(m_id, instrumentID, isBuy, hedgeFlag, volume);
 }

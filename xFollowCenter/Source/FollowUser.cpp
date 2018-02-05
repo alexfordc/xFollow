@@ -41,7 +41,12 @@ const char* CFollowUser::password()
 	return "";
 }
 
-void CFollowUser::rtnTrade( const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+void CFollowUser::rtnTrade( const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+{
+
+}
+
+void CFollowUser::rtnPositionTotal( const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
 
 }

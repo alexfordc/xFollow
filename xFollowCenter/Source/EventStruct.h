@@ -34,8 +34,8 @@ struct stuRtnTradeEvent
 {
 	int  id;
 	char instrumentID[32];
-	char direction;
-	char offerset;
+	bool isBuy;
+	bool isOpen;
 	char hedgeFlag;
 	int  volume;
 };

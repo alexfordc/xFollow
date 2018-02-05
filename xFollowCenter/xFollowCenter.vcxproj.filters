@@ -72,11 +72,11 @@
     <ClInclude Include="Source\FollowGroup.h">
       <Filter>User</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TargetGroup.h">
-      <Filter>User</Filter>
-    </ClInclude>
     <ClInclude Include="Source\DataDefine.h">
       <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TargetStrategyGroup.h">
+      <Filter>User</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -110,7 +110,7 @@
     <ClCompile Include="Source\FollowGroup.cpp">
       <Filter>User</Filter>
     </ClCompile>
-    <ClCompile Include="Source\TargetGroup.cpp">
+    <ClCompile Include="Source\TargetStrategyGroup.cpp">
       <Filter>User</Filter>
     </ClCompile>
   </ItemGroup>

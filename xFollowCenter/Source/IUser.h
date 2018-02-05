@@ -14,7 +14,8 @@ public:
 	virtual const char* password() = 0;
 
 public:
-	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
+	virtual void rtnTrade(const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void rtnPositionTotal(const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 };
 
 #endif // IUser_H

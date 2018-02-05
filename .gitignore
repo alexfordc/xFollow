@@ -18,3 +18,5 @@
 /xTraderManage/Debug
 /Lib
 /xCTPPlugin/Debug
+*.ipch
+*.opensdf

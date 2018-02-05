@@ -139,12 +139,17 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 	}
 }
 
-void CFollowCenter::rtnTrade( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
-{ // targetUser ==> targetGroup ==> cal ==> followGroup
+void CFollowCenter::rtnTrade( int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+{ // targetUser ==> targetStrategyGroup ==> cal ==> followGroup
 	IUser* user = m_userRepository.userByID(id);
 	if (user == nullptr) {
 		return;
 	}
 
-	user->rtnTrade(instrumentID, direction, offerset, hedgeFlag, volume);
+	user->rtnTrade(instrumentID, isBuy, isOpen, hedgeFlag, volume);
+}
+
+void CFollowCenter::rtnPositionTotal( int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
+{
+
 }

@@ -25,7 +25,7 @@
     <ClInclude Include="Source\FollowUser.h" />
     <ClInclude Include="Source\IUser.h" />
     <ClInclude Include="Source\LoadDatabase.h" />
-    <ClInclude Include="Source\TargetGroup.h" />
+    <ClInclude Include="Source\TargetStrategyGroup.h" />
     <ClInclude Include="Source\TargetUser.h" />
     <ClInclude Include="Source\UserRepository.h" />
     <ClInclude Include="Source\UserStatusControl.h" />
@@ -38,7 +38,7 @@
     <ClCompile Include="Source\FollowUser.cpp" />
     <ClCompile Include="Source\ICFollowCenter.cpp" />
     <ClCompile Include="Source\LoadDatabase.cpp" />
-    <ClCompile Include="Source\TargetGroup.cpp" />
+    <ClCompile Include="Source\TargetStrategyGroup.cpp" />
     <ClCompile Include="Source\TargetUser.cpp" />
     <ClCompile Include="Source\UserRepository.cpp" />
     <ClCompile Include="Source\UserStatusControl.cpp" />

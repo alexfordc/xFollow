@@ -5,7 +5,7 @@
 
 #include <string>
 
-class CTargetGroup;
+class CTargetStrategyGroup;
 
 class CTargetUser : public IUser
 {
@@ -32,10 +32,11 @@ private:
 	std::string     m_accountID;
 	std::string     m_password;
 
-	CTargetGroup*   m_group;
+	CTargetStrategyGroup*   m_group;
 
 public:
-	virtual void rtnTrade(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
+	virtual void rtnTrade(const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void rtnPositionTotal(const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };
 
 #endif // TargetUser_H

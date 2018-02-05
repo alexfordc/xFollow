@@ -10,7 +10,8 @@ public:
 	virtual void rspPlaceOrder() = 0;
 	virtual void rspCancelOrder() = 0;
 	virtual void rtnPositionTotal() = 0;
-	virtual void rtnTrade(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
+	virtual void rtnTrade(int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void rtnPositionTotal(int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 };
 
 #endif // ITraderManageSpi_H

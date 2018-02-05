@@ -256,6 +256,12 @@ void CFollowHandle::reqUserLogin(int id, int apiID, const char* ip, int port, co
 	strncpy(eventData->password, password, sizeof(eventData->password));
 	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
 }
+
+void CFollowHandle::reqPlaceOrder( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+{
+
+}
+
 //////
 // ±¨ÅÌ»Øµ÷
 void CFollowHandle::rspUserLogin(int id, bool successed, int errorID)
@@ -291,14 +297,19 @@ void CFollowHandle::rtnPositionTotal()
 
 }
 
-void CFollowHandle::rtnTrade( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+void CFollowHandle::rtnTrade( int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
 	stuRtnTradeEvent* eventData = new stuRtnTradeEvent;
 	eventData->id = id;
 	strncpy(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
-	eventData->direction = direction;
-	eventData->offerset = offerset;
+	eventData->isBuy = isBuy;
+	eventData->isOpen = isOpen;
 	eventData->hedgeFlag = hedgeFlag;
 	eventData->volume = volume;
 	m_ievents.pushEvent(IEVENTID_RTNTRADE, (void*)eventData);
+}
+
+void CFollowHandle::rtnPositionTotal( int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
+{
+
 }

@@ -63,6 +63,8 @@ public:
 	void registerApi(const char* apiName, int apiID);
 	void registerSpi(ITraderManageSpi* spi);
 	void reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
+
+	void reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 private:
 	virtual void rspUserLogin(int id, bool successed, int errorID);
 	virtual void rspUserInitialized(int id, bool successed, int errorID);
@@ -70,7 +72,8 @@ private:
 	virtual void rspPlaceOrder();
 	virtual void rspCancelOrder();
 	virtual void rtnPositionTotal();
-	virtual void rtnTrade(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
+	virtual void rtnTrade(int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void rtnPositionTotal(int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };
 
 #endif // FollowHandle_H
