@@ -1,9 +1,10 @@
 #include "TargetUser.h"
 
-#include "TargetStrategyGroup.h"
+#include "ITargetStrategyGroup.h"
 
-CTargetUser::CTargetUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
-	: m_apiID(apiID)
+CTargetUser::CTargetUser(int id, int apiID, const char* ip, int port, const char* accountID, const char* password )
+	: m_id(id)
+	, m_apiID(apiID)
 	, m_port(port)
 	, m_ip(ip)
 	, m_accountID(accountID)
@@ -28,32 +29,37 @@ bool CTargetUser::isTarget()
 
 int CTargetUser::id()
 {
-	return 0;
+	return m_id;
 }
 
 int CTargetUser::apiID()
 {
-	return 0;
+	return m_apiID;
 }
 
 const char* CTargetUser::ip()
 {
-	return "";
+	return m_ip.c_str();
 }
 
 int CTargetUser::port()
 {
-	return 0;
+	return m_port;
 }
 
 const char* CTargetUser::accountID()
 {
-	return "";
+	return m_accountID.c_str();
 }
 
 const char* CTargetUser::password()
 {
-	return "";
+	return m_password.c_str();
+}
+
+void CTargetUser::registerStrategyGroup(ITargetStrategyGroup* targetGroup)
+{
+	m_group = targetGroup;
 }
 
 void CTargetUser::rtnTrade( const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )

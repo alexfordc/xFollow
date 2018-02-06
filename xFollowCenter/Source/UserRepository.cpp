@@ -15,26 +15,26 @@ CUserRepository::~CUserRepository()
 
 }
 
-int CUserRepository::addFollowUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
+IUser* CUserRepository::addFollowUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
 {
 	++m_userid;
-	IUser* followUser = new CFollowUser(apiID, ip, port, accountID, password);
+	IUser* followUser = new CFollowUser(m_userid, apiID, ip, port, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = followUser;
 	m_id2users[m_userid] = followUser;
-	return m_userid;
+	return followUser;
 }
 
-int CUserRepository::addTargetUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
+IUser* CUserRepository::addTargetUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
 {
 	++m_userid;
-	IUser* targetUser = new CTargetUser(apiID, ip, port, accountID, password);
+	IUser* targetUser = new CTargetUser(m_userid, apiID, ip, port, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = targetUser;
 	m_id2users[m_userid] = targetUser;
-	return m_userid;
+	return targetUser;
 }
 
 std::map<std::string, IUser*> CUserRepository::getAllUsers()

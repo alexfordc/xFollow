@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "../../XNYSTools/Interface/IConfigure.h"
+#include "ITargetStrategyGroup.h"
 #include "../../Include/X_MyLog.h"
 
 CFollowCenter::CFollowCenter()
@@ -77,10 +78,17 @@ void CFollowCenter::init()
 
 void CFollowCenter::start()
 {
-	int id = m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "f001", "8");
-	m_userStatusControl.addUserInfo(true, id);
-	id = m_userRepository.addTargetUser(1, "127.0.0.1", 6666, "t001", "8");
-	m_userStatusControl.addUserInfo(false, id);
+	IUser* user = m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "f001", "8");
+	m_userStatusControl.addUserInfo(true, user->id());
+	ITargetStrategyGroup* targetGroup = ITargetStrategyGroup::createTargetStrategyGroup();
+	targetGroup->registerSpi(&m_followHandle);
+	targetGroup->addFollowUser(user);
+	user->registerStrategyGroup(targetGroup);
+
+	user = m_userRepository.addTargetUser(1, "127.0.0.1", 6666, "t001", "8");
+	m_userStatusControl.addUserInfo(false, user->id());
+	targetGroup->addTargetUser(user);
+	user->registerStrategyGroup(targetGroup);
 
 	m_followHandle.registerApi("xCTPPlugin.dll", 1);
 	m_followHandle.registerSpi(&m_followHandle);
@@ -154,5 +162,10 @@ void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrum
 
 void CFollowCenter::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
+	IUser* user = m_userRepository.userByID(id);
+	if (user == nullptr) {
+		return;
+	}
 
+	user->rtnPositionTotal(productID, instrumentID, isBuy, hedgeFlag, volume);
 }

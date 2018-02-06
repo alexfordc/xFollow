@@ -13,8 +13,8 @@ public:
 	~CUserRepository();
 
 public:
-	int  addFollowUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
-	int  addTargetUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
+	IUser* addFollowUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
+	IUser* addTargetUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
 
 	std::map<std::string, IUser*> getAllUsers();
 	IUser* getUserByID(int id);

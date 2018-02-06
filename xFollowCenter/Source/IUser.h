@@ -1,6 +1,8 @@
 #ifndef IUser_H
 #define IUser_H
 
+class ITargetStrategyGroup;
+
 class IUser
 {
 public:
@@ -12,6 +14,8 @@ public:
 	virtual int port() = 0;
 	virtual const char* accountID() = 0;
 	virtual const char* password() = 0;
+
+	virtual void registerStrategyGroup(ITargetStrategyGroup* targetGroup) = 0;
 
 public:
 	virtual void rtnTrade(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
