@@ -34,7 +34,7 @@ void CTradeApi::reqUserLogin(const char* ip, int port, const char* accountID, co
 	m_spi->rspUserInitialized(true, 0);
 }
 
-void CTradeApi::reqPlaceOrder(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume)
+void CTradeApi::reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
 {
 
 }

@@ -98,7 +98,7 @@ int CFollowHandle::irun()
 			case IEVENTID_RTNTRADE:
 			{
 				stuRtnTradeEvent* ed = (stuRtnTradeEvent*)eventData;
-				m_followCenter->rtnTrade(ed->id, ed->instrumentID, ed->direction, ed->offerset, ed->hedgeFlag, ed->volume);
+				m_followCenter->rtnTrade(ed->id, ed->productID, ed->instrumentID, ed->isBuy, ed->isOpen, ed->hedgeFlag, ed->volume);
 				delete ed;
 			}
 			break;
@@ -257,7 +257,7 @@ void CFollowHandle::reqUserLogin(int id, int apiID, const char* ip, int port, co
 	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
 }
 
-void CFollowHandle::reqPlaceOrder( int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume )
+void CFollowHandle::reqPlaceOrder( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
 
 }
@@ -297,10 +297,11 @@ void CFollowHandle::rtnPositionTotal()
 
 }
 
-void CFollowHandle::rtnTrade( int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+void CFollowHandle::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
 	stuRtnTradeEvent* eventData = new stuRtnTradeEvent;
 	eventData->id = id;
+	strncpy(eventData->productID, productID, sizeof(eventData->productID));
 	strncpy(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
 	eventData->isBuy = isBuy;
 	eventData->isOpen = isOpen;
@@ -309,7 +310,7 @@ void CFollowHandle::rtnTrade( int id, const char* instrumentID, bool isBuy, bool
 	m_ievents.pushEvent(IEVENTID_RTNTRADE, (void*)eventData);
 }
 
-void CFollowHandle::rtnPositionTotal( int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
+void CFollowHandle::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
 
 }

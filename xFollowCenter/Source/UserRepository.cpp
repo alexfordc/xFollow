@@ -18,7 +18,7 @@ CUserRepository::~CUserRepository()
 int CUserRepository::addFollowUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
 {
 	++m_userid;
-	IUser* followUser = new CFollowUser;
+	IUser* followUser = new CFollowUser(apiID, ip, port, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = followUser;
@@ -29,7 +29,7 @@ int CUserRepository::addFollowUser( int apiID, const char* ip, int port, const c
 int CUserRepository::addTargetUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
 {
 	++m_userid;
-	IUser* targetUser = new CTargetUser;
+	IUser* targetUser = new CTargetUser(apiID, ip, port, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = targetUser;

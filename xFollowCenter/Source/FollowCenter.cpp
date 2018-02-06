@@ -77,12 +77,15 @@ void CFollowCenter::init()
 
 void CFollowCenter::start()
 {
-	int id = m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "y001", "8");
+	int id = m_userRepository.addFollowUser(1, "127.0.0.1", 6666, "f001", "8");
 	m_userStatusControl.addUserInfo(true, id);
+	id = m_userRepository.addTargetUser(1, "127.0.0.1", 6666, "t001", "8");
+	m_userStatusControl.addUserInfo(false, id);
 
 	m_followHandle.registerApi("xCTPPlugin.dll", 1);
 	m_followHandle.registerSpi(&m_followHandle);
-	m_followHandle.reqUserLogin(1, 1, "127.0.0.1", 6666, "y001", "8");
+	m_followHandle.reqUserLogin(1, 1, "127.0.0.1", 6666, "f001", "8");
+	m_followHandle.reqUserLogin(2, 1, "127.0.0.1", 6666, "t001", "8");
 
 /*
 	for (auto& pp : m_apiToNames) {
@@ -139,17 +142,17 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 	}
 }
 
-void CFollowCenter::rtnTrade( int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 { // targetUser ==> targetStrategyGroup ==> cal ==> followGroup
 	IUser* user = m_userRepository.userByID(id);
 	if (user == nullptr) {
 		return;
 	}
 
-	user->rtnTrade(instrumentID, isBuy, isOpen, hedgeFlag, volume);
+	user->rtnTrade(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
 }
 
-void CFollowCenter::rtnPositionTotal( int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
+void CFollowCenter::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
 
 }

@@ -9,11 +9,12 @@
 #include "../xTraderManage/Interface/ITraderManageSpi.h"
 #include "../xTraderManage/Interface/ITraderManage.h"
 #include "../Interface/IFollowCenter.h"
+#include "TargetStrategyGroupSpi.h"
 #include "FollowEvent.h"
 
 class CFollowCenter;
 
-class CFollowHandle : public IFollowCenter, public ITraderManageSpi
+class CFollowHandle : public IFollowCenter, public ITraderManageSpi, public ITargetStrategyGroupSpi
 {
 public:
 	static CFollowHandle* followHandle();
@@ -54,6 +55,8 @@ private:
 	virtual void start();
 	virtual void stop();
 
+	virtual void reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+
 public:
 	virtual void initRsp(bool successed, int errorID);
 	virtual void startRsp(bool successed, int errorID);
@@ -64,7 +67,6 @@ public:
 	void registerSpi(ITraderManageSpi* spi);
 	void reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
 
-	void reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume);
 private:
 	virtual void rspUserLogin(int id, bool successed, int errorID);
 	virtual void rspUserInitialized(int id, bool successed, int errorID);
@@ -72,8 +74,8 @@ private:
 	virtual void rspPlaceOrder();
 	virtual void rspCancelOrder();
 	virtual void rtnPositionTotal();
-	virtual void rtnTrade(int id, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	virtual void rtnPositionTotal(int id, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
+	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void rtnPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };
 
 #endif // FollowHandle_H

@@ -33,7 +33,8 @@ struct stuUserNotifyEvent
 struct stuRtnTradeEvent
 {
 	int  id;
-	char instrumentID[32];
+	char productID[16];
+	char instrumentID[16];
 	bool isBuy;
 	bool isOpen;
 	char hedgeFlag;

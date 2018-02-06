@@ -10,7 +10,7 @@ class CTargetStrategyGroup;
 class CTargetUser : public IUser
 {
 public:
-	CTargetUser();
+	CTargetUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
 	virtual ~CTargetUser();
 
 public:
@@ -35,8 +35,8 @@ private:
 	CTargetStrategyGroup*   m_group;
 
 public:
-	virtual void rtnTrade(const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	virtual void rtnPositionTotal(const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
+	virtual void rtnTrade(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };
 
 #endif // TargetUser_H

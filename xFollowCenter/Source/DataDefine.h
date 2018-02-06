@@ -2,7 +2,8 @@
 #define DataDefine_H
 
 
-#define STRATEGY_TRADE 1
+#define STRATEGY_DEFAULT   0
+#define STRATEGY_TRADE     1
 
 
 

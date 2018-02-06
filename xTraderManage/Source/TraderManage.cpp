@@ -81,12 +81,12 @@ void CTraderManage::reqUserLogin( int id, int apiID, const char* ip, int port, c
 	api->reqUserLogin(ip, port, accountID, password);
 }
 
-void CTraderManage::reqPlaceOrder(int id, const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume)
+void CTraderManage::reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
 {
 	auto it = m_apis.find(id);
 	if (it != m_apis.end()) {
 		ITradeApi* api = (ITradeApi*)(it->second);
-		api->reqPlaceOrder(instrumentID, direction, offerset, hedgeFlag, volume);
+		api->reqPlaceOrder(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
 	} else {
 		m_spi->rspPlaceOrder();
 	}

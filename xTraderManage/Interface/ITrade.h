@@ -18,8 +18,8 @@ public:
 	virtual void rspUserLogin(bool successed, int errorID) = 0;
 	virtual void rspUserInitialized(bool successed, int errorID) = 0;
 
-	virtual void rtnTrade(const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
-	virtual void rtnPositionTotal(const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
+	virtual void rtnTrade(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 };
 
 class ITradeApi
@@ -30,7 +30,7 @@ public:
 	virtual void registerSpi(ITradeSpi* spi) = 0;
 	virtual void reqUserLogin(const char* ip, int port, const char* accountID, const char* password) = 0;
 
-	virtual void reqPlaceOrder(const char* instrumentID, char direction, char offerset, char hedgeFlag, int volume) = 0;
+	virtual void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
 	virtual void reqCancelOrder() = 0;
 };
 
