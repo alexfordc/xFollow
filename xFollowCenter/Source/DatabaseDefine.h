@@ -8,7 +8,7 @@
 #define ADO_CATCH(RET, sql) \
 	catch (_com_error &e) \
 	{\
-		std::string msg = e.Description(); \
+		std::string msg = e.ErrorMessage();\
 		FOLLOW_LOG_ERROR("[数据库] 连接数据库异常: %s", msg.c_str());\
 		FOLLOW_LOG_ERROR(sql);\
 		m_database.disconnected();\
@@ -16,7 +16,7 @@
 	}\
 	catch (std::exception &k)\
 	{\
-		FOLLOW_LOG_ERROR( "[数据库] 连接数据库异常: %s",k.what());\
+		FOLLOW_LOG_ERROR( "[数据库] 连接数据库异常: %s", k.what());\
 		FOLLOW_LOG_ERROR(sql);\
 		m_database.disconnected();\
 		return RET;\

@@ -32,8 +32,12 @@ void CConfigure::parser(std::string& content)
 	std::smatch m;
 	regex_match(content, m, r);
 
+	std::string key;
 	while(regex_search(content, m, r)) {
-		m_config[m[1]] = m[2];
+		key = m[1];
+		std::transform(key.begin(), key.end(), key.begin(), ::toupper);
+		m_config[key] = m[2];
+		content = m.suffix();
 	}
 }
 
@@ -70,7 +74,9 @@ bool CConfigure::write( const char* key, const char* value )
 
 const char* CConfigure::getValue( const char* key )
 {
-	auto it = m_config.find(key);
+	std::string gkey = key;
+	std::transform(gkey.begin(), gkey.end(), gkey.begin(), ::toupper);
+	auto it = m_config.find(gkey);
 	if (it == m_config.end()) {
 		return nullptr;
 	} else {

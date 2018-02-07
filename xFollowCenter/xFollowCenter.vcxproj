@@ -11,8 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Exchange.h" />
+    <ClInclude Include="Instrument.h" />
     <ClInclude Include="Interface\ICFollowCenter.h" />
     <ClInclude Include="Interface\IFollowCenter.h" />
+    <ClInclude Include="Product.h" />
     <ClInclude Include="Source\DatabaseConnection.h" />
     <ClInclude Include="Source\DatabaseDefine.h" />
     <ClInclude Include="Source\DataDefine.h" />
@@ -31,6 +34,9 @@
     <ClInclude Include="Source\UserStatusControl.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Exchange.cpp" />
+    <ClCompile Include="Instrument.cpp" />
+    <ClCompile Include="Product.cpp" />
     <ClCompile Include="Source\DatabaseConnection.cpp" />
     <ClCompile Include="Source\FollowCenter.cpp" />
     <ClCompile Include="Source\FollowGroup.cpp" />
@@ -53,8 +59,8 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v141_xp</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v110_xp</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>

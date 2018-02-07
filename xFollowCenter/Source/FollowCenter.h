@@ -7,6 +7,7 @@
 #include "FollowHandle.h"
 #include "UserRepository.h"
 #include "UserStatusControl.h"
+#include "DatabaseConnection.h"
 
 class CFollowCenter
 {
@@ -17,6 +18,8 @@ public:
 
 private:
 	bool checkEnvironment();
+	bool initDatabase();
+
 	bool loadDatabase();
 	bool loadExchange();
 	bool loadProduct();
@@ -33,6 +36,8 @@ private:
 	std::map<int, std::string>                     m_apiToNames;           // ID -- path
 	CUserRepository                                m_userRepository;
 	CUserStatusControl                             m_userStatusControl;
+
+	CDatabaseConnection                            m_database;
 
 public:
 	void init();

@@ -2,7 +2,22 @@
 #define DatabaseConnection_H
 
 #include <string>
+
 #include "DatabaseDefine.h"
+
+enum emDataType
+{
+
+	DT_DEFAULT = 1,
+	DT_CHAR,
+	DT_INT,
+	DT_FLOAT,
+	DT_DOUBLE,
+	DT_STRING,
+};
+
+template<class T>
+void getData(_RecordsetPtr pRs, std::string key, T& t, emDataType dataType);
 
 class CDatabaseConnection
 {
@@ -19,6 +34,7 @@ public:
 	void execSql(const std::string& qrySql);
 
 private:
+	static bool    s_initCom;
 	_ConnectionPtr m_connection;
 	char           m_connStr[256];
 

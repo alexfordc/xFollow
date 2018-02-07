@@ -24,9 +24,7 @@ bool CFollowCenter::checkEnvironment()
 	if (pconfig == nullptr) return false;
 
 	bool rtn = pconfig->openFile("./config/Plugin.conf");
-	if (!rtn) {
-		return false;
-	} else {
+	if (rtn) {
 		while (!pconfig->isEnd()) {
 			auto pp = pconfig->getValue();
 
@@ -39,16 +37,125 @@ bool CFollowCenter::checkEnvironment()
 
 			pconfig->moveNext();
 		}
-
-		return true;
 	}
+
+	XNYSTools::IConfigure::destroyConfigure(pconfig);
+	return rtn;
+}
+
+
+bool CFollowCenter::initDatabase()
+{
+	XNYSTools::IConfigure* pconfig = XNYSTools::IConfigure::createConfigure();
+	if (pconfig == nullptr) return false;
+
+	bool rtn = pconfig->openFile("./config/server.conf");
+	if (rtn) {
+		m_database.setConnectionString(pconfig->getValue("user"), pconfig->getValue("password"), pconfig->getValue("DBName"), pconfig->getValue("Address"));
+		return m_database.confirmConnect();
+	}
+
+	return false;
 }
 
 bool CFollowCenter::loadDatabase()
 {
+	bool rtn = false;
+	do {
+		rtn = loadExchange();
+		if (!rtn) break;
+
+		rtn = loadUser();
+		if (!rtn) break;
+
+	} while (0);
+
+	return rtn;
+}
+
+bool CFollowCenter::loadExchange()
+{
+	if (!m_database.confirmConnect()) 
+	{
+		return false;
+	}
+
+	char sqltxt[1024] = {0};
+	try
+	{
+		sprintf(sqltxt, "select * from Exchange");
+		_RecordsetPtr pRs = nullptr;
+		pRs = m_database.querySql(sqltxt);
+		if (pRs == nullptr)
+		{
+			FOLLOW_LOG_ERROR("[加载数据库] 执行SQL失败");
+			return false;
+		}
+
+		std::string exchangeID("");
+		std::string exchangeName("");
+		int system_ID = 0;
+		while (pRs->adoEOF != VARIANT_TRUE)
+		{
+			exchangeID = "";
+			exchangeName = "";
+			system_ID = 0;
+
+			getData<std::string>(pRs, "ExchangeID", exchangeID, DT_STRING);
+			getData<std::string>(pRs, "ExchangeName", exchangeName, DT_STRING);
+			getData<int>(pRs, "System_ID", system_ID, DT_INT);
+
+			pRs->MoveNext();
+		}
+		DB_QUERYSQL_END();
+	}
+	ADO_CATCH(false, sqltxt);
 	return true;
 }
 
+
+bool CFollowCenter::loadUser()
+{
+	if (!m_database.confirmConnect()) 
+	{
+		return false;
+	}
+
+	char sqltxt[1024] = {0};
+	try
+	{
+		sprintf(sqltxt, "select * from Account");
+		_RecordsetPtr pRs = nullptr;
+		pRs = m_database.querySql(sqltxt);
+		if (pRs == nullptr)
+		{
+			FOLLOW_LOG_ERROR("[加载数据库] 执行SQL失败");
+			return false;
+		}
+
+		int _ID = 0;
+		std::string accountID("");
+		std::string accountName("");
+		int system_ID = 0;
+		double test = 0;
+		while (pRs->adoEOF != VARIANT_TRUE)
+		{
+			accountID = "";
+			accountName = "";
+			system_ID = 0;
+
+			getData<std::string>(pRs, "AccountID", accountID, DT_STRING);
+			getData<std::string>(pRs, "AccountName", accountName, DT_STRING);
+			getData<int>(pRs, "SystemID", system_ID, DT_INT);
+			getData<double>(pRs, "test", test, DT_DOUBLE);
+
+			pRs->MoveNext();
+		}
+		DB_QUERYSQL_END();
+	}
+	ADO_CATCH(false, sqltxt);
+	return true;
+}
 
 bool CFollowCenter::startSystem()
 {
@@ -66,6 +173,9 @@ void CFollowCenter::init()
 	do {
 		// 检查环境
 		rtn = checkEnvironment();
+		if (!rtn) break;
+
+		rtn = initDatabase();
 		if (!rtn) break;
 
 		// 加载数据

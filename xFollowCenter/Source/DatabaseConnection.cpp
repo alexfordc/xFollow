@@ -1,24 +1,60 @@
 #include "DatabaseConnection.h"
 
-#include <string>
-
-#include "X_MyLog.h" 
+#include "X_MyLog.h"
 
 
+template<class T>
+void getData( _RecordsetPtr pRs, std::string key, T& t, emDataType dataType )
+{
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+
+	switch (dataType)
+	{
+	case DT_DEFAULT:
+		break;
+	case DT_CHAR:
+		t = char(rst);
+		break;
+	case DT_INT:
+		t = int(rst);
+		break;
+	case DT_FLOAT:
+		t = float(rst);
+		break;
+	case DT_DOUBLE:
+		t = double(rst);
+		break;
+	case DT_STRING:
+		t = _bstr_t(rst);
+		break;
+	default:
+		break;
+	}
+}
+
+
+bool CDatabaseConnection::s_initCom = false;
+
+//////////////////////////////////////////////////////////////////////////
 CDatabaseConnection::CDatabaseConnection()
 	: m_connection(nullptr)
 	, m_connected(false)
 {
-
 }
 
 CDatabaseConnection::~CDatabaseConnection()
 {
-
+	::CoUninitialize();
 }
 
 void CDatabaseConnection::setConnectionString(const std::string user, const std::string password, const std::string name, const std::string address)
 {
+	if (!s_initCom)
+	{
+		s_initCom = true;
+		::CoInitialize(NULL);
+	}
 	sprintf(m_connStr, "Provider=SQLOLEDB.1;User ID=%s;Password=%s;Database=%s;Network Address=%s;Network Library=dbmssocn;",
 		user.c_str(), password.c_str(), name.c_str(), address.c_str());
 }
