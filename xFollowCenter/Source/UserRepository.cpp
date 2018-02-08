@@ -15,33 +15,33 @@ CUserRepository::~CUserRepository()
 
 }
 
-IUser* CUserRepository::loadUser( int id, int apiID, char accountType, std::string& accountID, std::string& password )
+IUser* CUserRepository::loadUser( int id, int system_ID, char accountType, std::string& accountID, std::string& password )
 {
 	if (id > m_userid) m_userid = id;
 
 	IUser* user = nullptr;
 	if (accountType == '1')
 	{
-		user = addFollowUser(id, apiID, accountID, password);
+		user = addFollowUser(id, system_ID, accountID, password);
 	}
 	else
 	{
-		user = addTargetUser(id, apiID, accountID, password);
+		user = addTargetUser(id, system_ID, accountID, password);
 	}
 	return user;
 }
 
-IUser* CUserRepository::addUser( int apiID, char accountType, std::string& accountID, std::string& password )
+IUser* CUserRepository::addUser( int system_ID, char accountType, std::string& accountID, std::string& password )
 {
 	IUser* user = nullptr;
 	++m_userid;
 	if (accountType == '1')
 	{
-		user = addFollowUser(m_userid, apiID, accountID, password);
+		user = addFollowUser(m_userid, system_ID, accountID, password);
 	}
 	else
 	{
-		user = addTargetUser(m_userid, apiID, accountID, password);
+		user = addTargetUser(m_userid, system_ID, accountID, password);
 	}
 	return user;
 }
@@ -77,9 +77,9 @@ IUser* CUserRepository::userByID( int id )
 }
 
 //////////////////////////////////////////////////////////////////////////
-IUser* CUserRepository::addFollowUser( int id, int apiID, std::string& accountID, std::string& password )
+IUser* CUserRepository::addFollowUser( int id, int system_ID, std::string& accountID, std::string& password )
 {
-	IUser* followUser = new CFollowUser(id, apiID, accountID, password);
+	IUser* followUser = new CFollowUser(id, system_ID, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = followUser;
@@ -87,9 +87,9 @@ IUser* CUserRepository::addFollowUser( int id, int apiID, std::string& accountID
 	return followUser;
 }
 
-IUser* CUserRepository::addTargetUser( int id, int apiID, std::string& accountID, std::string& password )
+IUser* CUserRepository::addTargetUser( int id, int system_ID, std::string& accountID, std::string& password )
 {
-	IUser* targetUser = new CTargetUser(id, apiID, accountID, password);
+	IUser* targetUser = new CTargetUser(id, system_ID, accountID, password);
 
 	std::string key = std::string(accountID);
 	m_users[key] = targetUser;

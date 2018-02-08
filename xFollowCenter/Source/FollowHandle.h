@@ -9,12 +9,12 @@
 #include "../xTraderManage/Interface/ITraderManageSpi.h"
 #include "../xTraderManage/Interface/ITraderManage.h"
 #include "../Interface/IFollowCenter.h"
-#include "../../xFollowStrategy/Interface/ITargetStrategyGroupSpi.h"
+#include "../../Include/X_IStrategyResultSpi.h"
 #include "FollowEvent.h"
 
 class CFollowCenter;
 
-class CFollowHandle : public IFollowCenter, public ITraderManageSpi, public ITargetStrategyGroupSpi
+class CFollowHandle : public IFollowCenter, public ITraderManageSpi, public IStrategyResultSpi
 {
 public:
 	static CFollowHandle* followHandle();

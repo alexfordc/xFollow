@@ -10,6 +10,7 @@ public:
 	virtual ~CStrategy();
 
 public:
+	virtual bool isInstrumentValid(const char* productID, const char* instrumentID);
 	virtual std::string getStrategy();
 
 public:

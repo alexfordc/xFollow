@@ -17,8 +17,10 @@ public:
 public:
 
 private:
-	bool checkEnvironment();
+	bool loadConfig();
 	bool initDatabase();
+	bool loadDictionary();
+	bool checkData();
 
 	bool loadDatabase();
 	bool loadExchange();
@@ -41,6 +43,7 @@ private:
 
 	CDatabaseConnection                            m_database;
 
+	std::map<std::string, std::string>             m_dictionarys;
 public:
 	void init();
 	void start();

@@ -13,7 +13,7 @@ CTradeSystemRepository& CTradeSystemRepository::tradeSystemRepository()
 	return *s_instance;
 }
 
-CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string name, 
+CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string name, int api_ID, 
 														std::string ip1, int port1, std::string ip2, int port2, std::string ip3, int port3, char status )
 {
 	CTradeSystem* tradeSystem = nullptr;
@@ -26,7 +26,7 @@ CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string nam
 	{
 		tradeSystem = it->second;
 	}
-	tradeSystem->setData(name, ip1, port1, ip2, port2, ip3, port3);
+	tradeSystem->setData(name, api_ID, ip1, port1, ip2, port2, ip3, port3);
 	tradeSystem->setStatus(status);
 	return tradeSystem;
 }

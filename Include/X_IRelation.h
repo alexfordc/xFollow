@@ -11,15 +11,18 @@
 #define XFOLLOW_STRATEGY_EXPORTS_A  DLL_IMPORT_C_DECL
 #endif
 
-class IStrategy;
+#include "../xFollowCenter/Interface/IStrategy.h"
+#include "X_IStrategyResultSpi.h"
 
 class XFOLLOW_STRATEGY_EXPORTS_C IRelation
 {
 public:
 	virtual ~IRelation() {};
-	static IRelation* createRelation(int id);
+	static IRelation& createRelation();
 
-	virtual void start() = 0;
+	virtual void start() = 0; // @note 主要用来表明数据发送完成
+	virtual void clear() = 0;
+	virtual void registerSpi(IStrategyResultSpi* spi) = 0;
 
 	virtual void setStatus(char status) = 0;
 

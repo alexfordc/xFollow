@@ -17,8 +17,11 @@ public:
 	virtual ~CTargetGroup();
 
 public:
+	std::list<int> getAccount_IDs();
+
+public:
 	virtual void setStatus(char status);
-	virtual void addTargetUser(int accountID);
+	virtual void addTargetUser(int accountID, char status);
 	virtual void removeTargetUser(int accountID);
 
 	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
@@ -38,6 +41,7 @@ private:
 		int  volume;
 	};
 	// id == <key, position>  key=instrumentID+'|'+direction+'|'+hedgeFlag;
+	std::map<int, bool>                               m_accountStatus;
 	std::map<int, std::map<std::string, int>>         m_targetUserPositionTotals;
 	std::map<std::string, stuGroupPositionTotal>      m_groupPositionTotal;
 };

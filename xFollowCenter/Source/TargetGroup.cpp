@@ -18,18 +18,33 @@ CTargetGroup::~CTargetGroup()
 
 }
 
+std::list<int> CTargetGroup::getAccount_IDs()
+{
+	std::list<int> account_IDs;
+	for (auto& tup : m_targetUserPositionTotals)
+	{
+		account_IDs.push_back(tup.first);
+	}
+	return account_IDs;
+}
+
 void CTargetGroup::setStatus( char status )
 {
 	m_status = status;
 }
 
-void CTargetGroup::addTargetUser( int accountID )
+void CTargetGroup::addTargetUser( int accountID, char status )
 {
-	m_targetUserPositionTotals[accountID];
+	m_accountStatus[accountID] = status;
+	if (status == '1')
+	{
+		m_targetUserPositionTotals[accountID];
+	}
 }
 
 void CTargetGroup::removeTargetUser( int accountID )
 {
+	m_accountStatus.erase(accountID);
 	m_targetUserPositionTotals.erase(accountID);
 }
 

@@ -18,18 +18,12 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TargetStrategyGroup.h">
+    <ClInclude Include="Relation.h">
       <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ITargetStrategyGroup.h">
-      <Filter>Interface</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface\ITargetStrategyGroupSpi.h">
-      <Filter>Interface</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TargetStrategyGroup.cpp">
+    <ClCompile Include="Relation.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

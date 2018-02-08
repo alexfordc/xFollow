@@ -13,8 +13,8 @@ public:
 	~CUserRepository();
 
 public:
-	IUser* loadUser(int id, int apiID, char accountType, std::string& accountID, std::string& password);
-	IUser* addUser(int apiID, char accountType, std::string& accountID, std::string& password);
+	IUser* loadUser(int id, int system_ID, char accountType, std::string& accountID, std::string& password);
+	IUser* addUser(int system_ID, char accountType, std::string& accountID, std::string& password);
 
 	std::map<std::string, IUser*> getAllUsers();
 	IUser* getUserByID(int id);
