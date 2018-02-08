@@ -22,6 +22,15 @@
     <Filter Include="Event">
       <UniqueIdentifier>{fe366ca1-4211-428c-9832-87a897769410}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Strategy">
+      <UniqueIdentifier>{4dab64be-3633-40f5-baa8-492f529e5fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Relation">
+      <UniqueIdentifier>{9b7739e1-11cb-41ee-a50e-2865f32a3a16}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TradeSystem">
+      <UniqueIdentifier>{23f71424-0f09-4fa1-b8ef-68bcad9d2574}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\ICFollowCenter.h">
@@ -75,17 +84,35 @@
     <ClInclude Include="Source\DataDefine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="Source\TargetStrategyGroup.h">
+    <ClInclude Include="Source\TargetGroup.h">
       <Filter>User</Filter>
     </ClInclude>
-    <ClInclude Include="Exchange.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Source\TargetGroupRepository.h">
+      <Filter>User</Filter>
     </ClInclude>
-    <ClInclude Include="Product.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Interface\IStrategy.h">
+      <Filter>Interface</Filter>
     </ClInclude>
-    <ClInclude Include="Instrument.h">
-      <Filter>头文件</Filter>
+    <ClInclude Include="Source\Strategy.h">
+      <Filter>Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\StrategyRepository.h">
+      <Filter>Strategy</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface\ITargetGroup.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\RelationRepository.h">
+      <Filter>Relation</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Include\X_IRelation.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TradeSystem.h">
+      <Filter>TradeSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\TradeSystemRepository.h">
+      <Filter>TradeSystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,17 +146,26 @@
     <ClCompile Include="Source\FollowGroup.cpp">
       <Filter>User</Filter>
     </ClCompile>
-    <ClCompile Include="Source\TargetStrategyGroup.cpp">
+    <ClCompile Include="Source\TargetGroup.cpp">
       <Filter>User</Filter>
     </ClCompile>
-    <ClCompile Include="Exchange.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Source\TargetGroupRepository.cpp">
+      <Filter>User</Filter>
     </ClCompile>
-    <ClCompile Include="Product.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Source\Strategy.cpp">
+      <Filter>Strategy</Filter>
     </ClCompile>
-    <ClCompile Include="Instrument.cpp">
-      <Filter>源文件</Filter>
+    <ClCompile Include="Source\StrategyRepository.cpp">
+      <Filter>Strategy</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\RelationRepository.cpp">
+      <Filter>Relation</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TradeSystem.cpp">
+      <Filter>TradeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\TradeSystemRepository.cpp">
+      <Filter>TradeSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

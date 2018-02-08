@@ -16,8 +16,11 @@ enum emDataType
 	DT_STRING,
 };
 
-template<class T>
-void getData(_RecordsetPtr pRs, std::string key, T& t, emDataType dataType);
+void getData( _RecordsetPtr pRs, std::string key, char&         t, emDataType dataType );
+void getData( _RecordsetPtr pRs, std::string key, int&          t, emDataType dataType );
+void getData( _RecordsetPtr pRs, std::string key, float&        t, emDataType dataType );
+void getData( _RecordsetPtr pRs, std::string key, double&       t, emDataType dataType );
+void getData( _RecordsetPtr pRs, std::string key, std::string&  t, emDataType dataType );
 
 class CDatabaseConnection
 {

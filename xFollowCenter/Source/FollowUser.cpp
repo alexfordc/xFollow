@@ -1,12 +1,10 @@
 #include "FollowUser.h"
 
-#include "ITargetStrategyGroup.h"
+#include "../../xFollowStrategy/Interface/ITargetStrategyGroup.h"
 
-CFollowUser::CFollowUser( int id, int apiID, const char* ip, int port, const char* accountID, const char* password )
+CFollowUser::CFollowUser( int id, int apiID, std::string& accountID, std::string& password )
 	: m_id(id)
 	, m_apiID(apiID)
-	, m_port(port)
-	, m_ip(ip)
 	, m_accountID(accountID)
 	, m_password(password)
 {
@@ -35,16 +33,6 @@ int CFollowUser::id()
 int CFollowUser::apiID()
 {
 	return m_apiID;
-}
-
-const char* CFollowUser::ip()
-{
-	return m_ip.c_str();
-}
-
-int CFollowUser::port()
-{
-	return m_port;
 }
 
 const char* CFollowUser::accountID()

@@ -24,12 +24,14 @@ private:
 	bool loadExchange();
 	bool loadProduct();
 	bool loadInstrument();
+	bool loadTradeSystem();
+	bool loadUser();
 	bool loadTargetGroup();
 	bool loadFollowGroup();
-	bool loadUser();
 	bool loadStrategy();
+	bool loadRelation();
 
-	bool startSystem();
+	void isSystemStarted(IUser* user, int id, bool successed);
 
 	CFollowHandle&                                 m_followHandle;
 	std::map<std::string, std::string>             m_apiNames;             // key -- path

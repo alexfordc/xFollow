@@ -11,11 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Exchange.h" />
-    <ClInclude Include="Instrument.h" />
+    <ClInclude Include="..\Include\X_IRelation.h" />
     <ClInclude Include="Interface\ICFollowCenter.h" />
     <ClInclude Include="Interface\IFollowCenter.h" />
-    <ClInclude Include="Product.h" />
+    <ClInclude Include="Interface\IStrategy.h" />
+    <ClInclude Include="Interface\ITargetGroup.h" />
     <ClInclude Include="Source\DatabaseConnection.h" />
     <ClInclude Include="Source\DatabaseDefine.h" />
     <ClInclude Include="Source\DataDefine.h" />
@@ -28,15 +28,18 @@
     <ClInclude Include="Source\FollowUser.h" />
     <ClInclude Include="Source\IUser.h" />
     <ClInclude Include="Source\LoadDatabase.h" />
-    <ClInclude Include="Source\TargetStrategyGroup.h" />
+    <ClInclude Include="Source\RelationRepository.h" />
+    <ClInclude Include="Source\Strategy.h" />
+    <ClInclude Include="Source\StrategyRepository.h" />
+    <ClInclude Include="Source\TargetGroup.h" />
+    <ClInclude Include="Source\TargetGroupRepository.h" />
     <ClInclude Include="Source\TargetUser.h" />
+    <ClInclude Include="Source\TradeSystem.h" />
+    <ClInclude Include="Source\TradeSystemRepository.h" />
     <ClInclude Include="Source\UserRepository.h" />
     <ClInclude Include="Source\UserStatusControl.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Exchange.cpp" />
-    <ClCompile Include="Instrument.cpp" />
-    <ClCompile Include="Product.cpp" />
     <ClCompile Include="Source\DatabaseConnection.cpp" />
     <ClCompile Include="Source\FollowCenter.cpp" />
     <ClCompile Include="Source\FollowGroup.cpp" />
@@ -44,8 +47,14 @@
     <ClCompile Include="Source\FollowUser.cpp" />
     <ClCompile Include="Source\ICFollowCenter.cpp" />
     <ClCompile Include="Source\LoadDatabase.cpp" />
-    <ClCompile Include="Source\TargetStrategyGroup.cpp" />
+    <ClCompile Include="Source\RelationRepository.cpp" />
+    <ClCompile Include="Source\Strategy.cpp" />
+    <ClCompile Include="Source\StrategyRepository.cpp" />
+    <ClCompile Include="Source\TargetGroup.cpp" />
+    <ClCompile Include="Source\TargetGroupRepository.cpp" />
     <ClCompile Include="Source\TargetUser.cpp" />
+    <ClCompile Include="Source\TradeSystem.cpp" />
+    <ClCompile Include="Source\TradeSystemRepository.cpp" />
     <ClCompile Include="Source\UserRepository.cpp" />
     <ClCompile Include="Source\UserStatusControl.cpp" />
   </ItemGroup>
@@ -99,7 +108,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>XNYSTools.lib;xFollowStrategy.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>

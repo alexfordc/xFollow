@@ -8,7 +8,7 @@
 class CTargetUser : public IUser
 {
 public:
-	CTargetUser(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
+	CTargetUser(int id, int apiID, std::string& accountID, std::string& password);
 	virtual ~CTargetUser();
 
 public:
@@ -16,8 +16,6 @@ public:
 	virtual bool isTarget();
 	virtual int id();
 	virtual int apiID();
-	virtual const char* ip();
-	virtual int port();
 	virtual const char* accountID();
 	virtual const char* password();
 
@@ -27,8 +25,6 @@ private:
 	bool            m_isFollow;
 	int             m_id;
 	int             m_apiID;
-	std::string     m_ip;
-	int             m_port;
 	std::string     m_accountID;
 	std::string     m_password;
 

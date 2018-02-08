@@ -15,26 +15,35 @@ CUserRepository::~CUserRepository()
 
 }
 
-IUser* CUserRepository::addFollowUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
+IUser* CUserRepository::loadUser( int id, int apiID, char accountType, std::string& accountID, std::string& password )
 {
-	++m_userid;
-	IUser* followUser = new CFollowUser(m_userid, apiID, ip, port, accountID, password);
+	if (id > m_userid) m_userid = id;
 
-	std::string key = std::string(accountID);
-	m_users[key] = followUser;
-	m_id2users[m_userid] = followUser;
-	return followUser;
+	IUser* user = nullptr;
+	if (accountType == '1')
+	{
+		user = addFollowUser(id, apiID, accountID, password);
+	}
+	else
+	{
+		user = addTargetUser(id, apiID, accountID, password);
+	}
+	return user;
 }
 
-IUser* CUserRepository::addTargetUser( int apiID, const char* ip, int port, const char* accountID, const char* password )
+IUser* CUserRepository::addUser( int apiID, char accountType, std::string& accountID, std::string& password )
 {
+	IUser* user = nullptr;
 	++m_userid;
-	IUser* targetUser = new CTargetUser(m_userid, apiID, ip, port, accountID, password);
-
-	std::string key = std::string(accountID);
-	m_users[key] = targetUser;
-	m_id2users[m_userid] = targetUser;
-	return targetUser;
+	if (accountType == '1')
+	{
+		user = addFollowUser(m_userid, apiID, accountID, password);
+	}
+	else
+	{
+		user = addTargetUser(m_userid, apiID, accountID, password);
+	}
+	return user;
 }
 
 std::map<std::string, IUser*> CUserRepository::getAllUsers()
@@ -65,4 +74,25 @@ IUser* CUserRepository::userByID( int id )
 {
 	auto it = m_id2usersUsed.find(id);
 	return it == m_id2usersUsed.end() ? nullptr : it->second;
+}
+
+//////////////////////////////////////////////////////////////////////////
+IUser* CUserRepository::addFollowUser( int id, int apiID, std::string& accountID, std::string& password )
+{
+	IUser* followUser = new CFollowUser(id, apiID, accountID, password);
+
+	std::string key = std::string(accountID);
+	m_users[key] = followUser;
+	m_id2users[id] = followUser;
+	return followUser;
+}
+
+IUser* CUserRepository::addTargetUser( int id, int apiID, std::string& accountID, std::string& password )
+{
+	IUser* targetUser = new CTargetUser(id, apiID, accountID, password);
+
+	std::string key = std::string(accountID);
+	m_users[key] = targetUser;
+	m_id2users[id] = targetUser;
+	return targetUser;
 }

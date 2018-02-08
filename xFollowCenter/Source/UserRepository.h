@@ -13,8 +13,8 @@ public:
 	~CUserRepository();
 
 public:
-	IUser* addFollowUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
-	IUser* addTargetUser(int apiID, const char* ip, int port, const char* accountID, const char* password);
+	IUser* loadUser(int id, int apiID, char accountType, std::string& accountID, std::string& password);
+	IUser* addUser(int apiID, char accountType, std::string& accountID, std::string& password);
 
 	std::map<std::string, IUser*> getAllUsers();
 	IUser* getUserByID(int id);
@@ -23,6 +23,9 @@ public:
 	void unRegisterUser(IUser* user);   // 
 	IUser* userByID(int id);
 private:
+	IUser* addFollowUser(int id, int apiID, std::string& accountID, std::string& password);
+	IUser* addTargetUser(int id, int apiID, std::string& accountID, std::string& password);
+
 	int                               m_userid;
 	std::map<std::string, IUser*>     m_users;
 	std::map<int, IUser*>             m_id2users;

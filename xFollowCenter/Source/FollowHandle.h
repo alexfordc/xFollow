@@ -9,7 +9,7 @@
 #include "../xTraderManage/Interface/ITraderManageSpi.h"
 #include "../xTraderManage/Interface/ITraderManage.h"
 #include "../Interface/IFollowCenter.h"
-#include "TargetStrategyGroupSpi.h"
+#include "../../xFollowStrategy/Interface/ITargetStrategyGroupSpi.h"
 #include "FollowEvent.h"
 
 class CFollowCenter;

@@ -3,38 +3,50 @@
 #include "X_MyLog.h"
 
 
-template<class T>
-void getData( _RecordsetPtr pRs, std::string key, T& t, emDataType dataType )
-{
-	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
-	if (rst.vt == VT_NULL) return;
-
-	switch (dataType)
-	{
-	case DT_DEFAULT:
-		break;
-	case DT_CHAR:
-		t = char(rst);
-		break;
-	case DT_INT:
-		t = int(rst);
-		break;
-	case DT_FLOAT:
-		t = float(rst);
-		break;
-	case DT_DOUBLE:
-		t = double(rst);
-		break;
-	case DT_STRING:
-		t = _bstr_t(rst);
-		break;
-	default:
-		break;
-	}
-}
-
 
 bool CDatabaseConnection::s_initCom = false;
+
+
+//////////////////////////////////////////////////////////////////////////
+void getData( _RecordsetPtr pRs, std::string key, char& t, emDataType dataType )
+{
+	t = '\0';
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+	if (dataType == DT_STRING) t = char(rst);
+}
+
+void getData( _RecordsetPtr pRs, std::string key, int& t, emDataType dataType )
+{
+	t = 0;
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+	if (dataType == DT_STRING) t = int(rst);
+}
+
+void getData( _RecordsetPtr pRs, std::string key, float& t, emDataType dataType )
+{
+	t = 0;
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+	if (dataType == DT_STRING) t = float(rst);
+}
+
+void getData( _RecordsetPtr pRs, std::string key, double& t, emDataType dataType )
+{
+	t = 0;
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+	if (dataType == DT_STRING) t = double(rst);
+}
+
+void getData( _RecordsetPtr pRs, std::string key, std::string& t, emDataType dataType )
+{
+	t = "";
+	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
+	if (rst.vt == VT_NULL) return;
+	if (dataType == DT_STRING) t = _bstr_t(rst);
+}
 
 //////////////////////////////////////////////////////////////////////////
 CDatabaseConnection::CDatabaseConnection()

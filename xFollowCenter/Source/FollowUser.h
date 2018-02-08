@@ -8,14 +8,12 @@
 class CFollowUser : public IUser
 {
 public:
-	CFollowUser(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
+	CFollowUser(int id, int apiID, std::string& accountID, std::string& password);
 	virtual ~CFollowUser();
 	virtual bool isFollow();
 	virtual bool isTarget();
 	virtual int id();
 	virtual int apiID();
-	virtual const char* ip();
-	virtual int port();
 	virtual const char* accountID();
 	virtual const char* password();
 
@@ -25,8 +23,6 @@ private:
 	bool            m_isFollow;
 	int             m_id;
 	int             m_apiID;
-	std::string     m_ip;
-	int             m_port;
 	std::string     m_accountID;
 	std::string     m_password;
 
