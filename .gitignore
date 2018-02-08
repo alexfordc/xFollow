@@ -20,3 +20,4 @@
 /xCTPPlugin/Debug
 *.ipch
 *.opensdf
+/xFollowStrategy/Debug
