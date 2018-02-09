@@ -1,6 +1,8 @@
 #ifndef IUser_H
 #define IUser_H
 
+#include <string>
+
 class ITargetStrategyGroup;
 
 class IUser

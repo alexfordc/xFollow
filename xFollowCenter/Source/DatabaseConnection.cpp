@@ -13,7 +13,7 @@ void getData( _RecordsetPtr pRs, std::string key, char& t, emDataType dataType )
 	t = '\0';
 	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
 	if (rst.vt == VT_NULL) return;
-	if (dataType == DT_STRING) t = char(rst);
+	if (dataType == DT_CHAR) t = char(rst);
 }
 
 void getData( _RecordsetPtr pRs, std::string key, int& t, emDataType dataType )
@@ -21,7 +21,7 @@ void getData( _RecordsetPtr pRs, std::string key, int& t, emDataType dataType )
 	t = 0;
 	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
 	if (rst.vt == VT_NULL) return;
-	if (dataType == DT_STRING) t = int(rst);
+	if (dataType == DT_INT) t = int(rst);
 }
 
 void getData( _RecordsetPtr pRs, std::string key, float& t, emDataType dataType )
@@ -29,7 +29,7 @@ void getData( _RecordsetPtr pRs, std::string key, float& t, emDataType dataType 
 	t = 0;
 	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
 	if (rst.vt == VT_NULL) return;
-	if (dataType == DT_STRING) t = float(rst);
+	if (dataType == DT_FLOAT) t = float(rst);
 }
 
 void getData( _RecordsetPtr pRs, std::string key, double& t, emDataType dataType )
@@ -37,7 +37,7 @@ void getData( _RecordsetPtr pRs, std::string key, double& t, emDataType dataType
 	t = 0;
 	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
 	if (rst.vt == VT_NULL) return;
-	if (dataType == DT_STRING) t = double(rst);
+	if (dataType == DT_DOUBLE) t = double(rst);
 }
 
 void getData( _RecordsetPtr pRs, std::string key, std::string& t, emDataType dataType )

@@ -104,6 +104,10 @@ bool CFollowCenter::loadDictionary()
 
 bool CFollowCenter::checkData()
 {
+	bool rtn = false;
+	rtn = loadDictionary();
+	if (!rtn) return false;
+
 	// 数据有效性校验 -- 是否有无效数据
 	int api_ID = 0;
 	for (auto& anpp : m_apiNames)
@@ -126,6 +130,7 @@ bool CFollowCenter::checkData()
 			}
 		}
 	}
+	return true;
 }
 
 bool CFollowCenter::loadDatabase()
@@ -259,7 +264,6 @@ bool CFollowCenter::loadInstrument()
 		std::string instrumentID("");
 		std::string instrumentName("");
 		std::string productID("");
-		std::string productID("");
 		std::string exchangeID("");
 		int system_ID = 0;
 		while (pRs->adoEOF != VARIANT_TRUE)
@@ -285,6 +289,7 @@ bool CFollowCenter::loadTradeSystem()
 		return false;
 	}
 
+	bool rtn = true;
 	char sqltxt[1024] = {0};
 	try
 	{
@@ -324,6 +329,7 @@ bool CFollowCenter::loadTradeSystem()
 			if (itan == m_apiToNames.end())
 			{
 				FOLLOW_LOG_ERROR("[加载数据] 没有匹配到接口编号为 %d 的", api_ID);
+				rtn = false;
 			}
 			else
 			{
@@ -335,7 +341,7 @@ bool CFollowCenter::loadTradeSystem()
 		DB_QUERYSQL_END();
 	}
 	ADO_CATCH(false, sqltxt);
-	return true;
+	return rtn;
 }
 
 bool CFollowCenter::loadUser()

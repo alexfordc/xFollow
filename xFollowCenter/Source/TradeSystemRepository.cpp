@@ -21,6 +21,7 @@ CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string nam
 	if (it == m_tradeSystems.end())
 	{
 		tradeSystem = new CTradeSystem(id);
+		m_tradeSystems[id] = tradeSystem;
 	}
 	else
 	{
