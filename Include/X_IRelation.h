@@ -14,11 +14,10 @@
 #include "../xFollowCenter/Interface/IStrategy.h"
 #include "X_IStrategyResultSpi.h"
 
-class XFOLLOW_STRATEGY_EXPORTS_C IRelation
+class IRelation
 {
 public:
 	virtual ~IRelation() {};
-	static IRelation& createRelation();
 
 	virtual void start() = 0; // @note 主要用来表明数据发送完成
 	virtual void clear() = 0;
@@ -38,5 +37,7 @@ public:
 	virtual void rtnTargetPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 
 };
+
+XFOLLOW_STRATEGY_EXPORTS_A IRelation* createRelation(int id);
 
 #endif // IRelation_H

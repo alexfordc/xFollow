@@ -18,6 +18,7 @@ public:
 public:
 	bool openFile(const char* path);
 	bool write(const char* key, const char* value);
+	bool close();
 	const char* getValue(const char* key);
 	bool isEnd();
 	std::pair<std::string, std::string> getValue();

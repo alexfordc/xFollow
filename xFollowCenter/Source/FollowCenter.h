@@ -44,6 +44,8 @@ private:
 	CDatabaseConnection                            m_database;
 
 	std::map<std::string, std::string>             m_dictionarys;
+
+	bool                                           m_isStarted; // 系统是否启动成功
 public:
 	void init();
 	void start();

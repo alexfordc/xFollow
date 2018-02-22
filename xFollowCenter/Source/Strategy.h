@@ -12,6 +12,7 @@ public:
 public:
 	virtual bool isInstrumentValid(const char* productID, const char* instrumentID);
 	virtual std::string getStrategy();
+	virtual std::string strategyType();
 
 public:
 	void setData(std::string strategyType, std::string strategyData);

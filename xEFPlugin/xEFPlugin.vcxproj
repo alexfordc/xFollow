@@ -10,59 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\Include\X_IRelation.h" />
-    <ClInclude Include="Interface\ICFollowCenter.h" />
-    <ClInclude Include="Interface\IFollowCenter.h" />
-    <ClInclude Include="Interface\IStrategy.h" />
-    <ClInclude Include="Interface\ITargetGroup.h" />
-    <ClInclude Include="Source\DatabaseConnection.h" />
-    <ClInclude Include="Source\DatabaseDefine.h" />
-    <ClInclude Include="Source\DataDefine.h" />
-    <ClInclude Include="Source\EventDefine.h" />
-    <ClInclude Include="Source\EventStruct.h" />
-    <ClInclude Include="Source\FollowCenter.h" />
-    <ClInclude Include="Source\FollowEvent.h" />
-    <ClInclude Include="Source\FollowGroup.h" />
-    <ClInclude Include="Source\FollowHandle.h" />
-    <ClInclude Include="Source\FollowUser.h" />
-    <ClInclude Include="Source\IUser.h" />
-    <ClInclude Include="Source\LoadDatabase.h" />
-    <ClInclude Include="Source\RelationRepository.h" />
-    <ClInclude Include="Source\Strategy.h" />
-    <ClInclude Include="Source\StrategyRepository.h" />
-    <ClInclude Include="Source\TargetGroup.h" />
-    <ClInclude Include="Source\TargetGroupRepository.h" />
-    <ClInclude Include="Source\TargetUser.h" />
-    <ClInclude Include="Source\TradeSystem.h" />
-    <ClInclude Include="Source\TradeSystemRepository.h" />
-    <ClInclude Include="Source\UserRepository.h" />
-    <ClInclude Include="Source\UserStatusControl.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Source\DatabaseConnection.cpp" />
-    <ClCompile Include="Source\FollowCenter.cpp" />
-    <ClCompile Include="Source\FollowGroup.cpp" />
-    <ClCompile Include="Source\FollowHandle.cpp" />
-    <ClCompile Include="Source\FollowUser.cpp" />
-    <ClCompile Include="Source\ICFollowCenter.cpp" />
-    <ClCompile Include="Source\LoadDatabase.cpp" />
-    <ClCompile Include="Source\RelationRepository.cpp" />
-    <ClCompile Include="Source\Strategy.cpp" />
-    <ClCompile Include="Source\StrategyRepository.cpp" />
-    <ClCompile Include="Source\TargetGroup.cpp" />
-    <ClCompile Include="Source\TargetGroupRepository.cpp" />
-    <ClCompile Include="Source\TargetUser.cpp" />
-    <ClCompile Include="Source\TradeSystem.cpp" />
-    <ClCompile Include="Source\TradeSystemRepository.cpp" />
-    <ClCompile Include="Source\UserRepository.cpp" />
-    <ClCompile Include="Source\UserStatusControl.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{CB4B49E2-E42D-49C7-93C4-BF6901E033C8}</ProjectGuid>
+    <ProjectGuid>{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>xFollowCenter</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <RootNamespace>xEFPlugin</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -91,7 +42,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>../Include/;$(IncludePath)</IncludePath>
-    <LibraryPath>../Lib/;$(LibraryPath)</LibraryPath>
+    <LibraryPath>../Lib/;Include/;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
@@ -102,14 +53,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>XAPIPLUGIN_EXPORTS;WIN32;_DEBUG;_WINDOWS;_USRDLL;XEFPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
+      <AdditionalDependencies>thosttraderapi.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -120,7 +71,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XFOLLOWCENTER_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;_USRDLL;XEFPLUGIN_EXPORTS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -130,6 +81,19 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="FTradeApi.h" />
+    <ClInclude Include="FTradeSpi.h" />
+    <ClInclude Include="Include\ThostFtdcTraderApi.h" />
+    <ClInclude Include="TTradeApi.h" />
+    <ClInclude Include="TTradeSpi.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FTradeApi.cpp" />
+    <ClCompile Include="FTradeSpi.cpp" />
+    <ClCompile Include="TTradeApi.cpp" />
+    <ClCompile Include="TTradeSpi.cpp" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

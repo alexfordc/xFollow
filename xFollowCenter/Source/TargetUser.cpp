@@ -1,6 +1,7 @@
 #include "TargetUser.h"
 
-#include "../../xFollowStrategy/Interface/ITargetStrategyGroup.h"
+#include "../../Include/X_IRelation.h"
+#include "RelationRepository.h"
 
 CTargetUser::CTargetUser(int id, int system_ID, std::string& accountID, std::string& password )
 	: IUser(id, system_ID, accountID, password)
@@ -24,10 +25,18 @@ bool CTargetUser::isTarget()
 
 void CTargetUser::rtnTrade( const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
-// 	m_group->rtnTrade(m_id, productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+	for (auto relationID : m_relationID)
+	{
+		IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
+		relation->rtnTrade(m_id, productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+	}
 }
 
 void CTargetUser::rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume)
 {
-// 	m_group->rtnTargetPositionTotal(m_id, productID, instrumentID, isBuy, hedgeFlag, volume);
+	for (auto relationID : m_relationID)
+	{
+		IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
+		relation->rtnTargetPositionTotal(m_id, productID, instrumentID, isBuy, hedgeFlag, volume);
+	}
 }

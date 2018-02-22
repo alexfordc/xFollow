@@ -6,10 +6,12 @@
 #include <thread>
 #include <mutex>
 
+#include "../../Include/X_Define.h"
+#include "../../Include/X_IStrategyResultSpi.h"
+
 #include "../xTraderManage/Interface/ITraderManageSpi.h"
 #include "../xTraderManage/Interface/ITraderManage.h"
 #include "../Interface/IFollowCenter.h"
-#include "../../Include/X_IStrategyResultSpi.h"
 #include "FollowEvent.h"
 
 class CFollowCenter;
@@ -65,7 +67,7 @@ public:
 public:
 	void registerApi(const char* apiName, int apiID);
 	void registerSpi(ITraderManageSpi* spi);
-	void reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password);
+	void reqUserLogin(x_stuUserLogin& userLogin);
 
 private:
 	virtual void rspUserLogin(int id, bool successed, int errorID);

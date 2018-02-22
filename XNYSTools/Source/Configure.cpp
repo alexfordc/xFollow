@@ -23,7 +23,7 @@ CConfigure::CConfigure()
 
 CConfigure::~CConfigure()
 {
-
+	close();
 }
 
 void CConfigure::parser(std::string& content)
@@ -43,6 +43,14 @@ void CConfigure::parser(std::string& content)
 
 bool CConfigure::openFile( const char* path )
 {
+	if (nullptr != m_file) {
+		int rtn = fclose(m_file);
+		m_file = nullptr;
+		if (rtn != 0) return false;
+		m_config.clear();
+		m_itConfig = m_config.begin();
+	}
+
 	if (fopen_s(&m_file, path, "a+")) {
 		// false
 		return false;
@@ -70,6 +78,18 @@ bool CConfigure::write( const char* key, const char* value )
 	buf += "=";
 	buf += value;
 	return fwrite(buf.c_str(), buf.length(), 1, m_file) == 0;
+}
+
+bool CConfigure::close()
+{
+	if (nullptr != m_file) {
+		int rtn = fclose(m_file);
+		m_file = nullptr;
+		if (rtn != 0) return false;
+	}
+	m_config.clear();
+	m_itConfig = m_config.begin();
+	return true;
 }
 
 const char* CConfigure::getValue( const char* key )

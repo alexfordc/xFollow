@@ -1,14 +1,14 @@
-#ifndef TradeSpi_H
-#define TradeSpi_H
+#ifndef TTradeSpi_H
+#define TTradeSpi_H
 
-#include "../Interface/ITrade.h"
+#include "../Interface/ITTrade.h"
 #include "../Interface/ITraderManageSpi.h"
 
-class CTradeSpi : public ITradeSpi
+class CTTradeSpi : public ITTradeSpi
 {
 public:
-	CTradeSpi();
-	virtual ~CTradeSpi();
+	CTTradeSpi();
+	virtual ~CTTradeSpi();
 
 public:
 	void registerID(int id);
@@ -25,4 +25,4 @@ private:
 	virtual void rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };
 
-#endif // TradeSpi_H
+#endif // TTradeSpi_H

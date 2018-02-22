@@ -13,7 +13,7 @@ void getData( _RecordsetPtr pRs, std::string key, char& t, emDataType dataType )
 	t = '\0';
 	_variant_t rst = pRs->Fields->GetItem(_variant_t(key.c_str()))->Value;
 	if (rst.vt == VT_NULL) return;
-	if (dataType == DT_CHAR) t = char(rst);
+	if (dataType == DT_CHAR) t = ((const char*)(_bstr_t(rst)))[0];
 }
 
 void getData( _RecordsetPtr pRs, std::string key, int& t, emDataType dataType )

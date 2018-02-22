@@ -11,7 +11,7 @@
 class CRelation : public IRelation
 {
 public:
-	CRelation();
+	CRelation(int id);
 	virtual ~CRelation();
 
 public:
@@ -33,6 +33,8 @@ public:
 	virtual void rtnTargetPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 
 private:
+	int                       m_id;
+
 	IStrategyResultSpi*       m_spi;
 	char                      m_status;
 	IStrategy*                m_strategy;

@@ -23,6 +23,7 @@ public:
 
 	virtual bool openFile(const char* path) = 0;
 	virtual bool write(const char* key, const char* value) = 0;
+	virtual bool close() = 0;
 	virtual const char* getValue(const char* key) = 0;
 	virtual bool isEnd() = 0;
 	virtual std::pair<std::string, std::string> getValue() = 0;

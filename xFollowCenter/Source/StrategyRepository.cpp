@@ -26,7 +26,8 @@ CStrategy* CStrategyRepository::createStrategy( int id, std::string strategyType
 	{
 		strategy = it->second;
 	}
-	strategy->setData(strategyType, strategyData);
+	if (nullptr != strategy)
+		strategy->setData(strategyType, strategyData);
 	return strategy;
 }
 

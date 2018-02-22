@@ -15,12 +15,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TradeApi.h">
+    <ClInclude Include="Include\ThostFtdcTraderApi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FTradeApi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="FTradeSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TTradeApi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="TTradeSpi.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TradeApi.cpp">
+    <ClCompile Include="FTradeApi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="FTradeSpi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TTradeApi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TTradeSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

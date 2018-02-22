@@ -15,6 +15,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xFollowStrategy", "xFollowS
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xBaseDatas", "xBaseDatas\xBaseDatas.vcxproj", "{85FA76C9-1933-486F-8D8A-AB7269D1F58B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "xEFPlugin", "xEFPlugin\xEFPlugin.vcxproj", "{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -49,6 +51,10 @@ Global
 		{85FA76C9-1933-486F-8D8A-AB7269D1F58B}.Debug|Win32.Build.0 = Debug|Win32
 		{85FA76C9-1933-486F-8D8A-AB7269D1F58B}.Release|Win32.ActiveCfg = Release|Win32
 		{85FA76C9-1933-486F-8D8A-AB7269D1F58B}.Release|Win32.Build.0 = Release|Win32
+		{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}.Debug|Win32.ActiveCfg = Debug|Win32
+		{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}.Debug|Win32.Build.0 = Debug|Win32
+		{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}.Release|Win32.ActiveCfg = Release|Win32
+		{1B39D11B-DBC3-4A29-B651-1FA6D9F0BBAF}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

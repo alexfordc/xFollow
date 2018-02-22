@@ -17,6 +17,7 @@
 
 CFollowCenter::CFollowCenter()
 	: m_followHandle(*CFollowHandle::followHandle())
+	, m_isStarted(false)
 {
 
 }
@@ -32,7 +33,7 @@ bool CFollowCenter::loadConfig()
 	XNYSTools::IConfigure* pconfig = XNYSTools::IConfigure::createConfigure();
 	if (pconfig == nullptr) return false;
 
-	bool rtn = pconfig->openFile("./config/Plugin.conf");
+	bool rtn = pconfig->openFile("./config/ApiPlugin.conf");
 	if (rtn) {
 		while (!pconfig->isEnd()) {
 			auto pp = pconfig->getValue();
@@ -47,6 +48,25 @@ bool CFollowCenter::loadConfig()
 			pconfig->moveNext();
 		}
 	}
+	pconfig->close();
+
+	rtn = pconfig->openFile("./config/RelationPlugin.conf");
+	if (rtn) {
+		while (!pconfig->isEnd()) {
+			auto pp = pconfig->getValue();
+
+			std::fstream file;
+			file.open(pp.second, std::ios::in);
+			if (file.good()) {
+				CRelationRepository::relationRepository().setRelationModule(pp.first, pp.second);
+				file.close();
+			}
+
+			pconfig->moveNext();
+		}
+	}
+	pconfig->close();
+
 	XNYSTools::IConfigure::destroyConfigure(pconfig);
 
 	return rtn;
@@ -404,7 +424,7 @@ bool CFollowCenter::loadTargetGroup()
 	try
 	{
 		sprintf(sqltxt, "select ag.Account_ID, ag.Group_ID, ag.Status as AccountStatus, g.Status "
-			"from AccountInGroup ag, Group g where ag.Group_ID=g.ID order by g.ID");
+			"from AccountInGroup ag, TargetGroup g where ag.Group_ID=g.ID order by g.ID");
 		_RecordsetPtr pRs = nullptr;
 		pRs = m_database.querySql(sqltxt);
 		if (pRs == nullptr)
@@ -502,7 +522,6 @@ bool CFollowCenter::loadRelation()
 		int account_ID = 0;
 		int targetGroup_ID = 0;
 		int strategy_ID = 0;
-		IStrategy* strategy = nullptr;
 		char status = '\0';
 		while (pRs->adoEOF != VARIANT_TRUE)
 		{
@@ -512,15 +531,35 @@ bool CFollowCenter::loadRelation()
 			getData(pRs, "Strategy_ID", strategy_ID, DT_INT);
 			getData(pRs, "Status", status, DT_CHAR);
 
-			IRelation* relation = CRelationRepository::relationRepository().createRelation(_ID, status);
+			IStrategy* strategy = CStrategyRepository::strategyRepository().getStrategy(strategy_ID);
+			if (nullptr == strategy)
+			{
+				FOLLOW_LOG_WARN("[加载数据] 未找到ID为 %d 的策略模块", strategy_ID);
+				continue;
+			}
+
+			IRelation* relation = CRelationRepository::relationRepository().createRelation(_ID, strategy->strategyType(), status);
+			if (nullptr == relation)
+			{
+				FOLLOW_LOG_WARN("[加载数据] 未找到ID为 %d 的关系模块", _ID);
+				continue;
+			}
+			relation->registerSpi(&m_followHandle);
+
 			relation->addFollowUser(account_ID);
+			IUser* followUser = m_userRepository.getUserByID(account_ID);
+			assert(followUser);
+			followUser->setRelationID(_ID);
+
 			CTargetGroup* targetGroup = CTargetGroupRepository::targetGroupRepository().getTargetGroup(targetGroup_ID);
 			auto account_IDs = targetGroup->getAccount_IDs();
 			for (int aid : account_IDs)
 			{
 				relation->addTargetUser(aid);
+				IUser* targetUser = m_userRepository.getUserByID(aid);
+				assert(targetUser);
+				targetUser->setRelationID(_ID);
 			}
-			strategy = CStrategyRepository::strategyRepository().getStrategy(strategy_ID);
 			relation->setStrategy(strategy);
 			relation->setStatus(status);
 
@@ -565,13 +604,26 @@ void CFollowCenter::start()
 	m_followHandle.registerSpi(&m_followHandle);
 
 	CTradeSystem* tradeSystem = nullptr;
+	x_stuUserLogin userLogin = {0};
 	auto users = m_userRepository.getAllUsers();
 	for (auto& pp : users) {
 		IUser* user = pp.second;
 		assert(user);
 		tradeSystem = CTradeSystemRepository::tradeSystemRepository().getTradeSystem(user->system_ID());
 		assert(tradeSystem);
-		m_followHandle.reqUserLogin(user->id(), tradeSystem->api_ID(), tradeSystem->ip1().c_str(), tradeSystem->port1(), user->accountID(), user->password());
+
+		userLogin.id = user->id();
+		userLogin.apiID = tradeSystem->api_ID();
+		userLogin.isFollow = user->isFollow();
+		strncpy_s(userLogin.ip1, tradeSystem->ip1().c_str(), sizeof(userLogin.ip1));
+		userLogin.port1 = tradeSystem->port1();
+		strncpy_s(userLogin.ip2, tradeSystem->ip2().c_str(), sizeof(userLogin.ip2));
+		userLogin.port2 = tradeSystem->port2();
+		strncpy_s(userLogin.ip3, tradeSystem->ip3().c_str(), sizeof(userLogin.ip3));
+		userLogin.port3 = tradeSystem->port3();
+		strncpy_s(userLogin.accountID, user->accountID(), sizeof(userLogin.accountID));
+		strncpy_s(userLogin.password, user->password(), sizeof(userLogin.password));
+		m_followHandle.reqUserLogin(userLogin);
 	}
 }
 
@@ -608,7 +660,9 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 }
 
 void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
-{ // targetUser ==> targetStrategyGroup ==> cal ==> followGroup
+{
+	if (!m_isStarted) return;
+
 	IUser* user = m_userRepository.userByID(id);
 	if (user == nullptr) {
 		return;
@@ -619,6 +673,8 @@ void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrum
 
 void CFollowCenter::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
+	if (!m_isStarted) return;
+
 	IUser* user = m_userRepository.userByID(id);
 	if (user == nullptr) {
 		return;
@@ -638,9 +694,9 @@ void CFollowCenter::isSystemStarted(IUser* user, int id, bool successed)
 		int ffCount = m_userStatusControl.getFollowFailed();
 		int tfCount = m_userStatusControl.getTargetFailed();
 		FOLLOW_LOG_DEBUG("[账号准备情况] 跟随账号成功/失败(%d/%d) 目标账号成功/失败(%d/%d)", fsCount, ffCount, tsCount, tfCount);
-		bool isStarted = fsCount * tsCount > 0;
-		m_followHandle.startRsp(isStarted, 0); // 应该是系统启动
-		if (isStarted)
+		m_isStarted = fsCount * tsCount > 0;
+		m_followHandle.startRsp(m_isStarted, 0); // 应该是系统启动
+		if (m_isStarted)
 		{
 			FOLLOW_LOG_TRACE("[系统启动情况] 系统启动成功!");
 		}

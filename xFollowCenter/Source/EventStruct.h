@@ -1,6 +1,8 @@
 #ifndef EventStruct_H
 #define EventStruct_H
 
+#include "../../Include/X_Define.h"
+
 struct stuNotifyEvent
 {
 	bool successed;
@@ -15,12 +17,7 @@ struct stuRegisterApiEvent
 
 struct stuUserLoginEvent
 {
-	int  id;
-	int  apiID;
-	char ip[32];
-	int  port;
-	char accountID[16];
-	char password[32];
+	x_stuUserLogin userLogin;
 };
 
 struct stuUserNotifyEvent

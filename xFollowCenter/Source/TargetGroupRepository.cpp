@@ -26,7 +26,8 @@ CTargetGroup* CTargetGroupRepository::createTargetGroup( int id, char status )
 	{
 		targetGroup = it->second;
 	}
-	targetGroup->setStatus(status);
+	if (nullptr != targetGroup)
+		targetGroup->setStatus(status);
 	return targetGroup;
 }
 

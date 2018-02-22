@@ -35,7 +35,7 @@ void CTargetGroup::setStatus( char status )
 
 void CTargetGroup::addTargetUser( int accountID, char status )
 {
-	m_accountStatus[accountID] = status;
+	m_accountStatus[accountID] = (status == '1');
 	if (status == '1')
 	{
 		m_targetUserPositionTotals[accountID];

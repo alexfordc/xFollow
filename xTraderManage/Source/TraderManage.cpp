@@ -2,8 +2,10 @@
 
 #include <cassert>
 
-#include "../Interface/ITrade.h"
-#include "TradeSpi.h"
+#include "../Interface/IFTrade.h"
+#include "../Interface/ITTrade.h"
+#include "FTradeSpi.h"
+#include "TTradeSpi.h"
 
 ITraderManage* ITraderManage::createTraderManage()
 {
@@ -62,31 +64,52 @@ void CTraderManage::registerSpi(ITraderManageSpi* spi )
 	m_spi = spi;
 }
 
-void CTraderManage::reqUserLogin( int id, int apiID, const char* ip, int port, const char* accountID, const char* password )
+void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 {
-	HMODULE module = getApiModelByID(apiID);
+	HMODULE module = getApiModelByID(userLogin.apiID);
 	if (module == nullptr) return;
 
 	// 
-	typedef ITradeApi* (*CREATETRADEAPI)();
-	CREATETRADEAPI func = (CREATETRADEAPI)GetProcAddress(module, "createTradeApi");
+	if (userLogin.isFollow)
+	{
+		typedef IFTradeApi* (*CREATETRADEAPI)();
+		CREATETRADEAPI func = (CREATETRADEAPI)GetProcAddress(module, "createFTradeApi");
 
-	ITradeApi* api = func();
-	assert(api);
-	m_apis[id] = api;
-	CTradeSpi* spi = new CTradeSpi;
-	spi->registerID(id);
-	spi->registerSpi(m_spi);
-	api->registerSpi(spi);
-	api->reqUserLogin(ip, port, accountID, password);
+		IFTradeApi* api = func();
+		assert(api);
+		m_apis[userLogin.id] = std::make_pair(true, api);
+
+		CFTradeSpi* spi = new CFTradeSpi;
+		spi->registerID(userLogin.id);
+		spi->registerSpi(m_spi);
+		api->registerSpi(spi);
+		api->reqUserLogin(userLogin);
+	}
+	else
+	{
+		typedef ITTradeApi* (*CREATETRADEAPI)();
+		CREATETRADEAPI func = (CREATETRADEAPI)GetProcAddress(module, "createTTradeApi");
+
+		ITTradeApi* api = func();
+		assert(api);
+		m_apis[userLogin.id] = std::make_pair(false, api);
+
+		CTTradeSpi* spi = new CTTradeSpi;
+		spi->registerID(userLogin.id);
+		spi->registerSpi(m_spi);
+		api->registerSpi(spi);
+		api->reqUserLogin(userLogin);
+	}
 }
 
 void CTraderManage::reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
 {
 	auto it = m_apis.find(id);
 	if (it != m_apis.end()) {
-		ITradeApi* api = (ITradeApi*)(it->second);
-		api->reqPlaceOrder(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+		if (it->second.first) {
+			IFTradeApi* api = (IFTradeApi*)(it->second.second);
+			api->reqPlaceOrder(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+		}
 	} else {
 		m_spi->rspPlaceOrder();
 	}
@@ -96,8 +119,10 @@ void CTraderManage::reqCancelOrder(int id)
 {
 	auto it = m_apis.find(id);
 	if (it != m_apis.end()) {
-		ITradeApi* api = (ITradeApi*)(it->second);
-		api->reqCancelOrder();
+		if (it->second.first) {
+			IFTradeApi* api = (IFTradeApi*)(it->second.second);
+			api->reqCancelOrder();
+		}
 	} else {
 		m_spi->rspCancelOrder();
 	}

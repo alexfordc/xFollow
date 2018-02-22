@@ -2,6 +2,7 @@
 #define IUser_H
 
 #include <string>
+#include <set>
 
 class ITargetStrategyGroup;
 
@@ -19,15 +20,19 @@ public:
 	virtual const char* accountID() { return m_accountID.c_str(); }
 	virtual const char* password() { return m_password.c_str(); }
 
+	virtual void setRelationID(int id) { m_relationID.insert(id); }
+	virtual void removeRelationID(int id) { m_relationID.erase(id); }
 public:
 	virtual void rtnTrade(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
 	virtual void rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 
-private:
+protected:
 	int             m_id;
 	int             m_system_ID;
 	std::string     m_accountID;
 	std::string     m_password;
+
+	std::set<int>   m_relationID;
 };
 
 #endif // IUser_H

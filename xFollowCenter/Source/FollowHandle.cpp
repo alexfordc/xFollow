@@ -152,7 +152,8 @@ int CFollowHandle::orun()
 			case OEVENTID_USERLOGIN_REQ:
 			{
 				stuUserLoginEvent* ed = (stuUserLoginEvent*)eventData;
-				m_traderManage->reqUserLogin(ed->id, ed->apiID, ed->ip, ed->port, ed->accountID, ed->password);
+
+				m_traderManage->reqUserLogin(ed->userLogin);
 				delete ed;
 			}
 			break;
@@ -245,15 +246,23 @@ void CFollowHandle::registerSpi(ITraderManageSpi* spi)
 	m_oevents.pushEvent(OEVENTID_REGISTERSPI_REQ, (void*)spi);
 }
 
-void CFollowHandle::reqUserLogin(int id, int apiID, const char* ip, int port, const char* accountID, const char* password)
+void CFollowHandle::reqUserLogin( x_stuUserLogin& userLogin )
 {
 	stuUserLoginEvent* eventData = new stuUserLoginEvent;
-	eventData->id = id;
-	eventData->apiID = apiID;
-	strncpy(eventData->ip, ip, sizeof(eventData->ip));
-	eventData->port = port;
-	strncpy(eventData->accountID, accountID, sizeof(eventData->accountID));
-	strncpy(eventData->password, password, sizeof(eventData->password));
+	eventData->userLogin = userLogin;
+/*
+	eventData->id = userLogin.id;
+	eventData->apiID = userLogin.apiID;
+	eventData->isFollow = userLogin.isFollow;
+	strncpy(eventData->ip1, userLogin.ip1, sizeof(eventData->ip1));
+	eventData->port1 = userLogin.port1;
+	strncpy(eventData->ip2, userLogin.ip2, sizeof(eventData->ip2));
+	eventData->port2 = userLogin.port2;
+	strncpy(eventData->ip3, userLogin.ip3, sizeof(eventData->ip3));
+	eventData->port3 = userLogin.port3;
+	strncpy(eventData->accountID, userLogin.accountID, sizeof(eventData->accountID));
+	strncpy(eventData->password, userLogin.password, sizeof(eventData->password));
+*/
 	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
 }
 

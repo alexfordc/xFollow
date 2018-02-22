@@ -6,14 +6,15 @@
 #include "../Include/X_MyLog.h"
 
 
-IRelation& IRelation::createRelation()
+IRelation* createRelation(int id)
 {
-	return *(new CRelation);
+	return new CRelation(id);
 }
 
 //////////////////////////////////////////////////////////////////////////
-CRelation::CRelation()
-	: m_spi(nullptr)
+CRelation::CRelation(int id)
+	: m_id(id)
+	, m_spi(nullptr)
 	, m_groupID(0)
 	, m_strategyID(0)
 	, m_strategyType(STRATEGY_DEFAULT)

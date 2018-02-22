@@ -21,3 +21,5 @@
 *.ipch
 *.opensdf
 /xFollowStrategy/Debug
+/xBaseDatas/Debug
+/xEFPlugin/Debug

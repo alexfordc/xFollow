@@ -11,15 +11,18 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Interface\ITrade.h" />
+    <ClInclude Include="Interface\IFTrade.h" />
     <ClInclude Include="Interface\ITraderManage.h" />
     <ClInclude Include="Interface\ITraderManageSpi.h" />
+    <ClInclude Include="Interface\ITTrade.h" />
+    <ClInclude Include="Source\FTradeSpi.h" />
     <ClInclude Include="Source\TraderManage.h" />
-    <ClInclude Include="Source\TradeSpi.h" />
+    <ClInclude Include="Source\TTradeSpi.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Source\FTradeSpi.cpp" />
     <ClCompile Include="Source\TraderManage.cpp" />
-    <ClCompile Include="Source\TradeSpi.cpp" />
+    <ClCompile Include="Source\TTradeSpi.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B18CF606-20CB-441D-8F03-BD142CBE5527}</ProjectGuid>
