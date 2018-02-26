@@ -5,6 +5,7 @@
 #include <list>
 #include <thread>
 #include <mutex>
+#include <map>
 
 #include "../../Include/X_Define.h"
 #include "../../Include/X_IStrategyResultSpi.h"
@@ -47,6 +48,10 @@ private:
 	CFollowCenter*          m_followCenter;
 	IFollowCenterSpi*       m_followCenterSpi;
 
+	int                     m_uniqueID;
+	// uniqueID <==> orderIndex + relationID
+	std::map<int, std::pair<int, int>> m_placeOrders;
+
 private:
 	std::atomic<bool>       m_isInit;
 	std::atomic<bool>       m_isStart;
@@ -57,7 +62,8 @@ private:
 	virtual void start();
 	virtual void stop();
 
-	virtual void reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void reqPlaceOrder(int id, int relationID, int orderIndex, 
+		const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 
 public:
 	virtual void initRsp(bool successed, int errorID);
@@ -73,9 +79,7 @@ private:
 	virtual void rspUserLogin(int id, bool successed, int errorID);
 	virtual void rspUserInitialized(int id, bool successed, int errorID);
 
-	virtual void rspPlaceOrder();
-	virtual void rspCancelOrder();
-	virtual void rtnPositionTotal();
+	virtual void rtnOrder(int orderIndex, char orderStatus, int volume);
 	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 	virtual void rtnPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };

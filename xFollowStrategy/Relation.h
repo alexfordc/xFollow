@@ -29,6 +29,7 @@ public:
 	virtual void setStrategy(IStrategy* strategy);
 
 	virtual void rtnFollowPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
+	virtual void rtnOrder(int orderIndex, char orderStatus, int volume);
 	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 	virtual void rtnTargetPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 
@@ -59,6 +60,8 @@ private:
 	std::set<std::string> m_authProducts; // 约定: 空为不跟
 	double    m_rate;
 	bool      m_isSameDirection;
+
+	int       m_orderIndex;
 };
 
 #endif // Relation_H

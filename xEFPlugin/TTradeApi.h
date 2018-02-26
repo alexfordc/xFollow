@@ -20,9 +20,6 @@ private:
 private:
 	virtual void registerSpi(ITTradeSpi* spi);
 	virtual void reqUserLogin(x_stuUserLogin& userLogin);
-
-	virtual void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	virtual void reqCancelOrder();
 };
 
 #endif // TTradeApi_H

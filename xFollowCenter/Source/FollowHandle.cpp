@@ -33,6 +33,8 @@ CFollowHandle::CFollowHandle()
 
 	, m_isInit(false)
 	, m_isStart(false)
+
+	, m_uniqueID(0)
 {
 
 }
@@ -95,10 +97,28 @@ int CFollowHandle::irun()
 			}
 			break;
 
+			case IEVENTID_RTNORDER:
+			{
+				stuRtnOrderEvent* ed = (stuRtnOrderEvent*)eventData;
+				auto it = m_placeOrders.find(ed->orderIndex);
+				if (it != m_placeOrders.end())
+				{
+					m_followCenter->rtnOrder(it->second.first, it->second.second, ed->orderStatus, ed->volume);
+				}
+				delete ed;
+			}
+			break;
 			case IEVENTID_RTNTRADE:
 			{
 				stuRtnTradeEvent* ed = (stuRtnTradeEvent*)eventData;
 				m_followCenter->rtnTrade(ed->id, ed->productID, ed->instrumentID, ed->isBuy, ed->isOpen, ed->hedgeFlag, ed->volume);
+				delete ed;
+			}
+			break;
+			case IEVENTID_RTNPOSITION:
+			{
+				stuRtnPositionEvent* ed = (stuRtnPositionEvent*)eventData;
+				m_followCenter->rtnPositionTotal(ed->id, ed->productID, ed->instrumentID, ed->isBuy, ed->hedgeFlag, ed->volume);
 				delete ed;
 			}
 			break;
@@ -152,8 +172,15 @@ int CFollowHandle::orun()
 			case OEVENTID_USERLOGIN_REQ:
 			{
 				stuUserLoginEvent* ed = (stuUserLoginEvent*)eventData;
-
 				m_traderManage->reqUserLogin(ed->userLogin);
+				delete ed;
+			}
+			break;
+			case OEVENTID_PLACEORDER_REQ:
+			{
+				stuPlaceOrderEvent* ed = (stuPlaceOrderEvent*)eventData;
+				m_placeOrders[++m_uniqueID] = std::make_pair(ed->orderIndex, ed->relationID);
+				m_traderManage->reqPlaceOrder(ed->id, m_uniqueID, ed->productID, ed->instrumentID, ed->isBuy, ed->isOpen, ed->hedgeFlag, ed->volume);
 				delete ed;
 			}
 			break;
@@ -266,9 +293,19 @@ void CFollowHandle::reqUserLogin( x_stuUserLogin& userLogin )
 	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
 }
 
-void CFollowHandle::reqPlaceOrder( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+void CFollowHandle::reqPlaceOrder( int id, int relationID, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
-
+	stuPlaceOrderEvent* eventData = new stuPlaceOrderEvent;
+	eventData->id = id;
+	eventData->relationID = relationID;
+	eventData->orderIndex = orderIndex;
+	strncpy_s(eventData->productID, productID, sizeof(eventData->productID));
+	strncpy_s(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
+	eventData->isBuy = isBuy;
+	eventData->isOpen = isOpen;
+	eventData->hedgeFlag = hedgeFlag;
+	eventData->volume = volume;
+	m_oevents.pushEvent(OEVENTID_PLACEORDER_REQ, (void*)eventData);
 }
 
 //////
@@ -291,19 +328,13 @@ void CFollowHandle::rspUserInitialized(int id, bool successed, int errorID)
 	m_ievents.pushEvent(IEVENTID_USERINITIALIZED_RSP, (void*)eventData);
 }
 
-void CFollowHandle::rspPlaceOrder()
+void CFollowHandle::rtnOrder( int orderIndex, char orderStatus, int volume )
 {
-
-}
-
-void CFollowHandle::rspCancelOrder()
-{
-
-}
-
-void CFollowHandle::rtnPositionTotal()
-{
-
+	stuRtnOrderEvent* eventData = new stuRtnOrderEvent;
+	eventData->orderIndex = orderIndex;
+	eventData->orderStatus = orderStatus;
+	eventData->volume = volume;
+	m_ievents.pushEvent(IEVENTID_RTNORDER, (void*)eventData);
 }
 
 void CFollowHandle::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
@@ -321,5 +352,12 @@ void CFollowHandle::rtnTrade( int id, const char* productID, const char* instrum
 
 void CFollowHandle::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
-
+	stuRtnPositionEvent* eventData = new stuRtnPositionEvent;
+	eventData->id = id;
+	strncpy(eventData->productID, productID, sizeof(eventData->productID));
+	strncpy(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
+	eventData->isBuy = isBuy;
+	eventData->hedgeFlag = hedgeFlag;
+	eventData->volume = volume;
+	m_ievents.pushEvent(IEVENTID_RTNPOSITION, (void*)eventData);
 }

@@ -4,7 +4,8 @@
 class IStrategyResultSpi
 {
 public:
-	virtual void reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void reqPlaceOrder(int id, int relationID, int orderIndex, 
+		const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
 
 };
 

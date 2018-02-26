@@ -21,8 +21,8 @@ private:
 	virtual void registerSpi(IFTradeSpi* spi);
 	virtual void reqUserLogin(x_stuUserLogin& userLogin);
 
-	virtual void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	virtual void reqCancelOrder();
+	virtual void reqPlaceOrder(int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price);
+	virtual void reqCancelOrder(int orderIndex);
 };
 
 #endif // FTradeApi_H

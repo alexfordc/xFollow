@@ -85,12 +85,14 @@
     <ClInclude Include="FTradeApi.h" />
     <ClInclude Include="FTradeSpi.h" />
     <ClInclude Include="Include\ThostFtdcTraderApi.h" />
+    <ClInclude Include="QueryTask.h" />
     <ClInclude Include="TTradeApi.h" />
     <ClInclude Include="TTradeSpi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FTradeApi.cpp" />
     <ClCompile Include="FTradeSpi.cpp" />
+    <ClCompile Include="QueryTask.cpp" />
     <ClCompile Include="TTradeApi.cpp" />
     <ClCompile Include="TTradeSpi.cpp" />
   </ItemGroup>

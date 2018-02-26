@@ -30,6 +30,9 @@
     <ClInclude Include="TTradeSpi.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="QueryTask.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FTradeApi.cpp">
@@ -42,6 +45,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="TTradeSpi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="QueryTask.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

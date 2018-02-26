@@ -659,6 +659,18 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 	isSystemStarted(user, id, successed);
 }
 
+void CFollowCenter::rtnOrder( int relationID, int orderIndex, char orderStatus, int volume )
+{
+	IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
+	if (nullptr == relation)
+	{
+		FOLLOW_LOG_ERROR("[跟单回报] 未找到对应的跟单关系");
+		return;
+	}
+
+	relation->rtnOrder(orderIndex, orderStatus, volume);
+}
+
 void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
 	if (!m_isStarted) return;

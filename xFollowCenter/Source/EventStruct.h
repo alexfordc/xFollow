@@ -27,6 +27,26 @@ struct stuUserNotifyEvent
 	int  errorID;
 };
 
+struct stuPlaceOrderEvent
+{
+	int id;
+	int relationID;
+	int orderIndex;
+	char productID[32];
+	char instrumentID[32];
+	bool isBuy;
+	bool isOpen;
+	char hedgeFlag;
+	int volume;
+};
+
+struct stuRtnOrderEvent
+{
+	int orderIndex;
+	char orderStatus;
+	int volume;
+};
+
 struct stuRtnTradeEvent
 {
 	int  id;
@@ -38,5 +58,14 @@ struct stuRtnTradeEvent
 	int  volume;
 };
 
+struct stuRtnPositionEvent
+{
+	int  id;
+	char productID[16];
+	char instrumentID[16];
+	bool isBuy;
+	char hedgeFlag;
+	int  volume;
+};
 
 #endif // EventStruct_H

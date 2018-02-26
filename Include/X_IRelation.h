@@ -33,6 +33,7 @@ public:
 	virtual void setStrategy(IStrategy* strategy) = 0;
 
 	virtual void rtnFollowPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
+	virtual void rtnOrder(int orderIndex, char status, int volume) = 0;
 	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
 	virtual void rtnTargetPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 

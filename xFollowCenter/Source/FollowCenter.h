@@ -54,6 +54,7 @@ public:
 	void rspUserLogin(int id, bool successed, int errorID);
 	void rspUserInitialized(int id, bool successed, int errorID);
 
+	void rtnOrder(int relationID, int orderIndex, char orderStatus, int volume);
 	void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 	void rtnPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
 };

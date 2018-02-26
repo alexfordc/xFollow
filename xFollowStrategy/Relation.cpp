@@ -20,6 +20,8 @@ CRelation::CRelation(int id)
 	, m_strategyType(STRATEGY_DEFAULT)
 	, m_rate(0)
 	, m_isSameDirection(true)
+
+	, m_orderIndex(0)
 {
 
 }
@@ -84,6 +86,12 @@ void CRelation::rtnFollowPositionTotal( int id, const char* productID, const cha
 	}
 }
 
+
+void CRelation::rtnOrder( int orderIndex, char orderStatus, int volume )
+{
+
+}
+
 void CRelation::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
 	auto it = m_targetUserPositionTotals.find(id);
@@ -144,7 +152,7 @@ void CRelation::rtnTrade( int id, const char* productID, const char* instrumentI
 		{
 			FOLLOW_LOG_TRACE("[策略模块] ID为%d的账号 成交跟单 %s 比率 %0.3f 合约 %s%s %s%s%d手", id, m_isSameDirection ? "同向" : "反向", m_rate, 
 				productID, instrumentID, isBuy ? "买" : "卖", isOpen ? "开" : "平", tVolume);
-			m_spi->reqPlaceOrder(fUserPP.first, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume);
+			m_spi->reqPlaceOrder(fUserPP.first, m_id, ++m_orderIndex, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume);
 		}
 	}
 }

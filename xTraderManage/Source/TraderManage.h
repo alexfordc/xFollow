@@ -26,8 +26,8 @@ private:
 	virtual void registerSpi(ITraderManageSpi* spi);
 	virtual void reqUserLogin(x_stuUserLogin& userLogin);
 
-	virtual void reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	virtual void reqCancelOrder(int id);
+	virtual void reqPlaceOrder(int id, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+	virtual void reqCancelOrder(int id, int orderIndex);
 };
 
 #endif // TraderManage_H

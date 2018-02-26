@@ -47,15 +47,5 @@ void CTTradeApi::reqUserLogin(x_stuUserLogin& userLogin)
 	sprintf_s(address, "tcp://%s:%d", userLogin.ip3, userLogin.port3);
 	m_api->RegisterFront(address);
 	m_api->RegisterSpi(&m_spi);
-	m_api->Init();
-}
-
-void CTTradeApi::reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
-{
-	m_spi.reqPlaceOrder(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
-}
-
-void CTTradeApi::reqCancelOrder()
-{
-	m_spi.reqCancelOrder();
+	m_spi.init();
 }

@@ -30,9 +30,6 @@ public:
 
 	virtual void registerSpi(ITTradeSpi* spi) = 0;
 	virtual void reqUserLogin(x_stuUserLogin& userLogin) = 0;
-
-	virtual void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
-	virtual void reqCancelOrder() = 0;
 };
 
 XAPIPLUGIN_EXPORTS_A ITTradeApi* createTTradeApi();

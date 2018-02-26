@@ -102,28 +102,28 @@ void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 	}
 }
 
-void CTraderManage::reqPlaceOrder(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
+void CTraderManage::reqPlaceOrder(int id, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume)
 {
 	auto it = m_apis.find(id);
 	if (it != m_apis.end()) {
 		if (it->second.first) {
 			IFTradeApi* api = (IFTradeApi*)(it->second.second);
-			api->reqPlaceOrder(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
+			api->reqPlaceOrder(orderIndex, productID, instrumentID, isBuy, isOpen, hedgeFlag, volume, 0);
 		}
 	} else {
-		m_spi->rspPlaceOrder();
+		m_spi->rtnOrder(orderIndex, OST_Failed, 0);
 	}
 }
 
-void CTraderManage::reqCancelOrder(int id)
+void CTraderManage::reqCancelOrder(int id, int orderIndex)
 {
 	auto it = m_apis.find(id);
 	if (it != m_apis.end()) {
 		if (it->second.first) {
 			IFTradeApi* api = (IFTradeApi*)(it->second.second);
-			api->reqCancelOrder();
+			api->reqCancelOrder(orderIndex);
 		}
 	} else {
-		m_spi->rspCancelOrder();
+		m_spi->rtnOrder(orderIndex, OST_Failed, 0);
 	}
 }

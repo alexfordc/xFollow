@@ -4,7 +4,11 @@
 #include "Include/ThostFtdcTraderApi.h"
 #include "../xTraderManage/Interface/IFTrade.h"
 
+#include <atomic>
+#include <map>
+#include <set>
 #include <string>
+#include <thread>
 
 class CFTradeSpi : public CThostFtdcTraderSpi
 {
@@ -15,16 +19,47 @@ public:
 public:
 	void registerApi(CThostFtdcTraderApi* api);
 	void registerSpi(IFTradeSpi* spi);
-	void setUserInfo(std::string accountID, std::string password);
-	void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
-	void reqCancelOrder();
+	void setUserInfo(std::string brokerID, std::string accountID, std::string password);
+	void init();
+	void reqPlaceOrder(int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price);
+	void reqCancelOrder(int orderIndex);
 
 private:
 	IFTradeSpi*          m_callback;
 	CThostFtdcTraderApi* m_api;
 
+	std::string          m_brokerID;
 	std::string          m_accountID;
 	std::string          m_password;
+
+	int  run();
+	std::atomic<bool>    m_hasReaction;
+	std::thread*         m_thread;
+
+	CThostFtdcRspUserLoginField m_rspUserLogin;
+
+	bool                 m_successed;
+	int                  m_errorID;
+
+	bool                 m_inited;
+
+	bool                 m_wait2rtnP;
+
+	// instrumentID + | + direction + | + hedgeFlag + | + tradeID
+	std::set<std::string> m_tradeDetails;
+	// instrumentID + | + direction + | + hedgeFlag
+	struct stuPosition
+	{
+		char instrumentID[32];
+		bool isBuy;
+		char hedgeFlag;
+		int  volume;
+	};
+	std::map<std::string, stuPosition> m_positions;
+
+	int                   m_orderReference;
+	std::map<std::string, int> m_orders;
+	std::map<int, std::string> m_orderIndexs;
 
 private:
 	virtual void OnFrontConnected();

@@ -19,7 +19,7 @@ public:
 	virtual void rspUserLogin(bool successed, int errorID) = 0;
 	virtual void rspUserInitialized(bool successed, int errorID) = 0;
 
-	virtual void rtnTrade(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void rtnOrder(int orderIndex, char orderStatus, int volume) = 0;
 	virtual void rtnPositionTotal(const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume) = 0;
 };
 
@@ -31,8 +31,9 @@ public:
 	virtual void registerSpi(IFTradeSpi* spi) = 0;
 	virtual void reqUserLogin(x_stuUserLogin& userLogin) = 0;
 
-	virtual void reqPlaceOrder(const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
-	virtual void reqCancelOrder() = 0;
+	virtual void reqPlaceOrder(int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, 
+		char hedgeFlag, int volume, double price) = 0;
+	virtual void reqCancelOrder(int orderIndex) = 0;
 };
 
 XAPIPLUGIN_EXPORTS_A IFTradeApi* createFTradeApi();
