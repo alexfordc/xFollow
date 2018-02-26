@@ -86,7 +86,6 @@ void CRelation::rtnFollowPositionTotal( int id, const char* productID, const cha
 	}
 }
 
-
 void CRelation::rtnOrder( int orderIndex, char orderStatus, int volume )
 {
 
