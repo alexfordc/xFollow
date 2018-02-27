@@ -669,8 +669,7 @@ void CFollowCenter::rtnOrder( int relationID, int orderIndex, char orderStatus, 
 	if (!m_isStarted) return;
 
 	IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
-	if (nullptr == relation)
-	{
+	if (nullptr == relation) {
 		FOLLOW_LOG_ERROR("[跟单回报] 未找到对应的跟单关系");
 		return;
 	}

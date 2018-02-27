@@ -33,6 +33,9 @@
     <ClInclude Include="QueryTask.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="PluginName.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="FTradeApi.cpp">
@@ -48,6 +51,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="QueryTask.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="PluginName.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
