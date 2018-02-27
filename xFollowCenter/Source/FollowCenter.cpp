@@ -522,6 +522,7 @@ bool CFollowCenter::loadRelation()
 		int account_ID = 0;
 		int targetGroup_ID = 0;
 		int strategy_ID = 0;
+		std::string authProductID;
 		char status = '\0';
 		while (pRs->adoEOF != VARIANT_TRUE)
 		{
@@ -529,6 +530,7 @@ bool CFollowCenter::loadRelation()
 			getData(pRs, "Account_ID", account_ID, DT_INT);
 			getData(pRs, "Group_ID", targetGroup_ID, DT_INT);
 			getData(pRs, "Strategy_ID", strategy_ID, DT_INT);
+			getData(pRs, "AuthProductID", authProductID, DT_STRING);
 			getData(pRs, "Status", status, DT_CHAR);
 
 			IStrategy* strategy = CStrategyRepository::strategyRepository().getStrategy(strategy_ID);
@@ -562,6 +564,7 @@ bool CFollowCenter::loadRelation()
 			}
 			relation->setStrategy(strategy);
 			relation->setStatus(status);
+			relation->setAuthProductID(authProductID);
 
 			pRs->MoveNext();
 		}
@@ -641,6 +644,7 @@ void CFollowCenter::rspUserLogin(int id, bool successed, int errorID)
 			return;
 		}
 
+		FOLLOW_LOG_DEBUG("[登录状态响应] 账号 %s 登录%s", user->accountID(), successed ? "成功" : "失败");
 		m_userRepository.unRegisterUser(user);
 
 		isSystemStarted(user, id, successed);
@@ -654,6 +658,7 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 		return;
 	}
 
+	FOLLOW_LOG_DEBUG("[登录状态响应] 账号 %s 初始化%s", user->accountID(), successed ? "完成" : "错误");
 	m_userRepository.registerUser(successed, user);
 
 	isSystemStarted(user, id, successed);
@@ -661,6 +666,8 @@ void CFollowCenter::rspUserInitialized(int id, bool successed, int errorID)
 
 void CFollowCenter::rtnOrder( int relationID, int orderIndex, char orderStatus, int volume )
 {
+	if (!m_isStarted) return;
+
 	IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
 	if (nullptr == relation)
 	{
@@ -668,6 +675,7 @@ void CFollowCenter::rtnOrder( int relationID, int orderIndex, char orderStatus, 
 		return;
 	}
 
+	FOLLOW_LOG_DEBUG("[收到委托推送] 关系 %d 序号 %d 状态 %c %d手", relation, orderIndex, orderStatus, volume);
 	relation->rtnOrder(orderIndex, orderStatus, volume);
 }
 
@@ -680,6 +688,8 @@ void CFollowCenter::rtnTrade( int id, const char* productID, const char* instrum
 		return;
 	}
 
+	FOLLOW_LOG_DEBUG("[收到成交推送] 账号 %s 品种 %s 合约 %s 投保标志 %c %s%s%d手", 
+		user->accountID(), productID, instrumentID, hedgeFlag, isBuy ? "买" : "卖", isOpen ? "开" : "平", volume);
 	user->rtnTrade(productID, instrumentID, isBuy, isOpen, hedgeFlag, volume);
 }
 
@@ -692,6 +702,8 @@ void CFollowCenter::rtnPositionTotal( int id, const char* productID, const char*
 		return;
 	}
 
+	FOLLOW_LOG_DEBUG("[收到持仓推送] 账号 %s 品种 %s 合约 %s 投保标志 %c %s持仓%d手", 
+		user->accountID(), productID, instrumentID, hedgeFlag, isBuy ? "多" : "空", volume);
 	user->rtnPositionTotal(productID, instrumentID, isBuy, hedgeFlag, volume);
 }
 

@@ -23,6 +23,7 @@ public:
 	virtual void clear() = 0;
 	virtual void registerSpi(IStrategyResultSpi* spi) = 0;
 
+	virtual void setAuthProductID(std::string authProductID) = 0;
 	virtual void setStatus(char status) = 0;
 
 	virtual void addFollowUser(int id) = 0;

@@ -15,9 +15,12 @@ IRelation* createRelation(int id)
 CRelation::CRelation(int id)
 	: m_id(id)
 	, m_spi(nullptr)
+	, m_status('0')
+	, m_strategy(nullptr)
 	, m_groupID(0)
 	, m_strategyID(0)
 	, m_strategyType(STRATEGY_DEFAULT)
+	, m_hasLimitProduct(true)
 	, m_rate(0)
 	, m_isSameDirection(true)
 
@@ -59,6 +62,39 @@ void CRelation::setStrategy(IStrategy* strategy)
 void CRelation::registerSpi(IStrategyResultSpi* spi)
 {
 	m_spi = spi;
+}
+
+void CRelation::setAuthProductID( std::string authProductID )
+{
+	if (authProductID.compare("#ALL#") == 0)
+	{
+		m_hasLimitProduct = false;
+	}
+	else
+	{
+		m_hasLimitProduct = true;
+		int findb = -1;
+		int finda = -1;
+		while (authProductID.size() > 0)
+		{
+			finda = authProductID.find(';', findb + 1);
+			if (finda != std::string::npos)
+			{
+				if (finda - findb - 1 > 0)
+				{
+					m_authProducts.insert(authProductID.substr(findb + 1, finda - findb - 1));
+				}
+
+				findb = finda;
+			}
+			else
+			{
+				if (authProductID.size() != findb + 1)
+					m_authProducts.insert(authProductID.substr(findb + 1));
+				break;
+			}
+		}
+	}
 }
 
 void CRelation::setStatus(char status)
@@ -137,9 +173,11 @@ void CRelation::rtnTrade( int id, const char* productID, const char* instrumentI
 		return;
 	}
 
+	if (m_status == '0') return; // 非启动状态
+
 // 	if (m_strategyType == STRATEGY_TRADE)
 	{
-		if (!m_strategy->isInstrumentValid(productID, instrumentID))
+		if (!isInstrumentValid(productID, instrumentID))
 		{
 			return; // 不在授权范围内,不跟
 		}
@@ -151,7 +189,14 @@ void CRelation::rtnTrade( int id, const char* productID, const char* instrumentI
 		{
 			FOLLOW_LOG_TRACE("[策略模块] ID为%d的账号 成交跟单 %s 比率 %0.3f 合约 %s%s %s%s%d手", id, m_isSameDirection ? "同向" : "反向", m_rate, 
 				productID, instrumentID, isBuy ? "买" : "卖", isOpen ? "开" : "平", tVolume);
-			m_spi->reqPlaceOrder(fUserPP.first, m_id, ++m_orderIndex, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume);
+			if (tVolume == 0)
+			{
+				FOLLOW_LOG_TRACE("[策略模块] ID为%d的账号 成交跟单 转换数量为零不跟单", id);
+			}
+			else
+			{
+				m_spi->reqPlaceOrder(fUserPP.first, m_id, ++m_orderIndex, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume);
+			}
 		}
 	}
 }
@@ -199,6 +244,21 @@ void CRelation::rtnTargetPositionTotal(int id, const char* productID, const char
 	{ // not find user
 		FOLLOW_LOG_ERROR("[策略模块] 此策略组中没有ID为%d的账号", id);
 	}
+}
+
+
+bool CRelation::isInstrumentValid( std::string productID, std::string instrumentID )
+{
+	if (!m_hasLimitProduct) return true;
+
+	for (auto& limit : m_authProducts)
+	{
+		if (productID.compare(limit) == 0)
+			return true;
+		if (instrumentID.compare(limit) == 0)
+			return true;
+	}
+	return false;
 }
 
 void CRelation::start()

@@ -19,6 +19,7 @@ public:
 	virtual void clear();
 	virtual void registerSpi(IStrategyResultSpi* spi);
 
+	virtual void setAuthProductID(std::string authProductID);
 	virtual void setStatus(char status);
 
 	virtual void addFollowUser(int id);
@@ -57,6 +58,8 @@ private:
 	int       m_groupID;
 	int       m_strategyID;
 	int       m_strategyType;
+	bool isInstrumentValid(std::string productID, std::string instrumentID);
+	bool      m_hasLimitProduct;
 	std::set<std::string> m_authProducts; // 约定: 空为不跟
 	double    m_rate;
 	bool      m_isSameDirection;
