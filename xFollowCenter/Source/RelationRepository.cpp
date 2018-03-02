@@ -18,7 +18,7 @@ void CRelationRepository::setRelationModule( const std::string type, const std::
 	m_relationName[type] = name;
 }
 
-IRelation* CRelationRepository::createRelation(int id, const std::string& strategyType, char status)
+IRelation* CRelationRepository::createRelation(int id, const std::string& strategyType, int org_ID)
 {
 	IRelation* relation = nullptr;
 	auto it = m_relations.find(id);
@@ -31,14 +31,15 @@ IRelation* CRelationRepository::createRelation(int id, const std::string& strate
 		CREATERELATIONPLUGIN func = (CREATERELATIONPLUGIN)GetProcAddress(module, "createRelation");
 
 		relation = func(id);
+		DESTROYRELATIONPLUGIN desr = (DESTROYRELATIONPLUGIN)GetProcAddress(module, "destroyRelation");
+		m_rs.push_back(std::make_pair(desr, relation));
 		m_relations[id] = relation;
+		m_torelations[org_ID].push_back(relation);
 	}
 	else
 	{
 		relation = it->second;
 	}
-	if (nullptr != relation)
-		relation->setStatus(status);
 	return relation;
 }
 
@@ -51,6 +52,22 @@ IRelation* CRelationRepository::getRelation(int id)
 		relation = it->second;
 	}
 	return relation;
+}
+
+void CRelationRepository::clear()
+{
+	for (auto& re : m_rs)
+	{
+		if (re.second != nullptr)
+		{
+			re.first(re.second);
+		}
+	}
+	m_rs.clear();
+	m_relations.clear();
+	m_torelations.clear();
+	m_relationName.clear();
+	m_relationModel.clear();
 }
 
 HMODULE CRelationRepository::getRelationModelByType( const std::string& strategyType )

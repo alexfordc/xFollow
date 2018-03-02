@@ -28,6 +28,11 @@
     <ClInclude Include="Source\FollowUser.h" />
     <ClInclude Include="Source\IUser.h" />
     <ClInclude Include="Source\LoadDatabase.h" />
+    <ClInclude Include="Source\MarketSystem.h" />
+    <ClInclude Include="Source\MarketSystemRepository.h" />
+    <ClInclude Include="Source\MarketTypeCollection.h" />
+    <ClInclude Include="Source\Organization.h" />
+    <ClInclude Include="Source\OrganizationRepository.h" />
     <ClInclude Include="Source\RelationRepository.h" />
     <ClInclude Include="Source\Strategy.h" />
     <ClInclude Include="Source\StrategyRepository.h" />
@@ -47,6 +52,11 @@
     <ClCompile Include="Source\FollowUser.cpp" />
     <ClCompile Include="Source\ICFollowCenter.cpp" />
     <ClCompile Include="Source\LoadDatabase.cpp" />
+    <ClCompile Include="Source\MarketSystem.cpp" />
+    <ClCompile Include="Source\MarketSystemRepository.cpp" />
+    <ClCompile Include="Source\MarketTypeCollection.cpp" />
+    <ClCompile Include="Source\Organization.cpp" />
+    <ClCompile Include="Source\OrganizationRepository.cpp" />
     <ClCompile Include="Source\RelationRepository.cpp" />
     <ClCompile Include="Source\Strategy.cpp" />
     <ClCompile Include="Source\StrategyRepository.cpp" />
@@ -108,7 +118,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>XNYSTools.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>XNYSTools.lib;xBaseDatas.lib;xTraderManage.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>

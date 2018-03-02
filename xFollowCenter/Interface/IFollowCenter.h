@@ -6,7 +6,7 @@ class IFollowCenterSpi
 public:
 	virtual void initRsp(bool successed, int errorID) = 0;
 	virtual void startRsp(bool successed, int errorID) = 0;
-	virtual void stopRsp(bool successed, int errorID) = 0;
+	virtual void stopRsp() = 0;
 };
 
 class IFollowCenter

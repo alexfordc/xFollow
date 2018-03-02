@@ -12,6 +12,7 @@ public:
 public:
 	void setData(std::string name, int api_ID, std::string ip1, int port1, std::string ip2, int port2, std::string ip3, int port3);
 	void setStatus(char status);
+	void setOrgID(int org_ID);
 
 	int         id();
 	std::string name();
@@ -23,6 +24,7 @@ public:
 	std::string ip3();
 	int         port3();
 	char        status();
+	int         orgID();
 
 private:
 	int             m_id;
@@ -35,6 +37,7 @@ private:
 	std::string     m_ip3;
 	int             m_port3;
 	char            m_status;
+	int             m_org_ID;
 };
 
 #endif // TradeSystem_H

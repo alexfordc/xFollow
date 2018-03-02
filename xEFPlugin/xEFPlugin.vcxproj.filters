@@ -33,7 +33,7 @@
     <ClInclude Include="QueryTask.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="PluginName.h">
+    <ClInclude Include="PluginAttribute.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
@@ -53,7 +53,7 @@
     <ClCompile Include="QueryTask.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="PluginName.cpp">
+    <ClCompile Include="PluginAttribute.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

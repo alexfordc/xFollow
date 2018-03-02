@@ -22,8 +22,9 @@ public:
 	virtual void registerApi(const char* apiName, int apiID) = 0;
 	virtual void registerSpi(ITraderManageSpi* spi) = 0;
 	virtual void reqUserLogin(x_stuUserLogin& userLogin) = 0;
+	virtual void reqUserLogin(x_stuMUserLogin& userLogin) = 0;
 
-	virtual void reqPlaceOrder(int id, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume) = 0;
+	virtual void reqPlaceOrder(int id, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price) = 0;
 	virtual void reqCancelOrder(int id, int orderIndex) = 0;
 };
 

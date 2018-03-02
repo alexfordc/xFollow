@@ -41,6 +41,7 @@ public:
 private:
 	void setFontSelf(int nHeight, LPCTSTR lpszFacename);
 	Clog      m_log;
+	bool      m_isInited;
 
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);

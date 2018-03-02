@@ -25,5 +25,5 @@ std::string CStrategy::strategyType()
 void CStrategy::setData( std::string strategyType, std::string strategyData )
 {
 	m_strategyType = strategyType;
-	m_strategyData = m_strategyData;
+	m_strategyData = strategyData;
 }

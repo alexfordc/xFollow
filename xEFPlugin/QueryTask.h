@@ -15,6 +15,7 @@ public:
 
 public:
 	void login(CThostFtdcTraderApi* api, CThostFtdcReqUserLoginField& field);
+	void qryPositionDetail(CThostFtdcTraderApi* api, CThostFtdcQryInvestorPositionDetailField& field);
 	void qryOrder(CThostFtdcTraderApi* api, CThostFtdcQryOrderField& field);
 	void qryTrade(CThostFtdcTraderApi* api, CThostFtdcQryTradeField& field);
 
@@ -28,6 +29,7 @@ private:
 	enum emEventType
 	{
 		ET_LOGIN = 1,
+		ET_QRYPOSITIONDETAIL,
 		ET_QRYORDER,
 		ET_QRYTRADE,
 	};

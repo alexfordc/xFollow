@@ -41,3 +41,13 @@ CTargetGroup* CTargetGroupRepository::getTargetGroup( int id )
 	}
 	return targetGroup;
 }
+
+void CTargetGroupRepository::clear()
+{
+	for (auto& t : m_targetGroups)
+	{
+		if (t.second != nullptr)
+			delete t.second;
+	}
+	m_targetGroups.clear();
+}

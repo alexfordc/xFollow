@@ -43,8 +43,6 @@ private:
 
 	bool                 m_inited;
 
-	bool                 m_wait2rtnP;
-
 	// instrumentID + | + direction + | + hedgeFlag + | + tradeID
 	std::set<std::string> m_tradeDetails;
 	// instrumentID + | + direction + | + hedgeFlag

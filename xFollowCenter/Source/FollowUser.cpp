@@ -33,6 +33,6 @@ void CFollowUser::rtnPositionTotal( const char* productID, const char* instrumen
 	for (auto relationID : m_relationID)
 	{
 		IRelation* relation = CRelationRepository::relationRepository().getRelation(relationID);
-		relation->rtnTargetPositionTotal(m_id, productID, instrumentID, isBuy, hedgeFlag, volume);
+		relation->rtnFollowPositionTotal(m_id, productID, instrumentID, isBuy, hedgeFlag, volume);
 	}
 }

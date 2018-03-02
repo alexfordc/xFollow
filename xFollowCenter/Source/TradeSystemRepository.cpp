@@ -14,7 +14,7 @@ CTradeSystemRepository& CTradeSystemRepository::tradeSystemRepository()
 }
 
 CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string name, int api_ID, 
-														std::string ip1, int port1, std::string ip2, int port2, std::string ip3, int port3, char status )
+														std::string ip1, int port1, std::string ip2, int port2, std::string ip3, int port3, char status, int org_ID )
 {
 	CTradeSystem* tradeSystem = nullptr;
 	auto it = m_tradeSystems.find(id);
@@ -29,6 +29,7 @@ CTradeSystem* CTradeSystemRepository::createTradeSystem( int id, std::string nam
 	}
 	tradeSystem->setData(name, api_ID, ip1, port1, ip2, port2, ip3, port3);
 	tradeSystem->setStatus(status);
+	tradeSystem->setOrgID(org_ID);
 	return tradeSystem;
 }
 
@@ -41,4 +42,14 @@ CTradeSystem* CTradeSystemRepository::getTradeSystem( int id )
 		tradeSystem = it->second;
 	}
 	return tradeSystem;
+}
+
+void CTradeSystemRepository::clear()
+{
+	for (auto& t : m_tradeSystems)
+	{
+		if (t.second != nullptr)
+			delete t.second;
+	}
+	m_tradeSystems.clear();
 }

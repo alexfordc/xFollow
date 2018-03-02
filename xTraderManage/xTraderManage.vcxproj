@@ -12,15 +12,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\IFTrade.h" />
+    <ClInclude Include="Interface\IMarket.h" />
     <ClInclude Include="Interface\ITraderManage.h" />
     <ClInclude Include="Interface\ITraderManageSpi.h" />
     <ClInclude Include="Interface\ITTrade.h" />
     <ClInclude Include="Source\FTradeSpi.h" />
+    <ClInclude Include="Source\MarketSpi.h" />
     <ClInclude Include="Source\TraderManage.h" />
     <ClInclude Include="Source\TTradeSpi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\FTradeSpi.cpp" />
+    <ClCompile Include="Source\MarketSpi.cpp" />
     <ClCompile Include="Source\TraderManage.cpp" />
     <ClCompile Include="Source\TTradeSpi.cpp" />
   </ItemGroup>

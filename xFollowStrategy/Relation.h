@@ -7,6 +7,7 @@
 #include <string>
 
 #include "../Include/X_IRelation.h"
+#include "Strategy.h"
 
 class CRelation : public IRelation
 {
@@ -15,11 +16,16 @@ public:
 	virtual ~CRelation();
 
 public:
+	virtual int  id();
+
 	virtual void start();
 	virtual void clear();
 	virtual void registerSpi(IStrategyResultSpi* spi);
 
 	virtual void setAuthProductID(std::string authProductID);
+	virtual void setRate(double rate);
+	virtual void setMarketType(char marketType);
+	virtual void setOrgStatus(char status);
 	virtual void setStatus(char status);
 
 	virtual void addFollowUser(int id);
@@ -38,6 +44,8 @@ private:
 	int                       m_id;
 
 	IStrategyResultSpi*       m_spi;
+	char                      m_marketType;
+	char                      m_orgStatus;
 	char                      m_status;
 	IStrategy*                m_strategy;
 
@@ -57,12 +65,8 @@ private:
 	// strategy
 	int       m_groupID;
 	int       m_strategyID;
-	int       m_strategyType;
-	bool isInstrumentValid(std::string productID, std::string instrumentID);
-	bool      m_hasLimitProduct;
-	std::set<std::string> m_authProducts; // 约定: 空为不跟
+	CStrategy m_dataStrategy;
 	double    m_rate;
-	bool      m_isSameDirection;
 
 	int       m_orderIndex;
 };

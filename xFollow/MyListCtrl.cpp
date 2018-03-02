@@ -47,6 +47,7 @@ BEGIN_MESSAGE_MAP(CMyListCtrl, CListCtrl)
 END_MESSAGE_MAP()
 
 CMyListCtrl::CMyListCtrl()
+	: m_isInited(false)
 {
 }
 
@@ -56,14 +57,19 @@ CMyListCtrl::~CMyListCtrl()
 
 void CMyListCtrl::init()
 {
-	m_log.init(this->m_hWnd);
+	if (!m_isInited)
+	{
+		m_isInited = true;
+		m_log.init(this->m_hWnd);
 
-	setFontSelf(100, "Consolas"); //Consolas //fixedsys
-	XNYSTools::ILog::logStream((uintptr_t)&m_log);
+		setFontSelf(100, "Consolas"); //Consolas //fixedsys
+		XNYSTools::ILog::logStream((uintptr_t)&m_log);
+	}
 }
 
 void CMyListCtrl::exit()
 {
+	m_isInited = false;
 }
 
 /*

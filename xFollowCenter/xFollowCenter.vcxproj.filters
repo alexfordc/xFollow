@@ -31,6 +31,12 @@
     <Filter Include="TradeSystem">
       <UniqueIdentifier>{23f71424-0f09-4fa1-b8ef-68bcad9d2574}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Organization">
+      <UniqueIdentifier>{2cc5ac20-5920-4d90-aaf5-1ed057b758e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="MarketSystem">
+      <UniqueIdentifier>{b75cf4fc-b8f9-41d0-8484-2eb15ae1cd17}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\ICFollowCenter.h">
@@ -114,6 +120,21 @@
     <ClInclude Include="Source\TradeSystemRepository.h">
       <Filter>TradeSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\Organization.h">
+      <Filter>Organization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\OrganizationRepository.h">
+      <Filter>Organization</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MarketTypeCollection.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MarketSystem.h">
+      <Filter>MarketSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MarketSystemRepository.h">
+      <Filter>MarketSystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DatabaseConnection.cpp">
@@ -166,6 +187,21 @@
     </ClCompile>
     <ClCompile Include="Source\TradeSystemRepository.cpp">
       <Filter>TradeSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Organization.cpp">
+      <Filter>Organization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\OrganizationRepository.cpp">
+      <Filter>Organization</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MarketTypeCollection.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MarketSystem.cpp">
+      <Filter>MarketSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MarketSystemRepository.cpp">
+      <Filter>MarketSystem</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

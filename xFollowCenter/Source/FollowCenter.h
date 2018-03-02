@@ -17,6 +17,8 @@ public:
 public:
 
 private:
+	void clear();
+
 	bool loadConfig();
 	bool initDatabase();
 	bool loadDictionary();
@@ -26,6 +28,9 @@ private:
 	bool loadExchange();
 	bool loadProduct();
 	bool loadInstrument();
+	bool loadMarketType();
+	bool loadMarketSystem();
+	bool loadOrganization();
 	bool loadTradeSystem();
 	bool loadUser();
 	bool loadTargetGroup();
@@ -57,6 +62,9 @@ public:
 	void rtnOrder(int relationID, int orderIndex, char orderStatus, int volume);
 	void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 	void rtnPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
+
+	void rspMUserLogin(char marketType, bool successed, int errorID);
+	void rtnMarketData(char marketType, const char* instrumentID, double lastPrice);
 };
 
 #endif // FollowCenter_H

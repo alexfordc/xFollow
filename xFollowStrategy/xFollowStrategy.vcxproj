@@ -61,7 +61,7 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
-      <AdditionalDependencies>XNYSTools.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>XNYSTools.lib;lib_json.lib;xBaseDatas.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -84,9 +84,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Relation.h" />
+    <ClInclude Include="Strategy.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Relation.cpp" />
+    <ClCompile Include="Strategy.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

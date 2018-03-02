@@ -29,6 +29,11 @@ void CTradeSystem::setStatus( char status )
 	m_status = status;
 }
 
+void CTradeSystem::setOrgID( int org_ID )
+{
+	m_org_ID = org_ID;
+}
+
 int CTradeSystem::id()
 {
 	return m_id;
@@ -77,4 +82,9 @@ int CTradeSystem::port3()
 char CTradeSystem::status()
 {
 	return m_status;
+}
+
+int CTradeSystem::orgID()
+{
+	return m_org_ID;
 }

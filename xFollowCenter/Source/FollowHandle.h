@@ -63,17 +63,20 @@ private:
 	virtual void stop();
 
 	virtual void reqPlaceOrder(int id, int relationID, int orderIndex, 
-		const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
+		const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price);
 
 public:
+	void initFaild();
+	void startFaild();
 	virtual void initRsp(bool successed, int errorID);
 	virtual void startRsp(bool successed, int errorID);
-	virtual void stopRsp(bool successed, int errorID);
+	virtual void stopRsp();
 
 public:
 	void registerApi(const char* apiName, int apiID);
 	void registerSpi(ITraderManageSpi* spi);
 	void reqUserLogin(x_stuUserLogin& userLogin);
+	void reqUserLogin(x_stuMUserLogin& userLogin);
 
 private:
 	virtual void rspUserLogin(int id, bool successed, int errorID);
@@ -82,6 +85,9 @@ private:
 	virtual void rtnOrder(int orderIndex, char orderStatus, int volume);
 	virtual void rtnTrade(int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume);
 	virtual void rtnPositionTotal(int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume);
+
+	virtual void rspMUserLogin(char marketType, bool successed, int errorID);
+	virtual void rtnMarketData(char marketType, const char* instrumentID, double lastPrice);
 };
 
 #endif // FollowHandle_H

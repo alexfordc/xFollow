@@ -76,6 +76,19 @@ IUser* CUserRepository::userByID( int id )
 	return it == m_id2usersUsed.end() ? nullptr : it->second;
 }
 
+void CUserRepository::clear()
+{
+	m_userid = 0;
+	for (auto& user : m_users)
+	{
+		if (user.second != nullptr)
+			delete user.second;
+	}
+	m_users.clear();
+	m_id2users.clear();
+	m_id2usersUsed.clear();
+}
+
 //////////////////////////////////////////////////////////////////////////
 IUser* CUserRepository::addFollowUser( int id, int system_ID, std::string& accountID, std::string& password )
 {

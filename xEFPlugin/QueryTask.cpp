@@ -44,6 +44,21 @@ void CQueryTask::login( CThostFtdcTraderApi* api, CThostFtdcReqUserLoginField& f
 	start();
 }
 
+void CQueryTask::qryPositionDetail( CThostFtdcTraderApi* api, CThostFtdcQryInvestorPositionDetailField& field )
+{
+	{
+		CThostFtdcQryInvestorPositionDetailField* p = new CThostFtdcQryInvestorPositionDetailField;
+		*p = field;
+		std::lock_guard<std::mutex> lck(m_mutex);
+		stuEvent event = {0};
+		event.api = api;
+		event.type = ET_QRYPOSITIONDETAIL;
+		event.data = (void*)p;
+		m_events.push_back(event);
+	}
+	start();
+}
+
 void CQueryTask::qryOrder( CThostFtdcTraderApi* api, CThostFtdcQryOrderField& field )
 {
 	{
@@ -122,6 +137,12 @@ int CQueryTask::run()
 			{
 				CThostFtdcReqUserLoginField* p = (CThostFtdcReqUserLoginField*)event.data;
 				event.api->ReqUserLogin(p, 0);
+				delete p;
+			}
+			else if (event.type == ET_QRYPOSITIONDETAIL)
+			{
+				CThostFtdcQryInvestorPositionDetailField* p = (CThostFtdcQryInvestorPositionDetailField*)event.data;
+				event.api->ReqQryInvestorPositionDetail(p, 0);
 				delete p;
 			}
 			else if (event.type == ET_QRYORDER)

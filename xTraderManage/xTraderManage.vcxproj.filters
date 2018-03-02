@@ -39,6 +39,12 @@
     <ClInclude Include="Source\TTradeSpi.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="Interface\IMarket.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\MarketSpi.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\TraderManage.cpp">
@@ -48,6 +54,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\TTradeSpi.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\MarketSpi.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

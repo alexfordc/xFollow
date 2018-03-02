@@ -127,7 +127,7 @@ void CMainFrame::startRsp(bool successed, int errorID)
 // 	AfxMessageBox(msg);
 }
 
-void CMainFrame::stopRsp(bool successed, int errorID)
+void CMainFrame::stopRsp()
 {
 
 }

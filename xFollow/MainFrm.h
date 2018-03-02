@@ -20,7 +20,7 @@ public:
 private:
 	virtual void initRsp(bool successed, int errorID);
 	virtual void startRsp(bool successed, int errorID);
-	virtual void stopRsp(bool successed, int errorID);
+	virtual void stopRsp();
 
 	IFollowCenter*        m_followCenter;
 

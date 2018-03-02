@@ -22,6 +22,8 @@ public:
 	void registerUser(bool successed, IUser* user); // 只记录完成初始化的用户
 	void unRegisterUser(IUser* user);   // 
 	IUser* userByID(int id);
+
+	void clear();
 private:
 	IUser* addFollowUser(int id, int apiID, std::string& accountID, std::string& password);
 	IUser* addTargetUser(int id, int apiID, std::string& accountID, std::string& password);

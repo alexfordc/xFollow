@@ -19,11 +19,16 @@ class IRelation
 public:
 	virtual ~IRelation() {};
 
+	virtual int  id() = 0;
+
 	virtual void start() = 0; // @note 主要用来表明数据发送完成
 	virtual void clear() = 0;
 	virtual void registerSpi(IStrategyResultSpi* spi) = 0;
 
 	virtual void setAuthProductID(std::string authProductID) = 0;
+	virtual void setRate(double rate) = 0;
+	virtual void setMarketType(char marketType) = 0;
+	virtual void setOrgStatus(char status) = 0;
 	virtual void setStatus(char status) = 0;
 
 	virtual void addFollowUser(int id) = 0;
@@ -41,5 +46,6 @@ public:
 };
 
 XFOLLOW_STRATEGY_EXPORTS_A IRelation* createRelation(int id);
+XFOLLOW_STRATEGY_EXPORTS_A void destroyRelation(IRelation* relation);
 
 #endif // IRelation_H

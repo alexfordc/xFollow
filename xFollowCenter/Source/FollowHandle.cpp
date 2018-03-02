@@ -81,6 +81,11 @@ int CFollowHandle::irun()
 				m_followCenter->start();
 			}
 			break;
+			case IEVENTID_STOP:
+			{
+				m_followCenter->stop();
+			}
+			break;
 
 			case IEVENTID_USERLOGIN_RSP:
 			{
@@ -93,6 +98,13 @@ int CFollowHandle::irun()
 			{
 				stuUserNotifyEvent* ed = (stuUserNotifyEvent*)eventData;
 				m_followCenter->rspUserInitialized(ed->id, ed->successed, ed->errorID);
+				delete ed;
+			}
+			break;
+			case IEVENTID_MUSERLOGIN_RSP:
+			{
+				stuMUserNotifyEvent* ed = (stuMUserNotifyEvent*)eventData;
+				m_followCenter->rspMUserLogin(ed->marketType, ed->successed, ed->errorID);
 				delete ed;
 			}
 			break;
@@ -119,6 +131,13 @@ int CFollowHandle::irun()
 			{
 				stuRtnPositionEvent* ed = (stuRtnPositionEvent*)eventData;
 				m_followCenter->rtnPositionTotal(ed->id, ed->productID, ed->instrumentID, ed->isBuy, ed->hedgeFlag, ed->volume);
+				delete ed;
+			}
+			break;
+			case IEVENTID_RTNMARKETDATA:
+			{
+				stuRtnMarketDataEvent* ed = (stuRtnMarketDataEvent*)eventData;
+				m_followCenter->rtnMarketData(ed->marketType, ed->instrumentID, ed->lastPrice);
 				delete ed;
 			}
 			break;
@@ -156,6 +175,21 @@ int CFollowHandle::orun()
 				delete ed;
 			}
 			break;
+			case OEVENTID_STOP_RSP:
+			{
+				// 说明center已停止，停止事件入线程
+				m_iisStart = false;
+				if (nullptr != m_ithread)
+				{
+					m_ithread->join();
+					delete m_ithread;
+					m_ithread = nullptr;
+				}
+				m_uniqueID = 0;
+
+				m_followCenterSpi->stopRsp();
+			}
+			break;
 
 			case OEVENTID_REGISTERAPI_REQ:
 			{
@@ -176,11 +210,18 @@ int CFollowHandle::orun()
 				delete ed;
 			}
 			break;
+			case OEVENTID_MUSERLOGIN_REQ:
+			{
+				stuMUserLoginEvent* ed = (stuMUserLoginEvent*)eventData;
+				m_traderManage->reqUserLogin(ed->muserLogin);
+				delete ed;
+			}
+			break;
 			case OEVENTID_PLACEORDER_REQ:
 			{
 				stuPlaceOrderEvent* ed = (stuPlaceOrderEvent*)eventData;
 				m_placeOrders[++m_uniqueID] = std::make_pair(ed->orderIndex, ed->relationID);
-				m_traderManage->reqPlaceOrder(ed->id, m_uniqueID, ed->productID, ed->instrumentID, ed->isBuy, ed->isOpen, ed->hedgeFlag, ed->volume);
+				m_traderManage->reqPlaceOrder(ed->id, m_uniqueID, ed->productID, ed->instrumentID, ed->isBuy, ed->isOpen, ed->hedgeFlag, ed->volume, ed->price);
 				delete ed;
 			}
 			break;
@@ -203,9 +244,21 @@ void CFollowHandle::registerLogStream(uintptr_t logStream)
 	XNYSTools::ILog::logStream(logStream);
 }
 
+void CFollowHandle::initFaild()
+{
+	m_isInit = false;
+}
+
+void CFollowHandle::startFaild()
+{
+	stop();
+}
+
 //////////////////////////////////////////////////////////////////////////
 void CFollowHandle::initRsp(bool successed, int errorID)
 {
+	if (!m_isInit) return;
+
 	stuNotifyEvent* eventData = new stuNotifyEvent;
 	eventData->successed = successed;
 	eventData->errorID = errorID;
@@ -214,15 +267,17 @@ void CFollowHandle::initRsp(bool successed, int errorID)
 
 void CFollowHandle::startRsp(bool successed, int errorID)
 {
+	if (!m_isInit) return;
+
 	stuNotifyEvent* eventData = new stuNotifyEvent;
 	eventData->successed = successed;
 	eventData->errorID = errorID;
 	m_oevents.pushEvent(OEVENTID_START_RSP, (void*)eventData);
 }
 
-void CFollowHandle::stopRsp(bool successed, int errorID)
+void CFollowHandle::stopRsp()
 {
-
+	m_oevents.pushEvent(OEVENTID_STOP_RSP, nullptr);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -254,14 +309,36 @@ void CFollowHandle::start()
 
 void CFollowHandle::stop()
 {
-// 	m_isInit = false;
-// 	m_isStart = false;
+	m_isInit = false;
+	m_isStart = false;
+	m_ievents.clear();
+	m_oevents.clear();
+
+	if (m_traderManage != nullptr)
+	{
+		ITraderManage::destroyTraderManage(m_traderManage);
+		m_traderManage = nullptr;
+	}
+	// 发送停止事件
+	m_ievents.pushEvent(IEVENTID_STOP);
+
+/*
+	m_oisStart = false;
+	if (nullptr != m_othread)
+	{
+		m_othread->join();
+		delete m_othread;
+		m_othread = nullptr;
+	}
+*/
 }
 
 //////////////////////////////////////////////////////////////////////////
 // 报盘调用
 void CFollowHandle::registerApi(const char* apiName, int apiID)
 {
+	if (!m_isInit) return;
+
 	stuRegisterApiEvent* eventData = new stuRegisterApiEvent;
 	strncpy(eventData->apiName, apiName, sizeof(eventData->apiName));
 	eventData->apiID = apiID;
@@ -270,11 +347,15 @@ void CFollowHandle::registerApi(const char* apiName, int apiID)
 
 void CFollowHandle::registerSpi(ITraderManageSpi* spi)
 {
+	if (!m_isInit) return;
+
 	m_oevents.pushEvent(OEVENTID_REGISTERSPI_REQ, (void*)spi);
 }
 
 void CFollowHandle::reqUserLogin( x_stuUserLogin& userLogin )
 {
+	if (!m_isInit) return;
+
 	stuUserLoginEvent* eventData = new stuUserLoginEvent;
 	eventData->userLogin = userLogin;
 /*
@@ -293,8 +374,20 @@ void CFollowHandle::reqUserLogin( x_stuUserLogin& userLogin )
 	m_oevents.pushEvent(OEVENTID_USERLOGIN_REQ, (void*)eventData);
 }
 
-void CFollowHandle::reqPlaceOrder( int id, int relationID, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
+void CFollowHandle::reqUserLogin( x_stuMUserLogin& userLogin )
 {
+	if (!m_isInit) return;
+
+	stuMUserLoginEvent* eventData = new stuMUserLoginEvent;
+	eventData->muserLogin = userLogin;
+	m_oevents.pushEvent(OEVENTID_MUSERLOGIN_REQ, (void*)eventData);
+}
+
+void CFollowHandle::reqPlaceOrder( int id, int relationID, int orderIndex, const char* productID, const char* instrumentID, 
+								  bool isBuy, bool isOpen, char hedgeFlag, int volume, double price )
+{
+	if (!m_isInit) return;
+
 	stuPlaceOrderEvent* eventData = new stuPlaceOrderEvent;
 	eventData->id = id;
 	eventData->relationID = relationID;
@@ -305,6 +398,7 @@ void CFollowHandle::reqPlaceOrder( int id, int relationID, int orderIndex, const
 	eventData->isOpen = isOpen;
 	eventData->hedgeFlag = hedgeFlag;
 	eventData->volume = volume;
+	eventData->price = price;
 	m_oevents.pushEvent(OEVENTID_PLACEORDER_REQ, (void*)eventData);
 }
 
@@ -312,6 +406,8 @@ void CFollowHandle::reqPlaceOrder( int id, int relationID, int orderIndex, const
 // 报盘回调
 void CFollowHandle::rspUserLogin(int id, bool successed, int errorID)
 {
+	if (!m_isInit) return;
+
 	stuUserNotifyEvent* eventData = new stuUserNotifyEvent;
 	eventData->id = id;
 	eventData->successed = successed;
@@ -321,6 +417,8 @@ void CFollowHandle::rspUserLogin(int id, bool successed, int errorID)
 
 void CFollowHandle::rspUserInitialized(int id, bool successed, int errorID)
 {
+	if (!m_isInit) return;
+
 	stuUserNotifyEvent* eventData = new stuUserNotifyEvent;
 	eventData->id = id;
 	eventData->successed = successed;
@@ -330,6 +428,8 @@ void CFollowHandle::rspUserInitialized(int id, bool successed, int errorID)
 
 void CFollowHandle::rtnOrder( int orderIndex, char orderStatus, int volume )
 {
+	if (!m_isInit) return;
+
 	stuRtnOrderEvent* eventData = new stuRtnOrderEvent;
 	eventData->orderIndex = orderIndex;
 	eventData->orderStatus = orderStatus;
@@ -339,6 +439,8 @@ void CFollowHandle::rtnOrder( int orderIndex, char orderStatus, int volume )
 
 void CFollowHandle::rtnTrade( int id, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume )
 {
+	if (!m_isInit) return;
+
 	stuRtnTradeEvent* eventData = new stuRtnTradeEvent;
 	eventData->id = id;
 	strncpy(eventData->productID, productID, sizeof(eventData->productID));
@@ -352,6 +454,8 @@ void CFollowHandle::rtnTrade( int id, const char* productID, const char* instrum
 
 void CFollowHandle::rtnPositionTotal( int id, const char* productID, const char* instrumentID, bool isBuy, char hedgeFlag, int volume )
 {
+	if (!m_isInit) return;
+
 	stuRtnPositionEvent* eventData = new stuRtnPositionEvent;
 	eventData->id = id;
 	strncpy(eventData->productID, productID, sizeof(eventData->productID));
@@ -360,4 +464,26 @@ void CFollowHandle::rtnPositionTotal( int id, const char* productID, const char*
 	eventData->hedgeFlag = hedgeFlag;
 	eventData->volume = volume;
 	m_ievents.pushEvent(IEVENTID_RTNPOSITION, (void*)eventData);
+}
+
+void CFollowHandle::rspMUserLogin( char marketType, bool successed, int errorID )
+{
+	if (!m_isInit) return;
+
+	stuMUserNotifyEvent* eventData = new stuMUserNotifyEvent;
+	eventData->marketType = marketType;
+	eventData->successed = successed;
+	eventData->errorID = errorID;
+	m_ievents.pushEvent(IEVENTID_MUSERLOGIN_RSP, (void*)eventData);
+}
+
+void CFollowHandle::rtnMarketData( char marketType, const char* instrumentID, double lastPrice )
+{
+	if (!m_isInit) return;
+
+	stuRtnMarketDataEvent* eventData = new stuRtnMarketDataEvent;
+	eventData->marketType = marketType;
+	strncpy_s(eventData->instrumentID, instrumentID, sizeof(eventData->instrumentID));
+	eventData->lastPrice = lastPrice;
+	m_ievents.pushEvent(IEVENTID_RTNMARKETDATA, (void*)eventData);
 }

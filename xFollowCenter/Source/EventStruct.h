@@ -38,6 +38,7 @@ struct stuPlaceOrderEvent
 	bool isOpen;
 	char hedgeFlag;
 	int volume;
+	double price;
 };
 
 struct stuRtnOrderEvent
@@ -66,6 +67,26 @@ struct stuRtnPositionEvent
 	bool isBuy;
 	char hedgeFlag;
 	int  volume;
+};
+
+//////////////////////////////////////////////////////////////////////////
+struct stuMUserLoginEvent
+{
+	x_stuMUserLogin muserLogin;
+};
+
+struct stuMUserNotifyEvent
+{
+	char marketType;
+	bool successed;
+	int  errorID;
+};
+
+struct stuRtnMarketDataEvent
+{
+	char marketType;
+	char instrumentID[16];
+	double lastPrice;
 };
 
 #endif // EventStruct_H

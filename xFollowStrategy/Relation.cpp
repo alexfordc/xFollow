@@ -2,8 +2,9 @@
 
 #include <cassert>
 
-#include "../xFollowCenter/Source/DataDefine.h"
 #include "../Include/X_MyLog.h"
+#include "../xBaseDatas/Interface/IBaseDataRepository.h"
+#include "../xFollowCenter/Source/DataDefine.h"
 
 
 IRelation* createRelation(int id)
@@ -11,18 +12,22 @@ IRelation* createRelation(int id)
 	return new CRelation(id);
 }
 
+void destroyRelation( IRelation* relation )
+{
+	delete relation;
+}
+
 //////////////////////////////////////////////////////////////////////////
 CRelation::CRelation(int id)
 	: m_id(id)
 	, m_spi(nullptr)
+	, m_marketType('\0')
+	, m_orgStatus('0')
 	, m_status('0')
 	, m_strategy(nullptr)
 	, m_groupID(0)
 	, m_strategyID(0)
-	, m_strategyType(STRATEGY_DEFAULT)
-	, m_hasLimitProduct(true)
 	, m_rate(0)
-	, m_isSameDirection(true)
 
 	, m_orderIndex(0)
 {
@@ -32,6 +37,11 @@ CRelation::CRelation(int id)
 CRelation::~CRelation()
 {
 
+}
+
+int CRelation::id()
+{
+	return m_id;
 }
 
 void CRelation::addFollowUser(int id)
@@ -57,6 +67,7 @@ void CRelation::removeTargetUser(int id)
 void CRelation::setStrategy(IStrategy* strategy)
 {
 	m_strategy = strategy;
+	m_dataStrategy.parser(strategy->getStrategy());
 }
 
 void CRelation::registerSpi(IStrategyResultSpi* spi)
@@ -66,35 +77,22 @@ void CRelation::registerSpi(IStrategyResultSpi* spi)
 
 void CRelation::setAuthProductID( std::string authProductID )
 {
-	if (authProductID.compare("#ALL#") == 0)
-	{
-		m_hasLimitProduct = false;
-	}
-	else
-	{
-		m_hasLimitProduct = true;
-		int findb = -1;
-		int finda = -1;
-		while (authProductID.size() > 0)
-		{
-			finda = authProductID.find(';', findb + 1);
-			if (finda != std::string::npos)
-			{
-				if (finda - findb - 1 > 0)
-				{
-					m_authProducts.insert(authProductID.substr(findb + 1, finda - findb - 1));
-				}
+	m_dataStrategy.setAuthProductID(authProductID);
+}
 
-				findb = finda;
-			}
-			else
-			{
-				if (authProductID.size() != findb + 1)
-					m_authProducts.insert(authProductID.substr(findb + 1));
-				break;
-			}
-		}
-	}
+void CRelation::setRate( double rate )
+{
+	m_rate = rate;
+}
+
+void CRelation::setMarketType( char marketType )
+{
+	m_marketType = marketType;
+}
+
+void CRelation::setOrgStatus( char status )
+{
+	m_orgStatus = status;
 }
 
 void CRelation::setStatus(char status)
@@ -173,29 +171,34 @@ void CRelation::rtnTrade( int id, const char* productID, const char* instrumentI
 		return;
 	}
 
-	if (m_status == '0') return; // 非启动状态
+	if (m_orgStatus == '0' || m_status == '0') return; // 非启动状态
+
+	IInstrument* instrument = IInstrumentRepository::instrumentRepository().getInstrument(m_marketType, instrumentID);
+	if (nullptr == instrument) return;
 
 // 	if (m_strategyType == STRATEGY_TRADE)
 	{
-		if (!isInstrumentValid(productID, instrumentID))
+		if (!m_dataStrategy.isInstrumentValid(productID, instrumentID))
 		{
 			return; // 不在授权范围内,不跟
 		}
 
 		//
-		bool is2Buy = m_isSameDirection ? isBuy : !isBuy;
+		bool is2Buy = m_dataStrategy.isSameDirection() ? isBuy : !isBuy;
 		int tVolume = int(m_rate * volume);
+		int orderIndex = 0;
 		for (auto& fUserPP : m_followUserPositionTotals)
 		{
-			FOLLOW_LOG_TRACE("[策略模块] ID为%d的账号 成交跟单 %s 比率 %0.3f 合约 %s%s %s%s%d手", id, m_isSameDirection ? "同向" : "反向", m_rate, 
-				productID, instrumentID, isBuy ? "买" : "卖", isOpen ? "开" : "平", tVolume);
+			orderIndex = ++m_orderIndex;
+			FOLLOW_LOG_TRACE("[策略模块] 序号 %d ID为%d的账号 成交跟单 %s 比率 %0.3f 合约 %s%s %s%s%d手", orderIndex, id, m_dataStrategy.isSameDirection() ? "同向" : "反向", 
+				m_rate, productID, instrumentID, isBuy ? "买" : "卖", isOpen ? "开" : "平", tVolume);
 			if (tVolume == 0)
 			{
 				FOLLOW_LOG_TRACE("[策略模块] ID为%d的账号 成交跟单 转换数量为零不跟单", id);
 			}
 			else
 			{
-				m_spi->reqPlaceOrder(fUserPP.first, m_id, ++m_orderIndex, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume);
+				m_spi->reqPlaceOrder(fUserPP.first, m_id, orderIndex, productID, instrumentID, is2Buy, isOpen, hedgeFlag, tVolume, instrument->bestPrice(is2Buy));
 			}
 		}
 	}
@@ -246,20 +249,6 @@ void CRelation::rtnTargetPositionTotal(int id, const char* productID, const char
 	}
 }
 
-
-bool CRelation::isInstrumentValid( std::string productID, std::string instrumentID )
-{
-	if (!m_hasLimitProduct) return true;
-
-	for (auto& limit : m_authProducts)
-	{
-		if (productID.compare(limit) == 0)
-			return true;
-		if (instrumentID.compare(limit) == 0)
-			return true;
-	}
-	return false;
-}
 
 void CRelation::start()
 {

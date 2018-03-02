@@ -41,3 +41,13 @@ CStrategy* CStrategyRepository::getStrategy( int id )
 	}
 	return strategy;
 }
+
+void CStrategyRepository::clear()
+{
+	for (auto& s : m_strategys)
+	{
+		if (s.second != nullptr)
+			delete s.second;
+	}
+	m_strategys.clear();
+}

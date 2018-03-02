@@ -14,6 +14,8 @@ public:
 	CStrategy* createStrategy(int id, std::string strategyType, std::string strategyData);
 	CStrategy* getStrategy(int id);
 
+	void clear();
+
 private:
 	static CStrategyRepository*      s_strategyRepository;
 

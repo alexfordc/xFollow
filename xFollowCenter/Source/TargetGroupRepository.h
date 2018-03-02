@@ -13,6 +13,8 @@ public:
 	CTargetGroup* createTargetGroup(int id, char status);
 	CTargetGroup* getTargetGroup(int id);
 
+	void clear();
+
 private:
 	static CTargetGroupRepository*     s_instance;
 

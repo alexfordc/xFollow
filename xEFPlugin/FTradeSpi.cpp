@@ -10,7 +10,6 @@ CFTradeSpi::CFTradeSpi()
 	, m_successed(false)
 	, m_errorID(0)
 	, m_inited(false)
-	, m_wait2rtnP(false)
 	, m_orderReference(0)
 
 	, m_thread(nullptr)
@@ -143,7 +142,6 @@ void CFTradeSpi::OnFrontDisconnected( int nReason )
 	m_successed = false;
 	m_errorID = 0;
 	m_inited = false;
-	m_wait2rtnP = false;
 	m_tradeDetails.clear();
 	m_positions.clear();
 }
@@ -171,8 +169,8 @@ void CFTradeSpi::OnRspSettlementInfoConfirm( CThostFtdcSettlementInfoConfirmFiel
 {
 	if (bIsLast)
 	{
-		CThostFtdcQryOrderField field = {0};
-		CQueryTask::queryTask().qryOrder(m_api, field);
+		CThostFtdcQryInvestorPositionDetailField field = {0};
+		CQueryTask::queryTask().qryPositionDetail(m_api, field);
 	}
 }
 
@@ -224,6 +222,12 @@ void CFTradeSpi::OnRspQryTrade( CThostFtdcTradeField *pTrade, CThostFtdcRspInfoF
 		m_inited = true;
 		m_successed = false;
 		m_errorID = 0;
+
+		for (auto& position : m_positions)
+		{
+			m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
+				position.second.isBuy, position.second.hedgeFlag, position.second.volume);
+		}
 	}
 }
 
@@ -256,18 +260,8 @@ void CFTradeSpi::OnRspQryInvestorPositionDetail( CThostFtdcInvestorPositionDetai
 
 	if (bIsLast)
 	{
-		if (m_wait2rtnP)
-		{
-			for (auto& position : m_positions)
-			{
-				m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
-					position.second.isBuy, position.second.hedgeFlag, position.second.volume);
-			}
-		}
-		else
-		{
-			m_wait2rtnP = true;
-		}
+		CThostFtdcQryOrderField field = {0};
+		CQueryTask::queryTask().qryOrder(m_api, field);
 	}
 }
 

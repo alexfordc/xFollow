@@ -10,6 +10,23 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Interface\IBaseDataRepository.h" />
+    <ClInclude Include="Source\Exchange.h" />
+    <ClInclude Include="Source\ExchangeRepository.h" />
+    <ClInclude Include="Source\Instrument.h" />
+    <ClInclude Include="Source\InstrumentRepository.h" />
+    <ClInclude Include="Source\Product.h" />
+    <ClInclude Include="Source\ProductRepository.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Exchange.cpp" />
+    <ClCompile Include="Source\ExchangeRepository.cpp" />
+    <ClCompile Include="Source\Instrument.cpp" />
+    <ClCompile Include="Source\InstrumentRepository.cpp" />
+    <ClCompile Include="Source\Product.cpp" />
+    <ClCompile Include="Source\ProductRepository.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{85FA76C9-1933-486F-8D8A-AB7269D1F58B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -59,6 +76,7 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>$(SolutionDir)Lib\$(TargetName).lib</ImportLibrary>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -79,8 +97,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

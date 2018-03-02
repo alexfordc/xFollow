@@ -9,6 +9,7 @@ class CFollowEvent
 public:
 	void pushEvent(int eventID, void* eventData = nullptr);
 	std::pair<int, void*> getEvent();
+	void clear();
 
 private:
 	struct stuEvent
@@ -45,6 +46,12 @@ inline std::pair<int, void*> CFollowEvent::getEvent()
 		}
 	}
 	return std::make_pair(eventID, eventData);
+}
+
+inline void CFollowEvent::clear()
+{
+	std::lock_guard<std::mutex> lck(m_mutex);
+	m_events.clear();
 }
 
 #endif // FollowEvent_H
