@@ -107,6 +107,22 @@ void CFTradeSpi::reqCancelOrder(int orderIndex)
 	}
 }
 
+bool CFTradeSpi::isInited()
+{
+	return m_inited;
+}
+
+void CFTradeSpi::sendInitedInfo()
+{
+	m_callback->rspUserLogin(true, 0);
+	for (auto& position : m_positions)
+	{
+		m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
+			position.second.isBuy, position.second.hedgeFlag, position.second.volume);
+	}
+	m_callback->rspUserInitialized(true, 0);
+}
+
 int CFTradeSpi::run()
 {
 	auto f_now = std::chrono::system_clock::now();
@@ -218,16 +234,15 @@ void CFTradeSpi::OnRspQryTrade( CThostFtdcTradeField *pTrade, CThostFtdcRspInfoF
 	}
 	if (bIsLast)
 	{
-		m_callback->rspUserInitialized(m_successed, m_errorID);
-		m_inited = true;
-		m_successed = false;
-		m_errorID = 0;
-
 		for (auto& position : m_positions)
 		{
 			m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
 				position.second.isBuy, position.second.hedgeFlag, position.second.volume);
 		}
+		m_callback->rspUserInitialized(m_successed, m_errorID);
+		m_inited = true;
+		m_successed = false;
+		m_errorID = 0;
 	}
 }
 

@@ -29,20 +29,11 @@ CTraderManage::CTraderManage()
 
 CTraderManage::~CTraderManage()
 {
-	clear();
+// 	clear();
 }
 
 void CTraderManage::clear()
 {
-	m_apiName.clear();
-
-	for (auto& apiModel : m_apiModel)
-	{
-		if (apiModel.second != nullptr)
-			FreeLibrary(apiModel.second);
-	}
-	m_apiModel.clear();
-
 	for (auto& spi : m_marketSpis)
 	{
 		delete spi;
@@ -50,7 +41,9 @@ void CTraderManage::clear()
 	m_marketSpis.clear();
 	for (auto& api : m_marketApis)
 	{
-		api.first(api.second);
+		typedef void (*DESTROYMARKETAPI)(IMarketApi* api);
+		DESTROYMARKETAPI desf = (DESTROYMARKETAPI)GetProcAddress(api.second, "destroyMarketApi");
+		desf(api.first);
 	}
 	m_marketApis.clear();
 
@@ -67,15 +60,28 @@ void CTraderManage::clear()
 
 	for (auto& api : m_fTradeApis)
 	{
-		api.first(api.second);
+		typedef void (*DESTROYFTRADEAPI)(IFTradeApi* api);
+		DESTROYFTRADEAPI desf = (DESTROYFTRADEAPI)GetProcAddress(api.second, "destroyFTradeApi");
+		desf(api.first);
 	}
 	m_fTradeApis.clear();
 	for (auto& api : m_tTradeApis)
 	{
-		api.first(api.second);
+		typedef void (*DESTROYTTRADEAPI)(ITTradeApi* api);
+		DESTROYTTRADEAPI desf = (DESTROYTTRADEAPI)GetProcAddress(api.second, "destroyTTradeApi");
+		desf(api.first);
 	}
 	m_tTradeApis.clear();
 
+	m_apiInfos.clear();
+	m_apiName.clear();
+
+	for (auto& apiModel : m_apiModel)
+	{
+		if (apiModel.second != nullptr)
+			FreeLibrary(apiModel.second);
+	}
+	m_apiModel.clear();
 	m_spi = nullptr;
 }
 
@@ -116,6 +122,30 @@ void CTraderManage::registerSpi(ITraderManageSpi* spi )
 
 void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 {
+	std::string key = std::to_string(userLogin.apiID);
+	key += "|";
+	key += userLogin.accountID;
+	auto it = m_apiInfos.find(key);
+	if (it != m_apiInfos.end())
+	{
+		stuApiInfo& apiInfo = it->second;
+		if (apiInfo.type == 0)
+		{
+			// error
+		}
+		else if (apiInfo.type == 1)
+		{
+			apiInfo.spi.fspi->registerID(userLogin.id);
+			apiInfo.api.fapi->reqUserLogin(userLogin);
+		}
+		else if (apiInfo.type == 2)
+		{
+			apiInfo.spi.tspi->registerID(userLogin.id);
+			apiInfo.api.tapi->reqUserLogin(userLogin);
+		}
+		return;
+	}
+
 	HMODULE module = getApiModelByID(userLogin.apiID);
 	if (module == nullptr) return;
 
@@ -127,8 +157,7 @@ void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 
 		IFTradeApi* api = func();
 		assert(api);
-		DESTROYFTRADEAPI desf = (DESTROYFTRADEAPI)GetProcAddress(module, "destroyFTradeApi");
-		m_fTradeApis[desf] = api;
+		m_fTradeApis[api] = module;
 		m_apis[userLogin.id] = std::make_pair(true, api);
 
 		CFTradeSpi* spi = new CFTradeSpi;
@@ -137,6 +166,11 @@ void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 		spi->registerSpi(m_spi);
 		api->registerSpi(spi);
 		api->reqUserLogin(userLogin);
+
+		stuApiInfo& apiInfo = m_apiInfos[key];
+		apiInfo.type = 1;
+		apiInfo.api.fapi = api;
+		apiInfo.spi.fspi = spi;
 	}
 	else
 	{
@@ -145,8 +179,7 @@ void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 
 		ITTradeApi* api = func();
 		assert(api);
-		DESTROYTTRADEAPI desf = (DESTROYTTRADEAPI)GetProcAddress(module, "destroyTTradeApi");
-		m_tTradeApis[desf] = api;
+		m_tTradeApis[api] = module;
 		m_apis[userLogin.id] = std::make_pair(false, api);
 
 		CTTradeSpi* spi = new CTTradeSpi;
@@ -155,11 +188,38 @@ void CTraderManage::reqUserLogin( x_stuUserLogin& userLogin )
 		spi->registerSpi(m_spi);
 		api->registerSpi(spi);
 		api->reqUserLogin(userLogin);
+
+		stuApiInfo& apiInfo = m_apiInfos[key];
+		apiInfo.type = 2;
+		apiInfo.api.tapi = api;
+		apiInfo.spi.tspi = spi;
 	}
 }
 
 void CTraderManage::reqUserLogin( x_stuMUserLogin& userLogin )
 {
+	std::string key = std::to_string(userLogin.apiID);
+	key += "|";
+	key += userLogin.accountID;
+	auto it = m_apiInfos.find(key);
+	if (it != m_apiInfos.end())
+	{
+		stuApiInfo& apiInfo = it->second;
+		if (apiInfo.type == 0)
+		{
+			apiInfo.api.mapi->reqUserLogin(userLogin);
+		}
+		else if (apiInfo.type == 1)
+		{
+			// error
+		}
+		else if (apiInfo.type == 2)
+		{
+			// error
+		}
+		return;
+	}
+
 	HMODULE module = getApiModelByID(userLogin.apiID);
 	if (module == nullptr) return;
 
@@ -169,8 +229,7 @@ void CTraderManage::reqUserLogin( x_stuMUserLogin& userLogin )
 
 	IMarketApi* api = func();
 	assert(api);
-	DESTROYMARKETAPI desf = (DESTROYMARKETAPI)GetProcAddress(module, "destroyMarketApi");
-	m_marketApis[desf] = api;
+	m_marketApis[api] = module;
 
 	CMarketSpi* spi = new CMarketSpi;
 	m_marketSpis.push_back(spi);
@@ -179,6 +238,11 @@ void CTraderManage::reqUserLogin( x_stuMUserLogin& userLogin )
 	api->registerSpi(spi);
 	api->setSubscribeInstruments(userLogin.instruments);
 	api->reqUserLogin(userLogin);
+
+	stuApiInfo& apiInfo = m_apiInfos[key];
+	apiInfo.type = 0;
+	apiInfo.api.mapi = api;
+	apiInfo.spi.mspi = spi;
 }
 
 void CTraderManage::reqPlaceOrder(int id, int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price)

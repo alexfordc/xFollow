@@ -19,6 +19,8 @@ public:
 	void setUserInfo(char marketType, std::string brokerID, std::string accountID, std::string password);
 	void init();
 
+	bool isInited();
+	void sendInitedInfo();
 private:
 	IMarketSpi*          m_callback;
 	CThostFtdcMdApi*     m_api;

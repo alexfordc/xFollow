@@ -23,6 +23,8 @@ private:
 	virtual void stopRsp();
 
 	IFollowCenter*        m_followCenter;
+	bool                  m_startUI;
+	bool                  m_stopUI;
 
 // й╣ож
 public:
@@ -44,6 +46,9 @@ protected:
 
 public:
 	afx_msg void OnStart();
+	afx_msg void OnStop();
+	afx_msg void OnUpdateStart(CCmdUI *pCmdUI);
+	afx_msg void OnUpdateStop(CCmdUI *pCmdUI);
 };
 
 

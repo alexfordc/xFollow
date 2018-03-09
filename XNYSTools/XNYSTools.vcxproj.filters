@@ -36,6 +36,9 @@
     <ClInclude Include="Source\Log.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="TcpServer.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\Configure.cpp">
@@ -45,6 +48,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="Source\Time.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="TcpServer.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

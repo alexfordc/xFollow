@@ -9,7 +9,10 @@ IMarketApi* createMarketApi()
 
 void destroyMarketApi( IMarketApi* api )
 {
-	delete api;
+	CMarketApi* mapi = dynamic_cast<CMarketApi*>(api);
+	assert(mapi);
+	mapi->clear();
+	delete mapi;
 }
 //////////////////////////////////////////////////////////////////////////
 CMarketApi::CMarketApi()
@@ -21,7 +24,12 @@ CMarketApi::CMarketApi()
 
 CMarketApi::~CMarketApi()
 {
+}
 
+void CMarketApi::clear()
+{
+	m_api->Release();
+	m_api->Join();
 }
 
 void CMarketApi::registerSpi( IMarketSpi* spi )
@@ -37,6 +45,12 @@ void CMarketApi::setSubscribeInstruments( std::list<std::string> instrumentIDs )
 
 void CMarketApi::reqUserLogin( x_stuMUserLogin& userLogin )
 {
+	if (m_spi.isInited())
+	{
+		m_spi.sendInitedInfo();
+		return;
+	}
+
 	if (nullptr == m_api)
 		m_api = CThostFtdcMdApi::CreateFtdcMdApi();
 

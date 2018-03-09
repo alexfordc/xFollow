@@ -44,6 +44,8 @@ BEGIN_MESSAGE_MAP(CMyListCtrl, CListCtrl)
 	ON_MESSAGE(WM_MYMSG, MyMsgHandler)
 	ON_WM_MEASUREITEM_REFLECT()
 // 	ON_WM_DRAWITEM() // 这个只会在report模式下生效
+	ON_WM_SIZE()
+// 	ON_WM_PAINT()
 END_MESSAGE_MAP()
 
 CMyListCtrl::CMyListCtrl()
@@ -59,6 +61,7 @@ void CMyListCtrl::init()
 {
 	if (!m_isInited)
 	{
+// 		this->ShowScrollBar(SB_VERT,TRUE);
 		m_isInited = true;
 		m_log.init(this->m_hWnd);
 
@@ -181,6 +184,7 @@ LRESULT CMyListCtrl::MyMsgHandler( WPARAM wParam, LPARAM lParam )
 	this->InsertItem(row, log);
 	//this->SetItemText(save->lvi.iItem, ++save->lvi.iSubItem, save->version.c_str());
 	this->SetItemData(row, lParam);
+// 	this->EnsureVisible(row, FALSE);
 
 	delete log;
 
@@ -269,3 +273,19 @@ void CMyListCtrl::PreSubclassWindow()
 	CListCtrl::PreSubclassWindow();
 }
 */
+
+
+void CMyListCtrl::OnSize(UINT nType, int cx, int cy)
+{
+	CListCtrl::OnSize(nType, cx, cy);
+
+	// TODO: 在此处添加消息处理程序代码
+}
+
+
+void CMyListCtrl::OnPaint()
+{
+	CPaintDC dc(this); // device context for painting
+	// TODO: 在此处添加消息处理程序代码
+	// 不为绘图消息调用 CListCtrl::OnPaint()
+}

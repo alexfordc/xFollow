@@ -108,6 +108,7 @@ BEGIN
     POPUP "文件(&F)"
     BEGIN
         MENUITEM "启动",                          ID_START
+        MENUITEM "停止",                          ID_STOP
         MENUITEM SEPARATOR
         MENUITEM "退出(&X)",                      ID_APP_EXIT
     END

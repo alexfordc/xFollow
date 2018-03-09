@@ -49,6 +49,22 @@ void CTTradeSpi::init()
 	m_api->Init();
 }
 
+bool CTTradeSpi::isInited()
+{
+	return m_inited;
+}
+
+void CTTradeSpi::sendInitedInfo()
+{
+	m_callback->rspUserLogin(true, 0);
+	for (auto& position : m_positions)
+	{
+		m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
+			position.second.isBuy, position.second.hedgeFlag, position.second.volume);
+	}
+	m_callback->rspUserInitialized(true, 0);
+}
+
 int CTTradeSpi::run()
 {
 	auto f_now = std::chrono::system_clock::now();
@@ -152,16 +168,15 @@ void CTTradeSpi::OnRspQryTrade( CThostFtdcTradeField *pTrade, CThostFtdcRspInfoF
 	}
 	if (bIsLast)
 	{
-		m_callback->rspUserInitialized(m_successed, m_errorID);
-		m_inited = true;
-		m_successed = false;
-		m_errorID = 0;
-
 		for (auto& position : m_positions)
 		{
 			m_callback->rtnPositionTotal(position.second.instrumentID, position.second.instrumentID, 
 				position.second.isBuy, position.second.hedgeFlag, position.second.volume);
 		}
+		m_callback->rspUserInitialized(m_successed, m_errorID);
+		m_inited = true;
+		m_successed = false;
+		m_errorID = 0;
 	}
 }
 

@@ -63,5 +63,7 @@ private:
 public:
 // 	virtual void DrawItem(LPDRAWITEMSTRUCT /*lpDrawItemStruct*/);
 // 	virtual void PreSubclassWindow();
+	afx_msg void OnSize(UINT nType, int cx, int cy);
+	afx_msg void OnPaint();
 };
 

@@ -37,6 +37,9 @@
     <Filter Include="MarketSystem">
       <UniqueIdentifier>{b75cf4fc-b8f9-41d0-8484-2eb15ae1cd17}</UniqueIdentifier>
     </Filter>
+    <Filter Include="JsonRpc">
+      <UniqueIdentifier>{21c11496-3751-49e5-8dd0-7d70b45304fa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interface\ICFollowCenter.h">
@@ -135,6 +138,9 @@
     <ClInclude Include="Source\MarketSystemRepository.h">
       <Filter>MarketSystem</Filter>
     </ClInclude>
+    <ClInclude Include="Source\fossa.h">
+      <Filter>JsonRpc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source\DatabaseConnection.cpp">
@@ -202,6 +208,9 @@
     </ClCompile>
     <ClCompile Include="Source\MarketSystemRepository.cpp">
       <Filter>MarketSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\fossa.c">
+      <Filter>JsonRpc</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

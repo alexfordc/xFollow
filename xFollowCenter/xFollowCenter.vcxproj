@@ -26,6 +26,7 @@
     <ClInclude Include="Source\FollowGroup.h" />
     <ClInclude Include="Source\FollowHandle.h" />
     <ClInclude Include="Source\FollowUser.h" />
+    <ClInclude Include="Source\fossa.h" />
     <ClInclude Include="Source\IUser.h" />
     <ClInclude Include="Source\LoadDatabase.h" />
     <ClInclude Include="Source\MarketSystem.h" />
@@ -50,6 +51,7 @@
     <ClCompile Include="Source\FollowGroup.cpp" />
     <ClCompile Include="Source\FollowHandle.cpp" />
     <ClCompile Include="Source\FollowUser.cpp" />
+    <ClCompile Include="Source\fossa.c" />
     <ClCompile Include="Source\ICFollowCenter.cpp" />
     <ClCompile Include="Source\LoadDatabase.cpp" />
     <ClCompile Include="Source\MarketSystem.cpp" />

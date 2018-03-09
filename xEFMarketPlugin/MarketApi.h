@@ -13,6 +13,9 @@ public:
 	virtual void setSubscribeInstruments(std::list<std::string> instrumentIDs);
 	virtual void reqUserLogin(x_stuMUserLogin& userLogin);
 
+public:
+	void clear();
+
 private:
 	IMarketSpi*          m_callback;
 

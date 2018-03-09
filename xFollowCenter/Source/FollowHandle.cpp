@@ -187,6 +187,7 @@ int CFollowHandle::orun()
 				}
 				m_uniqueID = 0;
 
+				FOLLOW_LOG_DEBUG("[系统状态] 系统已停止.");
 				m_followCenterSpi->stopRsp();
 			}
 			break;
@@ -287,7 +288,7 @@ void CFollowHandle::init()
 	if (!m_isInit) {
 		// 初始化日志
 		LOG_START();
-		FOLLOW_LOG_DEBUG("系统启动中...");
+		FOLLOW_LOG_DEBUG("[系统状态] 系统启动中...");
 
 		m_isInit = true;
 		startHandle();
@@ -314,11 +315,13 @@ void CFollowHandle::stop()
 	m_ievents.clear();
 	m_oevents.clear();
 
+/*
 	if (m_traderManage != nullptr)
 	{
 		ITraderManage::destroyTraderManage(m_traderManage);
 		m_traderManage = nullptr;
 	}
+*/
 	// 发送停止事件
 	m_ievents.pushEvent(IEVENTID_STOP);
 

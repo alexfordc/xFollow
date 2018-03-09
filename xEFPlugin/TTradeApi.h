@@ -11,6 +11,7 @@ public:
 	CTTradeApi();
 	virtual ~CTTradeApi();
 
+	void clear();
 private:
 	ITTradeSpi*          m_callback;
 

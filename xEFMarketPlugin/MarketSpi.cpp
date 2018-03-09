@@ -55,6 +55,17 @@ void CMarketSpi::init()
 	m_api->Init();
 }
 
+bool CMarketSpi::isInited()
+{
+	return m_inited;
+}
+
+void CMarketSpi::sendInitedInfo()
+{
+	if (nullptr != m_callback)
+		m_callback->rspUserLogin(true, 0);
+}
+
 int CMarketSpi::run()
 {
 	auto f_now = std::chrono::system_clock::now();
@@ -70,7 +81,8 @@ int CMarketSpi::run()
 		if (duration.count() > 60)
 			break;
 	}
-	m_callback->rspUserLogin(false, 0);
+	if (nullptr != m_callback)
+		m_callback->rspUserLogin(false, 0);
 	return 0;
 }
 
@@ -115,8 +127,10 @@ void CMarketSpi::OnRspUserLogin( CThostFtdcRspUserLoginField *pRspUserLogin, CTh
 				instrumentID = &ii;
 				m_api->SubscribeMarketData(instrumentID, 1);
 			}
+			m_inited = true;
 		}
-		m_callback->rspUserLogin(m_successed, m_errorID);
+		if (nullptr != m_callback)
+			m_callback->rspUserLogin(m_successed, m_errorID);
 	}
 }
 
@@ -179,5 +193,6 @@ void CMarketSpi::OnRtnDepthMarketData( CThostFtdcDepthMarketDataField *pDepthMar
 	if(pDepthMarketData->PreClosePrice==DBL_MAX)
 		pDepthMarketData->PreClosePrice=0;
 
-	m_callback->rtnMarketData(m_marketType, pDepthMarketData->InstrumentID, pDepthMarketData->LastPrice);
+	if (nullptr != m_callback)
+		m_callback->rtnMarketData(m_marketType, pDepthMarketData->InstrumentID, pDepthMarketData->LastPrice);
 }

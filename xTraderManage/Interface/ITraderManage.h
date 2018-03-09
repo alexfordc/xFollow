@@ -18,6 +18,7 @@ class XTRADERMANAGE_EXPORTS_C ITraderManage
 public:
 	static ITraderManage* createTraderManage();
 	static void           destroyTraderManage(ITraderManage* target);
+	virtual ~ITraderManage() {};
 
 	virtual void registerApi(const char* apiName, int apiID) = 0;
 	virtual void registerSpi(ITraderManageSpi* spi) = 0;

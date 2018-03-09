@@ -22,6 +22,8 @@ public:
 	void setUserInfo(std::string accountID, std::string password);
 	void init();
 
+	bool isInited();
+	void sendInitedInfo();
 private:
 	ITTradeSpi*          m_callback;
 	CThostFtdcTraderApi* m_api;

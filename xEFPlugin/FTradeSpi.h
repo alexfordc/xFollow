@@ -24,6 +24,8 @@ public:
 	void reqPlaceOrder(int orderIndex, const char* productID, const char* instrumentID, bool isBuy, bool isOpen, char hedgeFlag, int volume, double price);
 	void reqCancelOrder(int orderIndex);
 
+	bool isInited();
+	void sendInitedInfo();
 private:
 	IFTradeSpi*          m_callback;
 	CThostFtdcTraderApi* m_api;

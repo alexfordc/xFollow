@@ -92,6 +92,7 @@ void CxFollowView::OnInitialUpdate()
 	if (m_logList.Create(WS_CHILD | WS_VISIBLE | LVS_LIST | LVS_ALIGNLEFT | WS_BORDER | LVS_OWNERDRAWFIXED, viewRect, this, ID_LIST_LOG))
 	{
 		m_logList.SetBkColor(RGB(30, 30, 30));
+		::SetWindowLong(m_logList.GetSafeHwnd(), GWL_STYLE, WS_CHILD | LVS_LIST | WS_VISIBLE | WS_HSCROLL);
 		m_logList.ShowWindow(SW_SHOW);
 	}
 }

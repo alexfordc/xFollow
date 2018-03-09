@@ -20,7 +20,7 @@ class CTraderManage : public ITraderManage
 {
 public:
 	CTraderManage();
-	~CTraderManage();
+	virtual ~CTraderManage();
 public:
 	void clear();
 
@@ -30,18 +30,31 @@ private:
 	std::map<int, HMODULE>              m_apiModel;
 	std::map<int, std::pair<bool, void*>> m_apis;
 
-	typedef void (*DESTROYMARKETAPI)(IMarketApi* api);
-	std::map<DESTROYMARKETAPI, IMarketApi*> m_marketApis;
+	std::map<IMarketApi*, HMODULE>      m_marketApis;
 	std::list<CMarketSpi*>              m_marketSpis;
 
-	typedef void (*DESTROYFTRADEAPI)(IFTradeApi* api);
-	typedef void (*DESTROYTTRADEAPI)(ITTradeApi* api);
-
-	std::map<DESTROYFTRADEAPI, IFTradeApi*> m_fTradeApis;
-	std::map<DESTROYTTRADEAPI, ITTradeApi*> m_tTradeApis;
+	std::map<IFTradeApi*, HMODULE>      m_fTradeApis;
+	std::map<ITTradeApi*, HMODULE>      m_tTradeApis;
 	std::list<CFTradeSpi*>              m_fTradeSpis;
 	std::list<CTTradeSpi*>              m_tTradeSpis;
 	ITraderManageSpi*                   m_spi;
+	struct stuApiInfo
+	{
+		int type;
+		union unApi
+		{
+			IMarketApi* mapi;
+			IFTradeApi* fapi;
+			ITTradeApi* tapi;
+		} api;
+		union unSpi
+		{
+			CMarketSpi* mspi;
+			CFTradeSpi* fspi;
+			CTTradeSpi* tspi;
+		} spi;
+	};
+	std::map<std::string, stuApiInfo>  m_apiInfos;
 
 private:
 	virtual void registerApi(const char* apiName, int apiID);

@@ -6,7 +6,6 @@
 #include "../../XNYSTools/Interface/IConfigure.h"
 #include "../../Include/X_MyLog.h"
 #include "../../Include/X_IRelation.h"
-#include "../../xFollowStrategy/Interface/ITargetStrategyGroup.h"
 #include "../../xBaseDatas/Interface/IBaseDataRepository.h"
 #include "TargetGroup.h"
 #include "TargetGroupRepository.h"
@@ -23,8 +22,10 @@
 CFollowCenter::CFollowCenter()
 	: m_followHandle(*CFollowHandle::followHandle())
 	, m_isStarted(false)
+	, m_thread(nullptr)
+	, m_isJsonRpc(false)
 {
-
+	strncpy_s(m_http_port, "8000", sizeof(m_http_port));
 }
 
 CFollowCenter::~CFollowCenter()
@@ -862,6 +863,13 @@ void CFollowCenter::start()
 
 void CFollowCenter::clear()
 {
+	m_isJsonRpc = false;
+	if (nullptr != m_thread)
+	{
+		m_thread->join();
+		delete m_thread;
+		m_thread = nullptr;
+	}
 	m_apiNames.clear();
 	m_apiToNames.clear();
 	m_userRepository.clear();
@@ -998,12 +1006,140 @@ void CFollowCenter::isSystemStarted(IUser* user, int id, bool successed)
 		m_followHandle.startRsp(m_isStarted, 0); // 应该是系统启动
 		if (m_isStarted)
 		{
-			FOLLOW_LOG_TRACE("[系统启动情况] 系统启动成功!");
+			this->startListen();
+			FOLLOW_LOG_TRACE("[系统状态] 系统启动成功!");
 		}
 		else
 		{
-			FOLLOW_LOG_WARN("[系统启动情况] 系统启动失败!");
+			FOLLOW_LOG_WARN("[系统状态] 系统启动失败!");
 			m_followHandle.startFaild();
 		}
 	}
+}
+
+void CFollowCenter::startListen()
+{
+	ns_mgr_init(&m_mgr, NULL);
+	m_conn = ns_bind(&m_mgr, m_http_port, handler);
+	ns_set_protocol_http_websocket(m_conn);
+
+	FOLLOW_LOG_DEBUG("[管理模块] 启动对端口 %s 的侦听\n", m_http_port);
+	if (nullptr != m_thread)
+	{
+		m_thread->join();
+		delete m_thread;
+		m_thread = nullptr;
+	}
+	if (nullptr == m_thread)
+	{
+		m_isJsonRpc = true;
+		m_thread = new std::thread(std::bind(&CFollowCenter::run, this));
+	}
+}
+
+int CFollowCenter::run()
+{
+	while (m_isJsonRpc)
+	{
+		ns_mgr_poll(&m_mgr, 1000);
+	}
+	ns_mgr_free(&m_mgr);
+	return 0;
+}
+
+void CFollowCenter::handler( struct ns_connection *nc, int ev, void *ev_data )
+{
+	struct http_message *hm = (struct http_message *) ev_data;
+	static const char *methods[] = { "sum", "login", NULL };
+	static ns_rpc_handler_t handlers[] = { rpc_sum, rpcLogin, NULL };
+	char buf[100] = {0};
+	switch (ev) {
+	case NS_HTTP_REQUEST:
+		ns_rpc_dispatch(hm->body.p, hm->body.len, buf, sizeof(buf),
+			methods, handlers);
+		ns_printf(nc, "HTTP/1.0 200 OK\r\nContent-Length: %d\r\n"
+			"Content-Type: application/json\r\n\r\n%s",
+			(int) strlen(buf), buf);
+		nc->flags |= NSF_SEND_AND_CLOSE;
+		break;
+	default:
+		break;
+	}
+}
+
+std::string CFollowCenter::str2str( const char* value )
+{
+	std::string rst;
+	int len = strlen(value);
+	bool isFirstSpace = true;
+	bool isPlus = false;
+	for (int i = 0; i < len; ++i)
+	{
+		const char& v = value[i];
+		if (isFirstSpace && v == ' ')
+			continue;
+
+		isFirstSpace = false;
+		if (!isPlus)
+		{
+			if (v == '\"')
+				break;
+			if (v == '\\')
+			{
+				isPlus = true;
+				continue;
+			}
+		}
+		else
+		{
+			isPlus = false;
+		}
+
+		rst += v;
+	}
+	return rst;
+}
+
+int CFollowCenter::rpc_sum( char *buf, int len, struct ns_rpc_request *req )
+{
+	double sum = 0;
+	int i;
+	if (req->params[0].type != JSON_TYPE_ARRAY) {
+		return ns_rpc_create_std_error(buf, len, req,
+			JSON_RPC_INVALID_PARAMS_ERROR);
+	}
+	for (i = 0; i < req->params[0].num_desc; i++) {
+		if (req->params[i + 1].type != JSON_TYPE_NUMBER) {
+			return ns_rpc_create_std_error(buf, len, req,
+				JSON_RPC_INVALID_PARAMS_ERROR);
+		}
+		sum += strtod(req->params[i + 1].ptr, NULL);
+	}
+	return ns_rpc_create_reply(buf, len, req, "f", sum);
+}
+
+int CFollowCenter::rpcLogin( char *buf, int len, struct ns_rpc_request *req )
+{
+	if (req->params[0].type != JSON_TYPE_ARRAY)
+	{
+		return ns_rpc_create_std_error(buf, len, req,
+			JSON_RPC_INVALID_PARAMS_ERROR);
+	}
+	if (req->params[0].num_desc < 2)
+	{
+		return ns_rpc_create_std_error(buf, len, req,
+			JSON_RPC_INVALID_PARAMS_ERROR);
+	}
+	if (req->params[1].type != JSON_TYPE_STRING)
+	{
+		return ns_rpc_create_std_error(buf, len, req,
+			JSON_RPC_INVALID_PARAMS_ERROR);
+	}
+	if (req->params[2].type != JSON_TYPE_STRING)
+	{
+		return ns_rpc_create_std_error(buf, len, req,
+			JSON_RPC_INVALID_PARAMS_ERROR);
+	}
+	std::string userName = str2str(req->params[1].ptr), password = str2str(req->params[2].ptr);
+	return ns_rpc_create_reply(buf, len, req, "s", "0");
 }

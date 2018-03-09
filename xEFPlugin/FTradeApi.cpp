@@ -9,7 +9,10 @@ IFTradeApi* createFTradeApi()
 
 void destroyFTradeApi(IFTradeApi* target)
 {
-	delete target;
+	CFTradeApi* api = dynamic_cast<CFTradeApi*>(target);
+	assert(api);
+	api->clear();
+	delete api;
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -25,6 +28,13 @@ CFTradeApi::~CFTradeApi()
 
 }
 
+
+void CFTradeApi::clear()
+{
+	m_api->Release();
+	m_api->Join();
+}
+
 void CFTradeApi::registerSpi(IFTradeSpi* spi)
 {
 	m_callback = spi;
@@ -33,6 +43,12 @@ void CFTradeApi::registerSpi(IFTradeSpi* spi)
 
 void CFTradeApi::reqUserLogin(x_stuUserLogin& userLogin)
 {
+	if (m_spi.isInited())
+	{
+		m_spi.sendInitedInfo();
+		return;
+	}
+
 	if (nullptr == m_api)
 		m_api = CThostFtdcTraderApi::CreateFtdcTraderApi();
 

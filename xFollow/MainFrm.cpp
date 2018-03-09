@@ -20,6 +20,9 @@ IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
 	ON_COMMAND(ID_START, &CMainFrame::OnStart)
+	ON_COMMAND(ID_STOP, &CMainFrame::OnStop)
+	ON_UPDATE_COMMAND_UI(ID_START, &CMainFrame::OnUpdateStart)
+	ON_UPDATE_COMMAND_UI(ID_STOP, &CMainFrame::OnUpdateStop)
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -73,6 +76,8 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 		return -1;
 	}
 	m_followCenter->registerSpi(this);
+	m_startUI = true;
+	m_stopUI = false;
 
 	return 0;
 }
@@ -108,7 +113,9 @@ void CMainFrame::Dump(CDumpContext& dc) const
 
 void CMainFrame::OnStart()
 {
-	// TODO: 在此添加命令处理程序代码
+	m_startUI = false;
+	m_stopUI = false;
+
 	CxFollowView *pView = (CxFollowView *)GetActiveView();
 	pView->init();
 
@@ -120,8 +127,21 @@ void CMainFrame::initRsp(bool successed, int errorID)
 	m_followCenter->start();
 }
 
+void CMainFrame::OnStop()
+{
+	m_startUI = false;
+	m_stopUI = false;
+
+	CxFollowView *pView = (CxFollowView *)GetActiveView();
+	pView->init();
+
+	m_followCenter->stop();
+}
+
 void CMainFrame::startRsp(bool successed, int errorID)
 {
+	m_startUI = false;
+	m_stopUI = true;
 // 	char msg[512] = {0};
 // 	sprintf_s(msg, "系统启动%s!", successed ? "成功" : "失败");
 // 	AfxMessageBox(msg);
@@ -129,5 +149,19 @@ void CMainFrame::startRsp(bool successed, int errorID)
 
 void CMainFrame::stopRsp()
 {
+	m_startUI = true;
+	m_stopUI = false;
+}
 
+
+
+void CMainFrame::OnUpdateStart(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_startUI);
+}
+
+
+void CMainFrame::OnUpdateStop(CCmdUI *pCmdUI)
+{
+	pCmdUI->Enable(m_stopUI);
 }
